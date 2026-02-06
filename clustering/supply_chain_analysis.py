@@ -486,6 +486,115 @@ def fig4_reserve_adequacy_us(demand, risk):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Fig. SI: Production shares by CRC category
+# ═══════════════════════════════════════════════════════════════════════════════
+
+def _get_production_by_crc(risk):
+    """Return DataFrame: material, crc, production_kt."""
+    production_df = risk["production"]
+    crc = _get_crc_map(risk)
+
+    mat_cols = [c for c in production_df.columns if c != "Unnamed: 0"]
+
+    skip = {"Global", "World", "Other"}
+    country_prod = production_df[~production_df["Unnamed: 0"].isin(skip)].copy()
+    country_prod = country_prod.rename(columns={"Unnamed: 0": "country"})
+    country_prod = country_prod.merge(crc, on="country", how="left")
+    country_prod.loc[country_prod["country"] == "China", "crc"] = "China"
+    country_prod.loc[country_prod["country"] == "United States", "crc"] = "United States"
+
+    # Assign OECD countries
+    oecd_countries = [
+        "Australia", "Austria", "Belgium", "Canada", "Chile", "Colombia", "Costa Rica",
+        "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece",
+        "Hungary", "Iceland", "Ireland", "Israel", "Italy", "Japan", "South Korea",
+        "Latvia", "Lithuania", "Luxembourg", "Mexico", "Netherlands", "New Zealand",
+        "Norway", "Poland", "Portugal", "Slovakia", "Slovenia", "Spain", "Sweden",
+        "Switzerland", "Turkey", "United Kingdom"
+    ]
+    for oc in oecd_countries:
+        mask = country_prod["country"] == oc
+        if mask.any() and pd.isna(country_prod.loc[mask, "crc"]).any():
+            country_prod.loc[mask, "crc"] = "OECD"
+
+    records = []
+    for mat in mat_cols:
+        country_prod[mat] = pd.to_numeric(country_prod[mat], errors="coerce").fillna(0)
+        for crc_val, grp in country_prod.groupby("crc"):
+            records.append({
+                "material": mat, "crc": crc_val,
+                "production_kt": grp[mat].sum(),
+            })
+    return pd.DataFrame(records)
+
+
+def figSI_production_shares_crc(risk):
+    """
+    SI Figure: Production shares by CRC category.
+    Shows global production distribution by country risk classification.
+    """
+    production_crc = _get_production_by_crc(risk)
+
+    if production_crc.empty:
+        print("  No production data available for plotting.")
+        return
+
+    # Calculate shares per material
+    total_prod = production_crc.groupby("material")["production_kt"].sum()
+
+    # Filter to materials with meaningful production data
+    materials_with_data = total_prod[total_prod > 0].index.tolist()
+    production_crc = production_crc[production_crc["material"].isin(materials_with_data)]
+
+    if production_crc.empty:
+        print("  No production share data after filtering.")
+        return
+
+    # Calculate percentage shares
+    production_crc = production_crc.merge(
+        total_prod.reset_index().rename(columns={"production_kt": "total_kt"}),
+        on="material"
+    )
+    production_crc["share"] = production_crc["production_kt"] / production_crc["total_kt"] * 100
+
+    # Sort materials by total production
+    mat_order = total_prod.reindex(materials_with_data).sort_values(ascending=True).index.tolist()
+
+    fig, ax = plt.subplots(figsize=(14, max(8, len(mat_order) * 0.35)))
+
+    bottoms = {m: 0 for m in mat_order}
+    for crc_cat in CRC_ORDER:
+        vals = []
+        for m in mat_order:
+            row = production_crc[(production_crc["material"] == m) & (production_crc["crc"] == crc_cat)]
+            vals.append(row["share"].values[0] if len(row) > 0 else 0)
+        ax.barh(
+            mat_order, vals, left=[bottoms[m] for m in mat_order],
+            color=CRC_COLORS.get(crc_cat, "#cccccc"),
+            label=CRC_LABELS.get(crc_cat, str(crc_cat)),
+            edgecolor="white", linewidth=0.3,
+        )
+        for i, m in enumerate(mat_order):
+            bottoms[m] += vals[i]
+
+    ax.set_xlabel("Share of Global Production (%)")
+    ax.set_title("Global production distribution by Country Risk Classification\n"
+                 "(% of world production by country risk category)")
+    ax.set_xlim(0, 100)
+
+    handles = [mpatches.Patch(color=CRC_COLORS[c], label=CRC_LABELS[c]) for c in CRC_ORDER]
+    ax.legend(handles=handles, loc="lower right", fontsize=7, ncol=2)
+    ax.grid(True, alpha=0.2, axis="x")
+
+    fig.tight_layout()
+    for fmt in FIGURE_FORMAT:
+        fig.savefig(FIGURES_DIR / f"figSI_production_shares_crc.{fmt}", dpi=FIGURE_DPI,
+                    bbox_inches="tight")
+    plt.close(fig)
+    print(f"  Saved figSI_production_shares_crc")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Main
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -506,5 +615,8 @@ if __name__ == "__main__":
 
     print("\nGenerating Fig. 4b: US-only reserve adequacy...")
     fig4_reserve_adequacy_us(demand, risk)
+
+    print("\nGenerating Fig. SI: Production shares by CRC category...")
+    figSI_production_shares_crc(risk)
 
     print("\nDone.")

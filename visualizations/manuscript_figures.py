@@ -38,10 +38,10 @@ def load_data():
     base_dir = Path(__file__).resolve().parent.parent
 
     # Technology contributions
-    tech_contrib = pd.read_csv(base_dir / "outputs" / "sensitivity" / "technology_contributions.csv")
+    tech_contrib = pd.read_csv(base_dir / "outputs" / "data" / "sensitivity" / "technology_contributions.csv")
 
     # Material demand by scenario
-    demand = pd.read_csv(base_dir / "outputs" / "material_demand_by_scenario.csv")
+    demand = pd.read_csv(base_dir / "outputs" / "data" / "material_demand_by_scenario.csv")
 
     # NREL capacity data (skip 3 header rows)
     nrel = pd.read_csv(base_dir / "data" / "StdScen24_annual_national.csv", skiprows=3)
@@ -654,6 +654,18 @@ def main():
         material='Copper',
         output_path=output_dir / "figs3_intensity_copper_by_tech.png"
     )
+
+    # Additional intensity figures for key materials
+    key_materials = ['Steel', 'Aluminum', 'Silicon', 'Neodymium', 'Dysprosium']
+    for material in key_materials:
+        print(f"\nGenerating intensity by technology ({material})...")
+        fig = create_intensity_by_technology_chart(
+            intensity,
+            material=material,
+            output_path=output_dir / f"figs3_intensity_{material.lower()}_by_tech.png"
+        )
+        if fig is None:
+            print(f"  Skipped {material} - insufficient data")
 
     print("\n" + "=" * 70)
     print(f"All figures saved to: {output_dir}")
