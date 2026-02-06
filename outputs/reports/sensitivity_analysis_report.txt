@@ -1,0 +1,118 @@
+================================================================================
+SENSITIVITY ANALYSIS REPORT
+================================================================================
+
+1. VARIANCE DECOMPOSITION SUMMARY
+--------------------------------------------------------------------------------
+Demand-weighted average variance decomposition:
+  - Intensity uncertainty (MC): 31.1%
+  - Scenario uncertainty:       68.9%
+
+Materials dominated by intensity uncertainty (>50%):
+  Aluminum, Copper, Silicon, Chromium, Nickel, Neodymium, Silver, Tellurium, Cadmium, Praseodymium
+  ... and 8 more
+
+Materials dominated by scenario uncertainty (>50%):
+  Steel, Cement, Glass, Fiberglass, Lead, Zinc, Manganese, Vanadium, Tin, Molybdenum
+  ... and 2 more
+
+Top 10 materials by demand - variance breakdown:
+Material         Intensity %   Scenario %
+----------------------------------------
+Steel                   33.9         66.1
+Cement                  31.0         69.0
+Glass                    9.3         90.7
+Aluminum                70.2         29.8
+Fiberglass               9.1         90.9
+Lead                     5.8         94.2
+Copper                  87.0         13.0
+Zinc                     5.7         94.3
+Silicon                 85.8         14.2
+Manganese                0.3         99.7
+
+
+2. INTENSITY ELASTICITY SUMMARY
+--------------------------------------------------------------------------------
+Top 20 most influential intensity parameters:
+Material        Technology                  Elasticity
+-------------------------------------------------------
+Selenium        CIGS                           100.00%
+Gadium          CIGS                           100.00%
+Yttrium         onshore wind                   100.00%
+Germanium       a-Si                           100.00%
+Gallium         CIGS                           100.00%
+Zinc            onshore wind                    97.81%
+Terbium         onshore wind                    93.82%
+Niobium         onshore wind                    93.09%
+Fiberglass      onshore wind                    92.96%
+Lead            onshore wind                    92.76%
+Tellurium       CdTe                            92.69%
+Neodymium       onshore wind                    91.74%
+Cadmium         CdTe                            91.16%
+Dysprosium      onshore wind                    91.15%
+Praseodymium    onshore wind                    88.39%
+Magnesium       utility-scale solar pv          88.22%
+Silver          utility-scale solar pv          87.76%
+Silicon         utility-scale solar pv          85.90%
+Vanadium        offshore wind                   85.23%
+Boron           onshore wind                    83.67%
+
+Interpretation: A 1% increase in [Technology] intensity for [Material]
+                results in [Elasticity]% increase in total demand for that material.
+
+
+3. SPEARMAN CORRELATION SENSITIVITY ANALYSIS
+--------------------------------------------------------------------------------
+Total parameters analyzed: 169
+Significant correlations (p < 0.05): 63 (37.3%)
+Strong correlations (|ρ| ≥ 0.7): 30
+Moderate correlations (0.4 ≤ |ρ| < 0.7): 2
+
+Top 15 parameters by Spearman correlation:
+Material        Technology                  ρ      p-value Interpretation      
+------------------------------------------------------------------------------
+Gadium          CIGS                   1.000*    0.00e+00 strong positive     
+Selenium        CIGS                   1.000*    0.00e+00 strong positive     
+Gallium         CIGS                   1.000*    0.00e+00 strong positive     
+Yttrium         onshore wind           1.000*    0.00e+00 strong positive     
+Tellurium       CdTe                   1.000*    0.00e+00 strong positive     
+Indium          CIGS                   1.000*    0.00e+00 strong positive     
+Cadmium         CdTe                   1.000*    0.00e+00 strong positive     
+Vanadium        offshore wind          1.000*    0.00e+00 strong positive     
+Zinc            onshore wind           1.000*    0.00e+00 strong positive     
+Terbium         onshore wind           1.000*    0.00e+00 strong positive     
+Chromium        onshore wind           1.000*    0.00e+00 strong positive     
+Praseodymium    onshore wind           0.999*    0.00e+00 strong positive     
+Nickel          onshore wind           0.999*    0.00e+00 strong positive     
+Neodymium       onshore wind           0.999*    0.00e+00 strong positive     
+Niobium         onshore wind           0.997*    0.00e+00 strong positive     
+
+Interpretation guide:
+  - ρ > 0: Higher intensity → higher demand (expected relationship)
+  - |ρ| ≥ 0.7: Strong influence - prioritize data quality improvement
+  - |ρ| 0.4-0.7: Moderate influence - important but not critical
+  - |ρ| < 0.4: Weak influence - refinement has limited impact
+  - * indicates p < 0.05 (statistically significant)
+
+
+4. KEY FINDINGS
+--------------------------------------------------------------------------------
+* Scenario uncertainty (68.9%) dominates intensity uncertainty (31.1%)
+  → Scenario assumptions are the primary driver of demand variation
+  → Improving intensity data would have limited impact on overall uncertainty
+
+* Most influential intensity parameters (by elasticity):
+  - Selenium/CIGS: 100.0% elasticity
+  - Gadium/CIGS: 100.0% elasticity
+  - Yttrium/onshore wind: 100.0% elasticity
+
+* Most influential parameters (by Spearman ρ):
+  - Gadium/CIGS: ρ = 1.000
+  - Selenium/CIGS: ρ = 1.000
+  - Gallium/CIGS: ρ = 1.000
+
+* Methods agreement: 6/10 top parameters appear in both elasticity and Spearman rankings
+
+================================================================================
+END OF REPORT
+================================================================================

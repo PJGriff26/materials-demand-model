@@ -111,6 +111,30 @@ crc (sheet),Raw Data Sheet,N/A,Country Risk Classification ratings,Columns: coun
 mcs2023-*_salient.csv,Raw Data File,N/A,USGS 2023 individual material CSVs for thin-film materials,Contains: USprod_* NIR columns for Cd Ga Ge In Se Te,USGS Mineral Commodity Summaries 2023
 material_demand_by_scenario.csv,Output Data File,N/A,Monte Carlo simulation output,Columns: scenario year material mean std p2 p5 p25 p50 p75 p95 p97,Simulation output
 technology_contributions.csv,Output Data File,N/A,Technology-level demand contributions per material,Columns: material technology intensity_t_per_mw total_capacity_mw expected_demand_tonnes pct_contribution,Sensitivity analysis output
+within_var,Sensitivity Analysis,variance units²,Mean within-scenario variance (intensity uncertainty from MC),mean(std²) across scenarios and years for each material,variance_decomposition.csv
+between_var,Sensitivity Analysis,variance units²,Between-scenario variance (scenario assumption uncertainty),var(scenario_means) for each material,variance_decomposition.csv
+total_var,Sensitivity Analysis,variance units²,Total variance (within + between),within_var + between_var,variance_decomposition.csv
+within_pct,Sensitivity Analysis,percentage,Percentage of variance from intensity uncertainty,100 × within_var / total_var,variance_decomposition.csv
+between_pct,Sensitivity Analysis,percentage,Percentage of variance from scenario uncertainty,100 × between_var / total_var,variance_decomposition.csv
+elasticity,Sensitivity Analysis,dimensionless (0-1),Elasticity of demand to intensity change for each tech-material pair,pct_contribution_normalized (contribution share sums to 1 per material),intensity_elasticity.csv
+variance_decomposition.csv,Output Data File,N/A,Variance decomposition results by material,Columns: material within_var between_var total_var within_pct between_pct mean_demand,analysis/sensitivity_analysis.py
+intensity_elasticity.csv,Output Data File,N/A,Intensity elasticity results for each tech-material pair,Columns: material technology intensity_t_per_mw expected_demand_tonnes pct_contribution_raw elasticity,analysis/sensitivity_analysis.py
+variance_decomposition_by_year.csv,Output Data File,N/A,Variance decomposition by material and year,Columns: material year within_var between_var total_var within_pct between_pct mean_demand,analysis/sensitivity_analysis.py
+spearman_rho,Spearman Sensitivity,dimensionless (-1 to 1),Spearman rank correlation coefficient between sampled intensity and resulting demand,scipy.stats.spearmanr(intensity_samples demand_samples)[0],spearman_sensitivity.csv
+p_value,Spearman Sensitivity,probability (0-1),P-value for Spearman correlation significance test,scipy.stats.spearmanr(intensity_samples demand_samples)[1],spearman_sensitivity.csv
+abs_rho,Spearman Sensitivity,dimensionless (0-1),Absolute value of Spearman rho for ranking importance,abs(spearman_rho),spearman_sensitivity.csv
+significant,Spearman Sensitivity,boolean,Whether Spearman correlation is statistically significant,p_value < 0.05,spearman_sensitivity.csv
+direction,Spearman Sensitivity,categorical,Direction of correlation: positive negative or none,positive if rho > 0 else negative if rho < 0 else none,spearman_sensitivity.csv
+interpretation,Spearman Sensitivity,categorical,Human-readable interpretation of correlation strength,strong/moderate/weak + positive/negative or not significant,spearman_sensitivity.csv
+technology (Spearman),Spearman Sensitivity,categorical,Intensity technology for which correlation was computed,Technology from fitted_distributions key,spearman_sensitivity.csv
+material (Spearman),Spearman Sensitivity,categorical,Material for which correlation was computed,Material from fitted_distributions key,spearman_sensitivity.csv
+target_material,Spearman Sensitivity,categorical,Material whose demand is being correlated with (same as material in this analysis),Target demand material,spearman_sensitivity.csv
+I_{tech}_{mat},Spearman Iteration Data,t/MW,Sampled intensity value for (technology material) at each iteration,dist.sample(n=1) from fitted distribution,spearman_iteration_data.csv
+D_{mat},Spearman Iteration Data,tonnes,Resulting total demand for material at each iteration,sum(additions × intensity × weight) across all scenarios/years/technologies,spearman_iteration_data.csv
+iteration,Spearman Iteration Data,integer,Monte Carlo iteration number (0-indexed),Iteration counter (0 to n_iterations-1),spearman_iteration_data.csv
+spearman_sensitivity.csv,Output Data File,N/A,Spearman rank correlation results for sensitivity analysis,Columns: technology material target_material spearman_rho p_value abs_rho significant direction interpretation,analysis/sensitivity_analysis.py
+spearman_iteration_data.csv,Output Data File,N/A,Raw iteration data with sampled intensities and resulting demands,Columns: iteration I_{tech}_{mat}... D_{mat}...,analysis/sensitivity_analysis.py
+n_iterations (Spearman),Spearman Config,integer,Number of MC iterations for Spearman sensitivity analysis (default 1000),1000 (lower than main MC for computational efficiency),analysis/sensitivity_analysis.py
 fig2_technology_breakdown,Visualization (Fig 2),N/A,Stacked horizontal bar chart showing technology contributions to material demand,Technology breakdown by material (cumulative across scenarios),manuscript_figures.py
 figs1_capacity,Visualization (Fig S1),N/A,Stacked area chart showing capacity projections by technology group,Capacity (GW) by year grouped by technology type,manuscript_figures.py
 figs1_additions,Visualization (Fig S1),N/A,Stacked bar chart showing annual capacity additions by technology,Capacity additions (GW) by year,manuscript_figures.py

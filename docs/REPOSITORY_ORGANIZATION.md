@@ -68,44 +68,83 @@ The following files were **not copied** as they were duplicates, demos with " co
 
 ---
 
-## New Repository Structure
+## Current Repository Structure (Updated February 2026)
 
 ```
 materials_demand_model/
 │
-├── README.md                     # Comprehensive documentation (NEW)
-├── LICENSE                       # MIT License (NEW)
-├── CHANGELOG.md                  # Version history (NEW)
-├── CONTRIBUTING.md               # Contribution guidelines (NEW)
-├── REPOSITORY_ORGANIZATION.md    # This file (NEW)
-├── requirements.txt              # Python dependencies (NEW)
-├── setup.py                      # Package installation (NEW)
-├── .gitignore                    # Git ignore patterns (NEW)
+├── README.md                     # Comprehensive documentation
+├── LICENSE                       # MIT License
+├── CHANGELOG.md                  # Version history
+├── CONTRIBUTING.md               # Contribution guidelines
+├── QUICKSTART.md                 # Quick start guide
+├── PIPELINE_DOCUMENTATION.md    # Full pipeline documentation
+├── requirements.txt              # Python dependencies
+├── setup.py                      # Package installation
+├── .gitignore                    # Git ignore patterns
 │
 ├── src/                          # Core source code
-│   ├── __init__.py              # Package initialization (NEW)
-│   ├── data_ingestion.py        # From 11.30.25/Load
-│   ├── distribution_fitting.py  # From 11.30.25/Load
-│   ├── technology_mapping.py    # From 11.30.25/Load
-│   ├── stock_flow_simulation.py # From 11.30.25/Load
-│   └── materials_visualizations.py  # From 11.30.25/Load
+│   ├── __init__.py              # Package initialization
+│   ├── data_ingestion.py        # Data loading and validation
+│   ├── distribution_fitting.py  # Statistical distribution fitting
+│   ├── technology_mapping.py    # Technology-material mappings
+│   ├── stock_flow_simulation.py # Monte Carlo simulation engine
+│   └── materials_visualizations.py  # Publication-quality viz
+│
+├── analysis/                     # Sensitivity analysis module (NEW Feb 2026)
+│   ├── __init__.py              # Module exports
+│   └── sensitivity_analysis.py  # Variance decomposition, elasticity, Spearman
+│
+├── clustering/                   # Clustering analysis module
+│   ├── __init__.py              # Module exports
+│   ├── config.py                # Configuration settings
+│   ├── feature_engineering.py   # Scenario/material features
+│   ├── preprocessing.py         # Data preprocessing (VIF, scaling)
+│   ├── main_analysis.py         # K-means clustering
+│   ├── visualization.py         # Clustering visualizations
+│   ├── pca_feature_importance.py # PCA analysis
+│   ├── sparse_nmf_analysis.py   # Sparse PCA and NMF
+│   ├── sparse_pca_story.py      # Sparse PCA interpretation
+│   └── supply_chain_analysis.py # Supply chain risk analysis
+│
+├── visualizations/               # Visualization scripts
+│   ├── manuscript_figures.py    # Publication figures
+│   ├── manuscript_fig1.py       # Demand curves figure
+│   ├── risk_ranking_chart.py    # Supply chain risk charts
+│   ├── feature_scatterplots.py  # EDA scatterplots
+│   └── compare_figures.py       # Figure validation
 │
 ├── data/                         # Input data
-│   ├── intensity_data.csv       # From 11.30.25/src
-│   └── StdScen24_annual_national.csv  # From 11.30.25/src
+│   ├── intensity_data.csv       # Material intensity data
+│   ├── StdScen24_annual_national.csv  # NREL capacity projections
+│   └── supply_chain/            # Supply chain risk data
+│       └── risk_charts_inputs.xlsx  # USGS/trade data
 │
 ├── examples/                     # Example workflows
-│   └── run_simulation.py        # From 11.30.25/Load/demo_stock_flow_simulation.py
+│   ├── run_simulation.py        # Main simulation example
+│   ├── supply_chain_risk_analysis.py  # Risk analysis example
+│   └── diagnostics/             # Debugging utilities
 │
 ├── tests/                        # Testing and validation
-│   └── validate_units.py        # From 11.30.25/Load
+│   └── validate_units.py        # Unit conversion validation
 │
-├── outputs/                      # Generated results (empty, created at runtime)
-│   └── .gitkeep                 # Placeholder
+├── outputs/                      # Generated results
+│   ├── data/                    # CSV outputs
+│   │   ├── clustering/          # Cluster results
+│   │   └── sensitivity/         # Sensitivity analysis results
+│   ├── figures/                 # Visualization outputs
+│   │   ├── clustering/          # Cluster visualizations
+│   │   ├── exploratory/         # EDA figures
+│   │   ├── manuscript/          # Publication figures
+│   │   ├── sensitivity/         # Sensitivity figures
+│   │   └── supply_chain/        # Risk visualizations
+│   └── reports/                 # Text reports
 │
 └── docs/                         # Documentation
-    ├── MONTE_CARLO_ASSESSMENT.md  # From 11.30.25
-    └── UNIT_FIX_SUMMARY.md       # From 11.30.25
+    ├── variable_reference.csv   # All variables documented
+    ├── visualization_inventory.csv  # All figures documented
+    ├── SI_methodology.md        # Supplementary methods
+    └── [technical docs]         # Various technical docs
 ```
 
 ---
