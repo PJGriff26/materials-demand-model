@@ -22,28 +22,78 @@ This repository provides a comprehensive Monte Carlo simulation framework for es
 
 ```
 materials_demand_model/
-├── src/                          # Core source code
-│   ├── __init__.py              # Package initialization
-│   ├── data_ingestion.py        # Data loading and validation
-│   ├── distribution_fitting.py  # Statistical distribution fitting
-│   ├── technology_mapping.py    # Technology-material mappings
-│   ├── stock_flow_simulation.py # Monte Carlo simulation engine
-│   └── materials_visualizations.py  # Visualization tools
-├── data/                         # Input data files
-│   ├── intensity_data.csv       # Material intensity data (t/GW)
-│   └── StdScen24_annual_national.csv  # NREL capacity projections
-├── examples/                     # Example scripts
-│   └── run_simulation.py        # Complete simulation workflow
-├── tests/                        # Validation and testing
-│   └── validate_units.py        # Unit conversion validation
-├── outputs/                      # Generated results (created at runtime)
-├── docs/                         # Documentation
-│   ├── MONTE_CARLO_ASSESSMENT.md  # Technical assessment
-│   └── UNIT_FIX_SUMMARY.md      # Unit conversion documentation
-├── README.md                     # This file
-├── requirements.txt              # Python dependencies
-├── setup.py                      # Package installation
-└── LICENSE                       # License information
+├── src/                              # Core simulation engine
+│   ├── __init__.py
+│   ├── data_ingestion.py             # Data loading and validation
+│   ├── data_quality.py               # Data quality checks
+│   ├── distribution_fitting.py       # Statistical distribution fitting
+│   ├── technology_mapping.py         # Technology-material mappings
+│   ├── stock_flow_simulation.py      # Monte Carlo simulation engine
+│   └── materials_visualizations.py   # Core visualization tools
+│
+├── clustering/                       # Clustering & feature analysis
+│   ├── main_analysis.py              # K-means clustering pipeline
+│   ├── feature_engineering.py        # Scenario/material feature calculation
+│   ├── preprocessing.py              # VIF filtering, StandardScaler
+│   ├── pca_feature_importance.py     # PCA-based feature importance
+│   ├── sparse_nmf_analysis.py        # Sparse PCA & NMF comparison
+│   ├── supply_chain_analysis.py      # Reserve adequacy visualizations
+│   ├── visualization.py              # Clustering visualizations
+│   └── config.py                     # Paths and configuration
+│
+├── visualizations/                   # Manuscript & analysis figures
+│   ├── manuscript_figures.py         # Publication-quality figures
+│   ├── risk_ranking_chart.py         # Supply chain risk charts
+│   ├── feature_scatterplots.py       # EDA correlation plots
+│   └── compare_figures.py            # Old vs new figure comparison
+│
+├── data/                             # Input data
+│   ├── intensity_data.csv            # Material intensity (t/GW)
+│   ├── StdScen24_annual_national.csv # NREL Standard Scenarios 2024
+│   ├── input_usgs.csv                # USGS supply chain data
+│   ├── risk_charts_inputs.xlsx       # Reserve/import data by country
+│   └── supply_chain/                 # USGS 2023 mineral commodity CSVs
+│       ├── mcs2023-cadmi_salient.csv
+│       ├── mcs2023-galli_salient.csv
+│       └── ...
+│
+├── examples/                         # Example scripts
+│   ├── run_simulation.py             # Complete simulation workflow
+│   ├── sensitivity_analysis.py       # Sensitivity analysis
+│   ├── supply_chain_risk_analysis.py # Risk assessment
+│   ├── generate_eda_figures.py       # Exploratory visualizations
+│   └── diagnostics/                  # Debugging/validation scripts
+│
+├── outputs/                          # Generated results
+│   ├── data/                         # CSV outputs
+│   │   ├── material_demand_by_scenario.csv
+│   │   ├── material_demand_summary.csv
+│   │   ├── clustering/               # Cluster assignments, features, VIF
+│   │   └── sensitivity/              # Sensitivity analysis results
+│   ├── figures/                      # Visualizations
+│   │   ├── clustering/               # PCA biplots, silhouette, profiles
+│   │   ├── manuscript/               # Publication figures
+│   │   ├── supply_chain/             # Risk charts, heatmaps
+│   │   ├── demand/                   # Monte Carlo visualizations
+│   │   └── comparison/               # Old vs new figure comparisons
+│   └── reports/                      # Text reports
+│
+├── docs/                             # Documentation
+│   ├── variable_reference.csv        # Master variable documentation
+│   ├── visualization_inventory.csv   # All visualizations with data sources
+│   ├── MONTE_CARLO_ASSESSMENT.md     # Technical assessment
+│   ├── README_supply_chain_risk.md   # Risk methodology
+│   └── ...
+│
+├── tests/                            # Validation
+│   └── validate_units.py
+│
+├── proposal_figures/                 # Proposal/presentation figures
+├── requirements.txt                  # Python dependencies
+├── setup.py                          # Package installation
+├── QUICKSTART.md                     # Quick start guide
+├── PIPELINE_DOCUMENTATION.md         # Full pipeline documentation
+└── LICENSE                           # MIT License
 ```
 
 ## Installation
@@ -304,10 +354,10 @@ If you use this model in your research, please cite:
 ```bibtex
 @software{materials_demand_model,
   title = {Materials Demand Model: Monte Carlo Simulation for Energy Infrastructure},
-  author = {{Materials Demand Research Team}},
+  author = {Griffiths, Paul J.},
   year = {2026},
   version = {1.0.0},
-  url = {https://github.com/yourusername/materials_demand_model}
+  url = {https://github.com/PJGriff26/materials-demand-model}
 }
 ```
 
@@ -318,16 +368,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For questions, issues, or collaboration opportunities:
-- **Email**: [your-email@institution.edu]
-- **Issues**: [GitHub Issues](https://github.com/yourusername/materials_demand_model/issues)
+- **Email**: paul.j.griffiths.26@dartmouth.edu
+- **Issues**: [GitHub Issues](https://github.com/PJGriff26/materials-demand-model/issues)
 
 ## Acknowledgments
 
-- **Data Sources**: NREL Standard Scenarios 2024, NREL Material Intensity Database
+- **Data Sources**: NREL Standard Scenarios 2024, NREL Material Intensity Database, USGS Mineral Commodity Summaries 2023
 - **Methodology**: Follows ISO/JCGM 101:2008 and NIST uncertainty guidelines
 - **Peer Review**: Research-grade implementation validated against published standards
 
 ---
 
-**Version**: 1.0.0 (January 2026)
+**Version**: 1.1.0 (February 2026)
 **Status**: Research-Grade - Publication Ready
