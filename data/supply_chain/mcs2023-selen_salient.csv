@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Refinery_t,Imports_Metal_t,Imports_SeO2_t,Exports_Metal_t,Consump_Metal_t,Price_US_dlb,Price_Europe_dlb,Stocks_Producer_t,NIR_pct
+MCS2023,Selenium,2018,W,445,12,158,W,16.85,17.68,W,>75
+MCS2023,Selenium,2019,W,465,5,361,W,9.15,9.27,W,>50
+MCS2023,Selenium,2020,W,366,18,147,W,6.61,6.67,W,>75
+MCS2023,Selenium,2021,W,346,71,227,W,8.25,8.38,W,>50
+MCS2023,Selenium,2022,W,360,10,270,W,10,9,W,>50

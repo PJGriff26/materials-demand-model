@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_t,Imports_t,Exports_t,Consump_t,Price_US_dkg,Price_Europe_dkg,Stocks_t,NIR_pct
+MCS2023,Tellurium,2018,W,192,4,W,79.55,73.67,W,>95
+MCS2023,Tellurium,2019,W,59,1,W,68.11,60.45,W,>95
+MCS2023,Tellurium,2020,W,12,Less than 1/2 unit.,W,59.37,56.05,W,>95
+MCS2023,Tellurium,2021,W,42,2,W,69.72,67.26,W,>95
+MCS2023,Tellurium,2022,W,50,Less than 1/2 unit.,W,70,66,W,>75

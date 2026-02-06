@@ -1,0 +1,64 @@
+================================================================================
+SUPPLY CHAIN RISK ANALYSIS REPORT
+================================================================================
+Generated: 2026-02-05 16:44:02
+
+INPUT FILES
+--------------------------------------------------------------------------------
+Demand CSV: outputs/data/material_demand_by_scenario.csv
+Risk XLSX: data/supply_chain/risk_charts_inputs.xlsx
+Unit scale: 1000.0 (tonnes → thousand metric tonnes)
+
+ANALYSIS SCOPE
+--------------------------------------------------------------------------------
+Scenarios analyzed: Mid_Case
+Materials analyzed: 18 (with USGS data)
+Rare earths aggregated: Yes (5 elements → 'Rare Earths')
+
+CRC SHARE VALIDATION
+--------------------------------------------------------------------------------
+✓ All materials passed validation (tolerance: ±0.1%)
+
+TOP 10 MATERIALS BY DEMAND (2035)
+--------------------------------------------------------------------------------
+
+Scenario: Mid_Case
+Rank  Material            Demand (kMT)        Avg Production      
+1     Steel               20,01082,980              
+2     Cement              6,49390,260              
+3     Aluminum            1,7012,459               
+4     Lead                7201,320               
+5     Copper              5551,006               
+6     Zinc                550170                 
+7     Silicon             356328                 
+8     Manganese           790                   
+9     Vanadium            723                   
+10    Chromium            61122                 
+
+MATERIALS WITH DEMAND > 2X HISTORICAL PRODUCTION
+--------------------------------------------------------------------------------
+Material            Scenario                 Demand         Avg Prod       Ratio     
+Manganese           Mid_Case                             79             0      inf
+Niobium             Mid_Case                              4             0      inf
+Rare Earths         Mid_Case                             20             0   270.94
+Tin                 Mid_Case                             43            18     2.42
+Vanadium            Mid_Case                             72             3    21.76
+Zinc                Mid_Case                            550           170     3.23
+
+MATERIALS WITH HIGHEST IMPORT RELIANCE
+--------------------------------------------------------------------------------
+Material            Import Reliance (%) 
+Niobium                           100.0
+Yttrium                           100.0
+Manganese                         100.0
+Rare Earths                        98.0
+Zinc                               81.2
+Chromium                           77.4
+Tin                                77.4
+Silver                             74.4
+Vanadium                           64.2
+Nickel                             50.8
+
+================================================================================
+End of report
+================================================================================
