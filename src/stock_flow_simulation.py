@@ -1,0 +1,583 @@
+"""
+Stock-Flow Monte Carlo Simulation for Materials Demand
+=======================================================
+
+This module implements a comprehensive stock-flow model with Monte Carlo simulation
+to estimate material demand for energy infrastructure deployment.
+
+Key Features:
+1. Stock-flow accounting with capacity tracking
+2. Technology-specific lifetimes and retirements
+3. Monte Carlo simulation for uncertainty quantification
+4. Flexible technology mapping (easily editable)
+5. Comprehensive output statistics
+
+Model Structure:
+- Stock: Cumulative installed capacity by technology
+- Flow (additions): New capacity installed each year
+- Flow (retirements): Capacity retired based on lifetime
+- Material demand = (additions + replacements) × material intensity
+
+Author: Materials Demand Research Team
+Date: 2024
+"""
+
+import pandas as pd
+import numpy as np
+from typing import Dict, List, Tuple, Optional, Union
+from pathlib import Path
+from dataclasses import dataclass, field
+import logging
+import warnings
+
+# Import our modules
+from .data_ingestion import load_all_data, CapacityProjectionLoader
+from .distribution_fitting import DistributionFitter
+from .technology_mapping import (
+    TECHNOLOGY_MAPPING,
+    TECHNOLOGY_LIFETIMES,
+    get_intensity_technologies,
+    get_lifetime,
+    validate_mapping
+)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+# ============================================================================
+# DATA STRUCTURES
+# ============================================================================
+
+@dataclass
+class StockFlowState:
+    """
+    Tracks the stock-flow state for a single technology in a single scenario.
+    
+    Stock = cumulative installed capacity
+    Additions = new capacity added each year
+    Retirements = capacity retired each year (based on lifetime)
+    """
+    technology: str
+    scenario: str
+    
+    # Time series data (indexed by year)
+    stock: Dict[int, float] = field(default_factory=dict)
+    additions: Dict[int, float] = field(default_factory=dict)
+    retirements: Dict[int, float] = field(default_factory=dict)
+    
+    def update(self, year: int, new_capacity: float, lifetime: int, is_first_year: bool = False):
+        """
+        Update stock-flow for a given year.
+        
+        Parameters
+        ----------
+        year : int
+            Current year
+        new_capacity : float
+            Total capacity in this year (MW)
+        lifetime : int
+            Technology lifetime (years)
+        is_first_year : bool
+            If True, this is the baseline year (no additions counted)
+        """
+        # Initialize if first year - this is the baseline stock
+        if not self.stock or is_first_year:
+            self.stock[year] = new_capacity
+            self.additions[year] = 0  # No additions in baseline year
+            self.retirements[year] = 0
+            return
+        
+        # Get previous year data
+        prev_year = max(self.stock.keys())
+        prev_stock = self.stock[prev_year]
+        
+        # Calculate retirements (capacity installed 'lifetime' years ago)
+        retirement_year = year - lifetime
+        if retirement_year in self.additions:
+            retirement = self.additions[retirement_year]
+        else:
+            retirement = 0
+        
+        # Stock equation: Stock(t) = Stock(t-1) + Additions(t) - Retirements(t)
+        # Since we have total capacity, we need to infer additions
+        # Addition(t) = Stock(t) - Stock(t-1) + Retirements(t)
+        
+        addition = new_capacity - prev_stock + retirement
+        
+        # Ensure non-negative (capacity can't decrease faster than retirements allow)
+        if addition < 0:
+            # This can happen if capacity decreases in the data
+            # Treat as zero additions and adjust retirements
+            retirement = prev_stock - new_capacity
+            addition = 0
+        
+        self.stock[year] = new_capacity
+        self.additions[year] = addition
+        self.retirements[year] = retirement
+
+
+@dataclass
+class SimulationResult:
+    """Container for Monte Carlo simulation results"""
+    # Raw results: [iteration, scenario, year, material] = demand
+    iterations_data: np.ndarray
+    
+    # Metadata
+    n_iterations: int
+    scenarios: List[str]
+    years: List[int]
+    materials: List[str]
+    
+    # Aggregation indices
+    scenario_idx: Dict[str, int]
+    year_idx: Dict[int, int]
+    material_idx: Dict[str, int]
+    
+    def get_statistics(
+        self,
+        percentiles: List[float] = [2.5, 5, 25, 50, 75, 95, 97.5]
+    ) -> pd.DataFrame:
+        """
+        Calculate summary statistics across Monte Carlo iterations.
+        
+        Returns DataFrame with columns:
+        - scenario, year, material
+        - mean, std
+        - p5, p25, p50, p75, p95 (or custom percentiles)
+        """
+        results = []
+        
+        for scenario in self.scenarios:
+            for year in self.years:
+                for material in self.materials:
+                    # Extract data for this combination
+                    i_scenario = self.scenario_idx[scenario]
+                    i_year = self.year_idx[year]
+                    i_material = self.material_idx[material]
+                    
+                    data = self.iterations_data[:, i_scenario, i_year, i_material]
+                    
+                    # Calculate statistics
+                    stats = {
+                        'scenario': scenario,
+                        'year': year,
+                        'material': material,
+                        'mean': float(np.mean(data)),
+                        'std': float(np.std(data))
+                    }
+                    
+                    # Add percentiles
+                    pct_values = np.percentile(data, percentiles)
+                    for pct, val in zip(percentiles, pct_values):
+                        stats[f'p{int(pct)}'] = float(val)
+                    
+                    results.append(stats)
+        
+        return pd.DataFrame(results)
+    
+    def get_summary_by_material(
+        self,
+        percentiles: List[float] = [2.5, 5, 25, 50, 75, 95 , 97.5]
+    ) -> pd.DataFrame:
+        """
+        Aggregate across scenarios, summarize by material and year.
+        """
+        # Sum across scenarios for each iteration
+        # Shape: [iteration, year, material]
+        aggregated = np.sum(self.iterations_data, axis=1)
+        
+        results = []
+        for year in self.years:
+            for material in self.materials:
+                i_year = self.year_idx[year]
+                i_material = self.material_idx[material]
+                
+                data = aggregated[:, i_year, i_material]
+                
+                stats = {
+                    'year': year,
+                    'material': material,
+                    'mean': float(np.mean(data)),
+                    'std': float(np.std(data))
+                }
+                
+                pct_values = np.percentile(data, percentiles)
+                for pct, val in zip(percentiles, pct_values):
+                    stats[f'p{int(pct)}'] = float(val)
+                
+                results.append(stats)
+        
+        return pd.DataFrame(results)
+
+
+# ============================================================================
+# MAIN SIMULATION CLASS
+# ============================================================================
+
+class MaterialsStockFlowSimulation:
+    """
+    Monte Carlo simulation of materials demand using stock-flow accounting.
+    
+    Process:
+    1. Build stock-flow model for each scenario and technology
+    2. Calculate capacity additions and retirements
+    3. Sample material intensities from fitted distributions
+    4. Calculate material demand = (additions + retirements) × intensity
+    5. Aggregate across technologies and repeat for multiple iterations
+    """
+    
+    def __init__(
+        self,
+        capacity_data: pd.DataFrame,
+        intensity_data: pd.DataFrame,
+        fitted_distributions: Dict,
+        technology_mapping: Dict = TECHNOLOGY_MAPPING,
+        technology_lifetimes: Dict = TECHNOLOGY_LIFETIMES,
+        random_state: Optional[int] = None
+    ):
+        """
+        Initialize simulation.
+        
+        Parameters
+        ----------
+        capacity_data : pd.DataFrame
+            Capacity projections (from load_all_data)
+        intensity_data : pd.DataFrame
+            Material intensity data
+        fitted_distributions : Dict
+            Fitted distributions from DistributionFitter
+        technology_mapping : Dict
+            Mapping from capacity to intensity technologies
+        technology_lifetimes : Dict
+            Technology lifetimes in years
+        random_state : int, optional
+            Random seed for reproducibility
+        """
+        self.capacity_data = capacity_data
+        self.intensity_data = intensity_data
+        self.fitted_distributions = fitted_distributions
+        self.technology_mapping = technology_mapping
+        self.technology_lifetimes = technology_lifetimes
+        self.random_state = random_state
+        
+        # Set random seed
+        if random_state is not None:
+            np.random.seed(random_state)
+        
+        # Extract metadata
+        self.scenarios = sorted(capacity_data['scenario'].unique())
+        self.years = sorted(capacity_data['year'].unique())
+        self.materials = sorted(intensity_data['material'].unique())
+        
+        # Capacity technology columns
+        self.capacity_tech_cols = [
+            col.replace('_MW', '') for col in capacity_data.columns 
+            if col.endswith('_MW')
+        ]
+        
+        logger.info("Simulation initialized")
+        logger.info(f"  Scenarios: {len(self.scenarios)}")
+        logger.info(f"  Years: {self.years}")
+        logger.info(f"  Capacity technologies: {len(self.capacity_tech_cols)}")
+        logger.info(f"  Materials: {len(self.materials)}")
+    
+    def build_stock_flow_model(self) -> Dict[Tuple[str, str], StockFlowState]:
+        """
+        Build stock-flow model for all scenarios and technologies.
+        
+        Returns
+        -------
+        dict
+            {(scenario, technology): StockFlowState}
+        """
+        logger.info("Building stock-flow model...")
+        
+        stock_flow_states = {}
+        total_scenarios = len(self.scenarios)
+        
+        for i, scenario in enumerate(self.scenarios, 1):
+            if i % 10 == 0 or i == 1:
+                logger.info(f"  Processing scenario {i}/{total_scenarios}: {scenario}")
+            
+            scenario_data = self.capacity_data[
+                self.capacity_data['scenario'] == scenario
+            ].sort_values('year')
+            
+            for tech in self.capacity_tech_cols:
+                # Skip if no mapping
+                if tech not in self.technology_mapping:
+                    continue
+                if not self.technology_mapping[tech]:
+                    continue
+                
+                # Initialize state
+                state = StockFlowState(technology=tech, scenario=scenario)
+                lifetime = get_lifetime(tech)
+                
+                # Process each year
+                for i, (_, row) in enumerate(scenario_data.iterrows()):
+                    year = int(row['year'])
+                    capacity = float(row[f'{tech}_MW'])
+                    is_first = (i == 0)  # First year is baseline
+                    state.update(year, capacity, lifetime, is_first_year=is_first)
+                
+                stock_flow_states[(scenario, tech)] = state
+        
+        logger.info(f"Stock-flow model built: {len(stock_flow_states)} states")
+        return stock_flow_states
+    
+    def sample_intensities(self) -> Dict[Tuple[str, str], float]:
+        """
+        Sample material intensities from fitted distributions (one iteration).
+        
+        Returns
+        -------
+        dict
+            {(technology, material): intensity_mt_per_MW}
+        """
+        sampled_intensities = {}
+        
+        for (tech, mat), dist_info in self.fitted_distributions.items():
+            # Sample from distribution (returns array of length 1)
+            intensity = dist_info.sample(n=1, random_state=None)[0]
+            sampled_intensities[(tech, mat)] = intensity
+        
+        return sampled_intensities
+    
+    def calculate_material_demand_single_iteration(
+        self,
+        stock_flow_states: Dict[Tuple[str, str], StockFlowState],
+        sampled_intensities: Dict[Tuple[str, str], float]
+    ) -> Dict[Tuple[str, int, str], float]:
+        """
+        Calculate material demand for a single Monte Carlo iteration.
+
+        Material demand = additions × intensity
+        (We count materials in new capacity, not retirements -
+         retirements are implicit in maintaining stock levels)
+
+        UNITS:
+        - addition_MW: capacity additions in megawatts (MW)
+        - intensity: material intensity in tonnes per megawatt (t/MW)
+        - material_demand: result in tonnes (t)
+
+        Formula: MW × (t/MW) × weight = t
+
+        Returns
+        -------
+        dict
+            {(scenario, year, material): demand_tonnes}
+        """
+        demand = {}
+
+        for (scenario, cap_tech), state in stock_flow_states.items():
+            # Get intensity technologies for this capacity technology
+            intensity_mappings = get_intensity_technologies(cap_tech)
+
+            for intensity_tech, weight in intensity_mappings.items():
+                # For each year with additions
+                for year, addition_MW in state.additions.items():
+                    if addition_MW <= 0:
+                        continue
+
+                    # Get materials for this intensity technology
+                    for material in self.materials:
+                        # Check if we have intensity data
+                        if (intensity_tech, material) not in sampled_intensities:
+                            continue
+
+                        intensity = sampled_intensities[(intensity_tech, material)]
+
+                        # Calculate demand (weighted by mapping)
+                        # Units: MW × (t/MW) × dimensionless = t (tonnes)
+                        material_demand = addition_MW * weight * intensity
+
+                        # Aggregate
+                        key = (scenario, year, material)
+                        demand[key] = demand.get(key, 0) + material_demand
+
+        return demand
+    
+    def run_monte_carlo(
+        self,
+        n_iterations: int = 10000,
+        scenarios_to_run: Optional[List[str]] = None
+    ) -> SimulationResult:
+        """
+        Run Monte Carlo simulation.
+        
+        Parameters
+        ----------
+        n_iterations : int
+            Number of Monte Carlo iterations
+        scenarios_to_run : List[str], optional
+            Subset of scenarios to run (default: all)
+        
+        Returns
+        -------
+        SimulationResult
+            Results container with statistics
+        """
+        logger.info("="*80)
+        logger.info("MONTE CARLO SIMULATION")
+        logger.info("="*80)
+        logger.info(f"Iterations: {n_iterations:,}")
+        
+        # Filter scenarios if specified
+        if scenarios_to_run is not None:
+            scenarios = [s for s in self.scenarios if s in scenarios_to_run]
+        else:
+            scenarios = self.scenarios
+        
+        logger.info(f"Scenarios: {len(scenarios)}")
+        
+        # Build stock-flow model (same for all iterations)
+        stock_flow_states = self.build_stock_flow_model()
+        
+        # Filter stock-flow states for selected scenarios
+        if scenarios_to_run is not None:
+            stock_flow_states = {
+                k: v for k, v in stock_flow_states.items()
+                if k[0] in scenarios_to_run
+            }
+        
+        # Create result arrays
+        # Shape: [iterations, scenarios, years, materials]
+        results_array = np.zeros((
+            n_iterations,
+            len(scenarios),
+            len(self.years),
+            len(self.materials)
+        ))
+        
+        # Create index mappings
+        scenario_idx = {s: i for i, s in enumerate(scenarios)}
+        year_idx = {y: i for i, y in enumerate(self.years)}
+        material_idx = {m: i for i, m in enumerate(self.materials)}
+        
+        # Run Monte Carlo iterations
+        logger.info("\nRunning Monte Carlo iterations...")
+        
+        for iteration in range(n_iterations):
+            # Progress logging
+            if iteration % max(1, n_iterations // 10) == 0:
+                logger.info(f"  Iteration {iteration:,}/{n_iterations:,} ({100*iteration/n_iterations:.0f}%)")
+            
+            # Sample intensities for this iteration
+            sampled_intensities = self.sample_intensities()
+            
+            # Calculate demand for this iteration
+            demand = self.calculate_material_demand_single_iteration(
+                stock_flow_states,
+                sampled_intensities
+            )
+            
+            # Store in array
+            for (scenario, year, material), demand_value in demand.items():
+                i_s = scenario_idx[scenario]
+                i_y = year_idx[year]
+                i_m = material_idx[material]
+                results_array[iteration, i_s, i_y, i_m] = demand_value
+        
+        logger.info("✓ Monte Carlo simulation complete")
+        
+        return SimulationResult(
+            iterations_data=results_array,
+            n_iterations=n_iterations,
+            scenarios=scenarios,
+            years=self.years,
+            materials=self.materials,
+            scenario_idx=scenario_idx,
+            year_idx=year_idx,
+            material_idx=material_idx
+        )
+
+
+# ============================================================================
+# CONVENIENCE FUNCTIONS
+# ============================================================================
+
+def run_full_simulation(
+    intensity_path: Union[str, Path],
+    capacity_path: Union[str, Path],
+    n_iterations: int = 10000,
+    scenarios_to_run: Optional[List[str]] = None,
+    random_state: int = 42
+) -> Tuple[MaterialsStockFlowSimulation, SimulationResult]:
+    """
+    Run complete simulation pipeline from data files to results.
+    
+    Parameters
+    ----------
+    intensity_path : str or Path
+        Path to material intensity CSV
+    capacity_path : str or Path
+        Path to capacity projections CSV
+    n_iterations : int
+        Number of Monte Carlo iterations
+    scenarios_to_run : List[str], optional
+        Subset of scenarios (default: all)
+    random_state : int
+        Random seed
+    
+    Returns
+    -------
+    simulation : MaterialsStockFlowSimulation
+        Simulation object
+    results : SimulationResult
+        Results with statistics
+    """
+    logger.info("="*80)
+    logger.info("FULL SIMULATION PIPELINE")
+    logger.info("="*80)
+    
+    # Step 1: Load data
+    logger.info("\nStep 1: Loading data...")
+    data = load_all_data(
+        intensity_path=intensity_path,
+        national_capacity_path=capacity_path
+    )
+    
+    # Step 2: Fit distributions
+    logger.info("\nStep 2: Fitting distributions...")
+    fitter = DistributionFitter()
+    fitted_dists = fitter.fit_all(data['intensity'])
+    
+    # Step 3: Validate technology mapping
+    logger.info("\nStep 3: Validating technology mapping...")
+    validate_mapping()
+    
+    # Step 4: Initialize simulation
+    logger.info("\nStep 4: Initializing simulation...")
+    simulation = MaterialsStockFlowSimulation(
+        capacity_data=data['capacity_national'],
+        intensity_data=data['intensity'],
+        fitted_distributions=fitted_dists,
+        random_state=random_state
+    )
+    
+    # Step 5: Run Monte Carlo
+    logger.info("\nStep 5: Running Monte Carlo simulation...")
+    results = simulation.run_monte_carlo(
+        n_iterations=n_iterations,
+        scenarios_to_run=scenarios_to_run
+    )
+    
+    logger.info("\n" + "="*80)
+    logger.info("SIMULATION COMPLETE")
+    logger.info("="*80)
+    
+    return simulation, results
+
+
+if __name__ == '__main__':
+    # Example usage
+    print("This is a module. Import it to run simulations.")
+    print("\nExample:")
+    print("  from stock_flow_simulation import run_full_simulation")
+    print("  simulation, results = run_full_simulation(...)")

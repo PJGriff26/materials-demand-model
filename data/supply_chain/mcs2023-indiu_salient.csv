@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Refinery_t,Imports_t,Exports_t,Consump_t,Price_NY_dkg,Price_FOB_dkg,Price_Rotterdam_dkg,NIR_pct
+MCS2023,Indium,2018,0,125,NA,125,375,285,281,100
+MCS2023,Indium,2019,0,95,NA,95,390,182,177,100
+MCS2023,Indium,2020,0,115,NA,115,395,161,158,100
+MCS2023,Indium,2021,0,158,NA,158,NA,223,217,100
+MCS2023,Indium,2022,0,160,NA,160,NA,250,250,100

@@ -1,0 +1,114 @@
+"Commodity","Year","Variable","Unit","Value"
+"Aluminum",2018,"Consumption - US","Million tonne",4.9
+"Aluminum",2019,"Consumption - US","Million tonne",4.98
+"Aluminum",2020,"Consumption - US","Million tonne",3.93
+"Aluminum",2021,"Consumption - US","Million tonne",4.08
+"Aluminum",2022,"Consumption - US","Million tonne",5.1
+"Aluminum",2018,"Production Primary - US","Million tonne",0.891
+"Aluminum",2019,"Production Primary - US","Million tonne",1.093
+"Aluminum",2020,"Production Primary - US","Million tonne",1.012
+"Aluminum",2021,"Production Primary - US","Million tonne",0.889
+"Aluminum",2022,"Production Primary - US","Million tonne",0.86
+"Aluminum",2018,"Production Secondary (old scrap) - US","Million tonne",1.57
+"Aluminum",2019,"Production Secondary (old scrap) - US","Million tonne",1.54
+"Aluminum",2020,"Production Secondary (old scrap) - US","Million tonne",1.42
+"Aluminum",2021,"Production Secondary (old scrap) - US","Million tonne",1.52
+"Aluminum",2022,"Production Secondary (old scrap) - US","Million tonne",1.5
+"Aluminum",2018,"Production Secondary (new scrap) - US","Million tonne",2.14
+"Aluminum",2019,"Production Secondary (new scrap) - US","Million tonne",1.92
+"Aluminum",2020,"Production Secondary (new scrap) - US","Million tonne",1.63
+"Aluminum",2021,"Production Secondary (new scrap) - US","Million tonne",1.78
+"Aluminum",2022,"Production Secondary (new scrap) - US","Million tonne",1.9
+"Aluminum",2018,"Production - US","Million tonne",4.601
+"Aluminum",2019,"Production - US","Million tonne",4.553
+"Aluminum",2020,"Production - US","Million tonne",4.062
+"Aluminum",2021,"Production - US","Million tonne",4.189
+"Aluminum",2022,"Production - US","Million tonne",4.26
+"Aluminum",2018,"Import - US","Million tonne",5.55
+"Aluminum",2019,"Import - US","Million tonne",5.28
+"Aluminum",2020,"Import - US","Million tonne",4.26
+"Aluminum",2021,"Import - US","Million tonne",4.83
+"Aluminum",2022,"Import - US","Million tonne",5.9
+"Aluminum",2018,"Import Scrap - US","Million tonne",0.695
+"Aluminum",2019,"Import Scrap - US","Million tonne",0.596
+"Aluminum",2020,"Import Scrap - US","Million tonne",0.542
+"Aluminum",2021,"Import Scrap - US","Million tonne",0.68
+"Aluminum",2022,"Import Scrap - US","Million tonne",0.64
+"Aluminum",2018,"Export - US","Million tonne",1.31
+"Aluminum",2019,"Export - US","Million tonne",1.11
+"Aluminum",2020,"Export - US","Million tonne",0.906
+"Aluminum",2021,"Export - US","Million tonne",0.851
+"Aluminum",2022,"Export - US","Million tonne",1
+"Aluminum",2018,"Export Scrap - US","Million tonne",1.76
+"Aluminum",2019,"Export Scrap - US","Million tonne",1.86
+"Aluminum",2020,"Export Scrap - US","Million tonne",1.84
+"Aluminum",2021,"Export Scrap - US","Million tonne",2.1
+"Aluminum",2022,"Export Scrap - US","Million tonne",2.1
+"Aluminum",2018,"Supply Total - US","Million tonne",7.04
+"Aluminum",2019,"Supply Total - US","Million tonne",6.91
+"Aluminum",2020,"Supply Total - US","Million tonne",5.56
+"Aluminum",2021,"Supply Total - US","Million tonne",5.86
+"Aluminum",2022,"Supply Total - US","Million tonne",7
+"Aluminum",2018,"Recycling Rate - US","%",32
+"Aluminum",2019,"Recycling Rate - US","%",30.9
+"Aluminum",2020,"Recycling Rate - US","%",36.1
+"Aluminum",2021,"Recycling Rate - US","%",37.3
+"Aluminum",2022,"Recycling Rate - US","%",29.4
+"Steel",2018,"Consumption - US","Million tonne",102
+"Steel",2019,"Consumption - US","Million tonne",100
+"Steel",2020,"Consumption - US","Million tonne",82.1
+"Steel",2021,"Consumption - US","Million tonne",98.9
+"Steel",2022,"Consumption - US","Million tonne",96
+"Steel",2018,"Production - US","Million tonne",86.6
+"Steel",2019,"Production - US","Million tonne",87.8
+"Steel",2020,"Production - US","Million tonne",72.7
+"Steel",2021,"Production - US","Million tonne",85.8
+"Steel",2022,"Production - US","Million tonne",82
+"Steel",2018,"Import - US","Million tonne",23.3
+"Steel",2019,"Import - US","Million tonne",19.1
+"Steel",2020,"Import - US","Million tonne",14.6
+"Steel",2021,"Import - US","Million tonne",20.6
+"Steel",2022,"Import - US","Million tonne",22
+"Steel",2018,"Export - US","Million tonne",7.9
+"Steel",2019,"Export - US","Million tonne",6.6
+"Steel",2020,"Export - US","Million tonne",6.7
+"Steel",2021,"Export - US","Million tonne",7.4
+"Steel",2022,"Export - US","Million tonne",8
+"Steel",2018,"Recycling Rate - US","%",85
+"Steel",2019,"Recycling Rate - US","%",85
+"Steel",2020,"Recycling Rate - US","%",85
+"Steel",2021,"Recycling Rate - US","%",85
+"Steel",2022,"Recycling Rate - US","%",85
+"Cement",2018,"Consumption - US","Million tonne",98.5
+"Cement",2019,"Consumption - US","Million tonne",102
+"Cement",2020,"Consumption - US","Million tonne",105
+"Cement",2021,"Consumption - US","Million tonne",110
+"Cement",2022,"Consumption - US","Million tonne",120
+"Cement",2018,"Production - US","Million tonne",86.4
+"Cement",2019,"Production - US","Million tonne",87.6
+"Cement",2020,"Production - US","Million tonne",89.3
+"Cement",2021,"Production - US","Million tonne",93
+"Cement",2022,"Production - US","Million tonne",95
+"Cement",2018,"Import - US","Million tonne",13.693
+"Cement",2019,"Import - US","Million tonne",14.836
+"Cement",2020,"Import - US","Million tonne",15.531
+"Cement",2021,"Import - US","Million tonne",19.937
+"Cement",2022,"Import - US","Million tonne",24
+"Cement",2018,"Export - US","Million tonne",0.919
+"Cement",2019,"Export - US","Million tonne",1.024
+"Cement",2020,"Export - US","Million tonne",0.884
+"Cement",2021,"Export - US","Million tonne",0.94
+"Cement",2022,"Export - US","Million tonne",0.9
+"Cement",2018,"Recycling Rate - US","%",0
+"Cement",2019,"Recycling Rate - US","%",0
+"Cement",2020,"Recycling Rate - US","%",0
+"Cement",2021,"Recycling Rate - US","%",0
+"Cement",2022,"Recycling Rate - US","%",0
+"Cu",2022,"Consumption - US","Million tonne",1.9
+"Cu",2022,"Production - US","Million tonne",2.46
+"Mn",2022,"Consumption - US","Million tonne",0.89
+"Mn",2022,"Production - US","Million tonne",0
+"Ni",2022,"Consumption - US","Million tonne",0.22
+"Ni",2022,"Production - US","Million tonne",0.018
+"Ag",2022,"Production - US","Million tonne",0.0038
+"Ag",2022,"Consumption - US","Million tonne",0.0064

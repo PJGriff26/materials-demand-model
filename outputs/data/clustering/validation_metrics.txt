@@ -1,0 +1,11 @@
+Scenario clustering: k=4
+  Silhouette: 0.469
+  Stability ARI: 0.549
+  Features used: ['demand_slope', 'temporal_concentration', 'storage_fraction_2035', 'peak_supply_chain_stress']
+  Features dropped (VIF): ['mean_ci_width', 'mean_cv', 'mean_demand_early', 'mean_n_exceeding_production', 'peak_demand', 'solar_fraction_2035', 'supply_chain_stress', 'total_cumulative_demand', 'total_import_exposed_demand', 'wind_fraction_2035', 'year_of_peak']
+
+Material clustering: k=4
+  Silhouette: 0.248
+  Stability ARI: 0.605
+  Features used: ['mean_ci_width', 'demand_slope', 'domestic_production', 'import_dependency', 'cumulative_demand', 'reserve_consumption_pct', 'domestic_reserve_coverage', 'global_reserve_coverage', 'reserves_oecd_frac', 'reserves_china_frac', 'import_china_frac']
+  Features dropped (VIF): ['crc_weighted_risk', 'demand_volatility', 'exceedance_frequency', 'import_hhi', 'import_high_risk_frac', 'import_oecd_frac', 'max_capacity_ratio', 'mean_capacity_ratio', 'mean_demand', 'n_active_scenarios', 'peak_demand', 'reserves_high_risk_frac', 'scenario_cv']

@@ -1,0 +1,20 @@
+material,total_share,deviation,valid
+Aluminum,100.0,0.0,True
+Boron,100.0,0.0,True
+Cement,100.0,0.0,True
+Chromium,100.0,0.0,True
+Copper,100.0,0.0,True
+Lead,99.99999999999999,-1.4210854715202004e-14,True
+Magnesium,100.0,0.0,True
+Manganese,100.0,0.0,True
+Molybdenum,100.0,0.0,True
+Nickel,100.0,0.0,True
+Niobium,100.0,0.0,True
+Rare Earths,100.0,0.0,True
+Silicon,100.0,0.0,True
+Silver,100.0,0.0,True
+Steel,100.0,0.0,True
+Tin,100.0,0.0,True
+Vanadium,100.0,0.0,True
+Yttrium,100.0,0.0,True
+Zinc,100.0,0.0,True

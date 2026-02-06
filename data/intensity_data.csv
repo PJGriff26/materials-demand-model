@@ -1,0 +1,1327 @@
+"technology","Material","value"
+"a-Si","Silicon",150
+"a-Si","Germanium",48
+"a-Si","Germanium",73
+"a-Si","Cadmium",6.61
+"a-Si","Chromium",634
+"a-Si","Indium",13.41
+"a-Si","Molybdenum",10.62
+"a-Si","Nickel",334
+"a-Si","Tellurium",7.8
+"a-Si","Tin",143.21
+"a-Si","Copper",100.5
+"a-Si","Germanium",73
+"a-Si","Germanium",73
+"a-Si","Germanium",42
+"a-Si","Germanium",42
+"a-Si","Copper",1005
+"a-Si","Indium",5.32
+"a-Si","Indium",5.32
+"a-Si","Tin",0.714
+"a-Si","Germanium",73
+"a-Si","Germanium",36
+"a-Si","Germanium",41
+"a-Si","Germanium",48
+"a-Si","Germanium",6.9
+"a-Si","Germanium",42
+"a-Si","Germanium",3.4
+"a-Si","Germanium",6.9
+"a-Si","Germanium",14.8
+"a-Si","Indium",4
+"a-Si","Germanium",73
+"ASIGE","Copper",7000
+"ASIGE","Aluminum",31300
+"ASIGE","Glass",53400
+"ASIGE","Steel",56000
+"ASIGE","Glass",70000
+"ASIGE","Copper",7000
+"ASIGE","Cement",4847
+"ASIGE","Cement",7520
+"ASIGE","Aluminum",15390
+"ASIGE","Steel",55900
+"ASIGE","Copper",7530
+"ASIGE","Cement",6775
+"ASIGE","Cement",10512
+"ASIGE","Aluminum",15390
+"ASIGE","Glass",66700
+"Biomass","Nickel",8
+"Biomass","Manganese",199
+"Biomass","Copper",471
+"Biomass","Nickel",11
+"Biomass","Manganese",124
+"Biomass","Copper",500
+"Biomass","Copper",538
+"Biomass","Steel",52000
+"Biomass","Cement",16397
+"Biomass","Cement",25440
+"Biomass","Aluminum",1300
+"Biomass","Nickel",10
+"Biomass","Manganese",112
+"Biomass","Copper",454
+"Bio CCS","Nickel",8
+"Bio CCS","Manganese",199
+"Bio CCS","Nickel",11
+"Bio CCS","Manganese",124
+"Bio CCS","Copper",600
+"Bio CCS","Copper",645
+"Bio CCS","Steel",79560
+"Bio CCS","Cement",25087
+"Bio CCS","Cement",38923
+"Bio CCS","Aluminum",1300
+"Bio CCS","Nickel",10
+"Bio CCS","Manganese",112
+"Bio CCS","Copper",545
+"CDTE","Copper",7000
+"CDTE","Aluminum",31300
+"CdTe","Cadmium",35
+"CdTe","Cadmium",50
+"CdTe","Cadmium",85
+"CdTe","Tellurium",35
+"CdTe","Tellurium",95
+"CdTe","Tellurium",52
+"CdTe","Cadmium",138
+"CdTe","Tellurium",156
+"CdTe","Cadmium",85
+"CdTe","Tellurium",97.5
+"CdTe","Tellurium",97.5
+"CdTe","Cadmium",85
+"CdTe","Cadmium",244.26
+"CdTe","Chromium",61
+"CdTe","Lead",7.8
+"CdTe","Molybdenum",0.5
+"CdTe","Tellurium",242.87
+"CdTe","Copper",518.07
+"CDTE","Glass",53400
+"CdTe","Tellurium",176
+"CdTe","Tellurium",106
+"CdTe","Tellurium",55
+"CdTe","Tellurium",56
+"CDTE","Steel",56000
+"CDTE","Glass",70000
+"CDTE","Copper",7000
+"CDTE","Cement",4847
+"CDTE","Cement",7520
+"CDTE","Aluminum",15390
+"CdTe","Cadmium",80
+"CdTe","Cadmium",17
+"CdTe","Cadmium",62
+"CdTe","Cadmium",138
+"CdTe","Tellurium",90
+"CdTe","Tellurium",19
+"CdTe","Tellurium",70
+"CdTe","Tellurium",156
+"CdTe","Copper",5181
+"CdTe","Tellurium",70
+"CdTe","Tellurium",130
+"CDTE","Steel",55900
+"CDTE","Copper",7530
+"CDTE","Cement",6775
+"CDTE","Cement",10512
+"CDTE","Aluminum",15390
+"CdTe","Tellurium",69
+"CdTe","Tellurium",97.5
+"CdTe","Cadmium",79
+"CdTe","Cadmium",89
+"CdTe","Cadmium",116
+"CdTe","Tellurium",89
+"CdTe","Tellurium",101
+"CdTe","Tellurium",132
+"CdTe","Cadmium",21
+"CdTe","Cadmium",36
+"CdTe","Cadmium",77
+"CdTe","Tellurium",23
+"CdTe","Tellurium",41
+"CdTe","Tellurium",87
+"CdTe","Tellurium",260
+"CdTe","Tellurium",500
+"CdTe","Tellurium",120
+"CDTE","Glass",66700
+"CdTe","Cadmium",138
+"CdTe","Cadmium",17
+"CdTe","Cadmium",138
+"CdTe","Tellurium",156
+"CdTe","Tellurium",19
+"CdTe","Tellurium",156
+"CdTe","Cadmium",63.3
+"CdTe","Tellurium",55
+"CdTe","Cadmium",85
+"CdTe","Copper",42.8
+"CdTe","Tellurium",97.5
+"CdTe","Cadmium",49.2
+"CdTe","Molybdenum",100.5
+"CdTe","Tellurium",47.2
+"CdTe","Tin",6.6
+"CdTe","Cadmium",63.3
+"CdTe","Indium",15.9
+"CdTe","Tellurium",61.9
+"CdTe","Cadmium",65.2
+"CdTe","Tellurium",65.4
+"CdTe","Indium",15.5
+"CdTe","Tellurium",99.7
+"CdTe","Cadmium",116.7
+"CdTe","Cadmium",63.8
+"CdTe","Indium",15.5
+"CdTe","Tellurium",43.1
+"CdTe","Cadmium",63
+"CdTe","Tellurium",63
+"CdTe","Cadmium",85
+"CdTe","Tellurium",98
+"CdTe","Tellurium",17
+"CdTe","Tellurium",74
+"CdTe","Tellurium",106
+"CdTe","Tellurium",69
+"CdTe","Cadmium",6
+"CdTe","Copper",1000
+"CdTe","Copper",5181
+"CdTe","Cadmium",138
+"CdTe","Cadmium",62
+"CdTe","Cadmium",17
+"CdTe","Lead",8
+"CdTe","Molybdenum",109
+"CdTe","Tellurium",19
+"CdTe","Tellurium",70
+"CdTe","Tellurium",156
+"CdTe","Tellurium",243
+"CdTe","Tellurium",98
+"CdTe","Cadmium",84
+"CdTe","Tellurium",90
+"CdTe","Cadmium",244
+"CdTe","Cadmium",87
+"CdTe","Copper",3091
+"CdTe","Nickel",16
+"CdTe","Tellurium",92
+"CdTe","Cadmium",85
+"CdTe","Tellurium",97.5
+"CdTe","Cadmium",63
+"CdTe","Tellurium",47
+"CdTe","Cadmium",53
+"CdTe","Tellurium",41
+"CdTe","Cadmium",40
+"CdTe","Tellurium",34
+"CIGS","Copper",7000
+"CIGS","Aluminum",31300
+"CIGS","Copper",20
+"CIGS","Copper",22
+"CIGS","Copper",24
+"CIGS","Indium",10
+"CIGS","Indium",15
+"CIGS","Indium",27
+"CIGS","Gallium",3
+"CIGS","Gallium",4
+"CIGS","Gallium",7
+"CIGS","Selenium",22
+"CIGS","Selenium",35
+"CIGS","Selenium",60
+"CIGS","Gallium",9
+"CIGS","Indium",28
+"CIGS","Selenium",161
+"CIGS","Indium",6.3
+"CIGS","Indium",8
+"CIGS","Indium",11
+"CIGS","Gallium",7.5
+"CIGS","Indium",23
+"CIGS","Selenium",45
+"CIGS","Gallium",7.5
+"CIGS","Gallium",2.34
+"CIGS","Selenium",45
+"CIGS","Selenium",9.56
+"CIGS","Indium",22.5
+"CIGS","Indium",18.99
+"CIGS","Cadmium",265
+"CIGS","Gallium",124
+"CIGS","Indium",55
+"CIGS","Molybdenum",109
+"CIGS","Selenium",110
+"CIGS","Zinc",121
+"CIGS","Copper",450
+"CIGS","Glass",53400
+"CIGS","Indium",83
+"CIGS","Indium",83
+"CIGS","Indium",15.5
+"CIGS","Indium",15.5
+"CIGS","Indium",44155
+"CIGS","Gallium",12
+"CIGS","Gallium",6.7
+"CIGS","Indium",63.25
+"CIGS","Indium",16.3
+"CIGS","Steel",56000
+"CIGS","Glass",70000
+"CIGS","Copper",7000
+"CIGS","Cement",4847
+"CIGS","Cement",7520
+"CIGS","Aluminum",15390
+"CIGS","Gallium",2
+"CIGS","Gallium",4
+"CIGS","Gallium",9
+"CIGS","Indium",20
+"CIGS","Indium",28
+"CIGS","Indium",13
+"CIGS","Indium",7
+"CIGS","Selenium",90
+"CIGS","Selenium",17
+"CIGS","Selenium",41
+"CIGS","Selenium",161
+"CIGS","Copper",450
+"CIGS","Gallium",4
+"CIGS","Indium",13
+"CIGS","Steel",55900
+"CIGS","Copper",7530
+"CIGS","Cement",6775
+"CIGS","Cement",10512
+"CIGS","Aluminum",15390
+"CIGS","Indium",83
+"CIGS","Indium",22.5
+"CIGS","Copper",250
+"CIGS","Indium",44155
+"CIGS","Copper",21.02
+"CIGS","Gadium",2.34
+"CIGS","Indium",18.99
+"CIGS","Indium",9.56
+"CIGS","Gallium",6
+"CIGS","Gallium",8
+"CIGS","Gallium",11
+"CIGS","Indium",23
+"CIGS","Indium",29
+"CIGS","Indium",43
+"CIGS","Selenium",48
+"CIGS","Selenium",67
+"CIGS","Selenium",107
+"CIGS","Gallium",2
+"CIGS","Gallium",3
+"CIGS","Gallium",6
+"CIGS","Indium",8
+"CIGS","Indium",12
+"CIGS","Indium",22
+"CIGS","Selenium",15
+"CIGS","Selenium",26
+"CIGS","Selenium",51
+"CIGS","Glass",66700
+"CIGS","Indium",25
+"CIGS","Indium",30
+"CIGS","Indium",40
+"CIGS","Indium",24.1
+"CIGS","Indium",29
+"CIGS","Indium",39.1
+"CIGS","Indium",22.6
+"CIGS","Indium",27.5
+"CIGS","Indium",37.6
+"CIGS","Indium",19.6
+"CIGS","Indium",24.4
+"CIGS","Indium",34.6
+"CIGS","Indium",15
+"CIGS","Indium",19.5
+"CIGS","Indium",30
+"CIGS","Gallium",9
+"CIGS","Gallium",2
+"CIGS","Gallium",9
+"CIGS","Indium",28
+"CIGS","Indium",7
+"CIGS","Indium",28
+"CIGS","Selenium",161
+"CIGS","Selenium",17
+"CIGS","Selenium",161
+"CIGS","Gallium",7.2
+"CIGS","Indium",55.5
+"CIGS","Cadmium",1.3
+"CIGS","Selenium",39.3
+"CIGS","Cadmium",1.3
+"CIGS","Gallium",3.2
+"CIGS","Indium",45
+"CIGS","Selenium",17.4
+"CIGS","Gadium",11
+"CIGS","Gadium",10
+"CIGS","Indium",13
+"CIGS","Gallium",5
+"CIGS","Indium",27
+"CIGS","Selenium",45
+"CIGS","Gallium",8
+"CIGS","Indium",23
+"CIGS","Selenium",45
+"CIGS","Gallium",12
+"CIGS","Gallium",29
+"CIGS","Indium",15
+"CIGS","Indium",23
+"CIGS","Gallium",8
+"CIGS","Indium",83
+"CIGS","Indium",23
+"CIGS","Gallium",0.12
+"CIGS","Indium",5
+"CIGS","Indium",23
+"CIGS","Indium",28
+"CIGS","Indium",38
+"CIGS","Gallium",2
+"CIGS","Gallium",4
+"CIGS","Gallium",9
+"CIGS","Gallium",124
+"CIGS","Indium",7
+"CIGS","Indium",13
+"CIGS","Indium",28
+"CIGS","Indium",55
+"CIGS","Molybdenum",1
+"CIGS","Selenium",17
+"CIGS","Selenium",41
+"CIGS","Selenium",161
+"CIGS","Selenium",110
+"CIGS","Indium",23
+"CIGS","Selenium",45
+"CIGS","Copper",17
+"CIGS","Copper",450
+"CIGS","Gallium",6
+"CIGS","Indium",84
+"CIGS","Selenium",84
+"CIGS","Copper",233
+"CIGS","Gallium",19
+"CIGS","Indium",31
+"CIGS","Selenium",61
+"CIGS","Gallium",7.5
+"CIGS","Indium",23
+"CIGS","Selenium",45
+"CIGS","Indium",23
+"CIGS","Gallium",5
+"CIGS","Selenium",45
+"CIGS","Indium",12
+"CIGS","Gallium",3
+"CIGS","Selenium",26
+"CIGS","Indium",10
+"CIGS","Gallium",2.7
+"CIGS","Selenium",22
+"Coal","Nickel",8
+"Coal","Manganese",199
+"Coal","Copper",471
+"Coal","Cement",10572
+"Coal","Cement",16403
+"Coal","Steel",44425
+"Coal","Nickel",11
+"Coal","Manganese",124
+"Coal","Copper",500
+"Coal","Copper",538
+"Coal","Cement",4668
+"Coal","Cement",6749
+"Coal","Cement",11315
+"Coal","Cement",16361
+"Coal","Aluminum",281
+"Coal","Steel",51340
+"Coal","Cement",16372
+"Coal","Cement",25401
+"Coal","Aluminum",419
+"Coal","Steel",62200
+"Coal","Cement",18389
+"Coal","Cement",28531
+"Coal","Aluminum",624
+"Coal","Nickel",10
+"Coal","Manganese",112
+"Coal","Copper",454
+"Coal","Cement",7658
+"Coal","Cement",11881
+"Coal","Aluminum",255
+"Coal CCS","Nickel",8
+"Coal CCS","Manganese",199
+"Coal CCS","Copper",565
+"Coal CCS","Cement",16175
+"Coal CCS","Cement",25096
+"Coal CCS","Steel",67695
+"Coal CCS","Nickel",11
+"Coal CCS","Manganese",124
+"Coal CCS","Copper",600
+"Coal CCS","Copper",645
+"Coal CCS","Cement",7141
+"Coal CCS","Cement",10326
+"Coal CCS","Cement",17313
+"Coal CCS","Cement",25033
+"Coal CCS","Aluminum",281
+"Coal CCS","Steel",78550
+"Coal CCS","Cement",25049
+"Coal CCS","Cement",38864
+"Coal CCS","Aluminum",419
+"Coal CCS","Steel",95166
+"Coal CCS","Cement",9814
+"Coal CCS","Cement",43653
+"Coal CCS","Aluminum",624
+"Coal CCS","Steel",61648
+"Coal CCS","Nickel",10
+"Coal CCS","Manganese",112
+"Coal CCS","Copper",545
+"Coal CCS","Cement",11716
+"Coal CCS","Cement",18178
+"Coal CCS","Aluminum",255
+"utility-scale solar pv","Copper",7000
+"utility-scale solar pv","Aluminum",38500
+"utility-scale solar pv","Silicon",4
+"utility-scale solar pv","Silver",20
+"utility-scale solar pv","Silver",35.6
+"utility-scale solar pv","Silicon",6629
+"utility-scale solar pv","Silver",11
+"utility-scale solar pv","Silver",80
+"utility-scale solar pv","Lead",5.53
+"utility-scale solar pv","Lead",6.32
+"utility-scale solar pv","Nickel",1.3
+"utility-scale solar pv","Silver",59
+"utility-scale solar pv","Silver",68.17
+"utility-scale solar pv","Copper",825
+"utility-scale solar pv","Copper",943
+"utility-scale solar pv","Silicon",2930
+"utility-scale solar pv","Silicon",3450
+"utility-scale solar pv","Glass",53400
+"utility-scale solar pv","Steel",56000
+"utility-scale solar pv","Silicon",7000
+"utility-scale solar pv","Glass",70000
+"utility-scale solar pv","Copper",7000
+"utility-scale solar pv","Cement",4847
+"utility-scale solar pv","Cement",7520
+"utility-scale solar pv","Aluminum",19000
+"utility-scale solar pv","Cement",6497
+"utility-scale solar pv","Cement",10080
+"utility-scale solar pv","Silicon",3347
+"utility-scale solar pv","Silicon",638
+"utility-scale solar pv","Silicon",2882
+"utility-scale solar pv","Silicon",6629
+"utility-scale solar pv","Silver",54.8125
+"utility-scale solar pv","Silver",38.36875
+"utility-scale solar pv","Silver",32.53125
+"utility-scale solar pv","Silver",29.45625
+"utility-scale solar pv","Silver",10
+"utility-scale solar pv","Copper",884
+"utility-scale solar pv","Steel",55900
+"utility-scale solar pv","Copper",7530
+"utility-scale solar pv","Cement",6775
+"utility-scale solar pv","Cement",10512
+"utility-scale solar pv","Aluminum",19000
+"utility-scale solar pv","Aluminum",10953
+"utility-scale solar pv","Copper",2741
+"utility-scale solar pv","Lead",336
+"utility-scale solar pv","Magnesium",53.5
+"utility-scale solar pv","Silicon",3653
+"utility-scale solar pv","Silver",24
+"utility-scale solar pv","Tin",577
+"utility-scale solar pv","Silver",13
+"utility-scale solar pv","Silver",15
+"utility-scale solar pv","Silver",18
+"utility-scale solar pv","Glass",66700
+"utility-scale solar pv","Nickel",1
+"utility-scale solar pv","Silver",84
+"utility-scale solar pv","Silicon",6630
+"utility-scale solar pv","Silver",36
+"utility-scale solar pv","Silver",19
+"utility-scale solar pv","Silver",36
+"utility-scale solar pv","Copper",300
+"utility-scale solar pv","Nickel",1.1
+"utility-scale solar pv","Silicon",3653
+"utility-scale solar pv","Silver",19
+"utility-scale solar pv","Silver",10
+"utility-scale solar pv","Silver",20
+"utility-scale solar pv","Silver",80
+"utility-scale solar pv","Lead",6
+"utility-scale solar pv","Nickel",1.3
+"utility-scale solar pv","Silicon",6630
+"utility-scale solar pv","Silver",4
+"utility-scale solar pv","Silver",47
+"utility-scale solar pv","Silver",57
+"utility-scale solar pv","Silver",17
+"utility-scale solar pv","Copper",250
+"utility-scale solar pv","Lead",72
+"utility-scale solar pv","Silver",5
+"utility-scale solar pv","Silicon",9000
+"utility-scale solar pv","Copper",825
+"utility-scale solar pv","Copper",458
+"utility-scale solar pv","Lead",39
+"utility-scale solar pv","Nickel",1
+"utility-scale solar pv","Silicon",6428
+"utility-scale solar pv","Silver",36
+"utility-scale solar pv","Silver",30
+"CSP","Steel",240000
+"CSP","Steel",4e+05
+"CSP","Nickel",940
+"CSP","Nickel",1900
+"CSP","Manganese",2000
+"CSP","Manganese",5700
+"CSP","Glass",130000
+"CSP","Glass",110000
+"CSP","Copper",3200
+"CSP","Copper",1400
+"CSP","Cement",250000
+"CSP","Cement",72000
+"CSP","Aluminum",0
+"CSP","Aluminum",11000
+"CSP","Silver",13
+"CSP","Silver",16
+"NGCC","Nickel",8
+"NGCC","Manganese",199
+"NGCC","Copper",471
+"NGCC","Nickel",11
+"NGCC","Manganese",124
+"NGCC","Copper",500
+"NGCC","Copper",538
+"NGCC","Steel",31030
+"NGCC","Cement",11403
+"NGCC","Cement",15640
+"NGCC","Aluminum",204
+"NGCC","Steel",51130
+"NGCC","Cement",7350
+"NGCC","Cement",10080
+"NGCC","Aluminum",230
+"NGCC","Nickel",10
+"NGCC","Manganese",112
+"NGCC","Copper",454
+"Gas CCS","Nickel",8
+"Gas CCS","Manganese",199
+"Gas CCS","Copper",565
+"Gas CCS","Nickel",10
+"Gas CCS","Nickel",11
+"Gas CCS","Manganese",112
+"Gas CCS","Manganese",124
+"Gas CCS","Copper",600
+"Gas CCS","Copper",645
+"Gas CCS","Steel",47476
+"Gas CCS","Cement",15423
+"Gas CCS","Cement",23929
+"Gas CCS","Aluminum",204
+"Gas CCS","Steel",78229
+"Gas CCS","Cement",8067
+"Gas CCS","Cement",17447
+"Gas CCS","Aluminum",230
+"Gas CCS","Copper",545
+"Geothermal","Steel",147420
+"Geothermal","Copper",2518
+"Geothermal","Cement",271666
+"Geothermal","Aluminum",1448
+"Geothermal","Steel",140347
+"Geothermal","Copper",597
+"Geothermal","Cement",76061
+"Geothermal","Aluminum",2386
+"Geothermal","Steel",912972
+"Geothermal","Cement",196486
+"Geothermal","Aluminum",9729
+"Geothermal","Steel",295000
+"Geothermal","Steel",356000
+"Geothermal","Steel",1206000
+"Geothermal","Steel",1175000
+"Geothermal","Cement",232000
+"Geothermal","Cement",87400
+"Geothermal","Cement",988000
+"Geothermal","Cement",987000
+"Geothermal","Aluminum",1600
+"Geothermal","Aluminum",45200
+"Geothermal","Aluminum",42600
+"Geothermal","Steel",124933
+"Geothermal","Copper",18885
+"Geothermal","Cement",311984
+"Geothermal","Aluminum",10198
+"Hydro","Copper",1050
+"Hydro","Steel",78000
+"Hydro","Steel",177000
+"Hydro","Copper",2970
+"Hydro","Cement",1086216
+"Hydro","Cement",594619
+"Hydro","Cement",922560
+"Hydro","Cement",1685280
+"Hydro","Steel",24800
+"Hydro","Cement",1223040
+"Hydro","Cement",788288
+"Hydro","Aluminum",52
+"Hydro","Steel",54500
+"Hydro","Copper",1502
+"Hydro","Cement",1068800
+"Hydro","Cement",688875
+"Nuclear New","Steel",50400
+"Nuclear New","Cement",39590
+"Nuclear New","Cement",61420
+"Nuclear New","Steel",36068
+"Nuclear New","Nickel",484
+"Nuclear New","Manganese",467
+"Nuclear New","Copper",726
+"Nuclear New","Cement",30133
+"Nuclear New","Aluminum",18
+"Nuclear New","Silver",1
+"Nuclear New","Steel",10000
+"Nuclear New","Nickel",49
+"Nuclear New","Nickel",100
+"Nuclear New","Manganese",209
+"Nuclear New","Manganese",400
+"Nuclear New","Copper",907
+"Nuclear New","Copper",2000
+"Nuclear New","Cement",19600
+"Nuclear New","Cement",30400
+"Nuclear New","Aluminum",54
+"Nuclear New","Aluminum",45
+"Nuclear New","Silver",1
+"Nuclear New","Nickel",300
+"Nuclear New","Copper",1345
+"Nuclear New","Steel",44821
+"Nuclear New","Steel",43206
+"Nuclear New","Cement",22872
+"Nuclear New","Cement",55447
+"Nuclear New","Cement",21089
+"Nuclear New","Cement",51125
+"Nuclear New","Steel",7407
+"Nuclear New","Nickel",74
+"Nuclear New","Manganese",296
+"Nuclear New","Copper",1481
+"Nuclear New","Aluminum",33
+"Nuclear New","Silver",1
+"offshore wind","Aluminum",300
+"offshore wind","Aluminum",700
+"offshore wind","Aluminum",3100
+"offshore wind","Aluminum",5300
+"offshore wind","Copper",1800
+"offshore wind","Copper",2000
+"offshore wind","Copper",4800
+"offshore wind","Copper",5900
+"offshore wind","Steel",125000
+"offshore wind","Steel",156000
+"offshore wind","Steel",210000
+"offshore wind","Steel",253000
+"offshore wind","Aluminum",9400
+"offshore wind","Steel",4e+05
+"offshore wind","Copper",22200
+"offshore wind","Copper",1143
+"offshore wind","Copper",10000
+"offshore wind","Neodymium",119
+"offshore wind","Neodymium",198
+"offshore wind","Aluminum",370
+"offshore wind","Copper",10000
+"offshore wind","Dysprosium",22
+"offshore wind","Lead",6720
+"offshore wind","Neodymium",124
+"offshore wind","Nickel",111
+"offshore wind","Steel",132000
+"offshore wind","Dysprosium",22
+"offshore wind","Lead",6720
+"offshore wind","Neodymium",124
+"offshore wind","Nickel",111
+"offshore wind","Steel",132000
+"offshore wind","Aluminum",370
+"offshore wind","Copper",10000
+"offshore wind","Neodymium",175.5
+"offshore wind","Neodymium",162.4
+"offshore wind","Neodymium",164.3
+"offshore wind","Neodymium",165.7
+"offshore wind","Neodymium",124
+"offshore wind","Neodymium",186
+"offshore wind","Neodymium",180
+"offshore wind","Neodymium",198
+"offshore wind","Neodymium",186
+"offshore wind","Neodymium",116
+"offshore wind","Neodymium",54
+"offshore wind","Neodymium",171
+"offshore wind","Neodymium",102
+"offshore wind","Neodymium",34
+"offshore wind","Neodymium",170.4
+"offshore wind","Neodymium",216
+"offshore wind","Chromium",293.56
+"offshore wind","Copper",1484
+"offshore wind","Dysprosium",21.56
+"offshore wind","Molybdenum",75.315
+"offshore wind","Neodymium",150.92
+"offshore wind","Nickel",376.57
+"offshore wind","Niobium",37.657
+"offshore wind","Praseodymium",30.8
+"offshore wind","Terbium",6.16
+"offshore wind","Vanadium",7000
+"offshore wind","Copper",10000
+"offshore wind","Aluminum",420
+"offshore wind","Copper",2750
+"offshore wind","Lead",3790
+"offshore wind","Neodymium",150
+"offshore wind","Steel",148000
+"offshore wind","Steel",183000
+"offshore wind","Copper",3400
+"offshore wind","Aluminum",1900
+"offshore wind","Copper",4000
+"offshore wind","Dysprosium",33
+"offshore wind","Neodymium",186
+"offshore wind","Aluminum",560
+"offshore wind","Copper",11500
+"offshore wind","Copper",15800
+"offshore wind","Dysprosium",4.86
+"offshore wind","Dysprosium",14.58
+"offshore wind","Neodymium",60.92
+"offshore wind","Neodymium",182.75
+"offshore wind","Nickel",111
+"offshore wind","Steel",232670
+"offshore wind","Steel",292100
+"offshore wind","Aluminum",3000
+"offshore wind","Aluminum",260
+"offshore wind","Aluminum",1060
+"offshore wind","Aluminum",3930
+"offshore wind","Aluminum",2063
+"offshore wind","Boron",7
+"offshore wind","Chromium",450
+"offshore wind","Chromium",294
+"offshore wind","Chromium",372
+"offshore wind","Copper",20000
+"offshore wind","Copper",11500
+"offshore wind","Copper",4500
+"offshore wind","Copper",1484
+"offshore wind","Copper",9371
+"offshore wind","Dysprosium",3
+"offshore wind","Dysprosium",25
+"offshore wind","Dysprosium",10
+"offshore wind","Dysprosium",24
+"offshore wind","Dysprosium",28
+"offshore wind","Dysprosium",13
+"offshore wind","Dysprosium",14
+"offshore wind","Dysprosium",13
+"offshore wind","Dysprosium",18
+"offshore wind","Dysprosium",22
+"offshore wind","Dysprosium",16
+"offshore wind","Neodymium",186
+"offshore wind","Neodymium",203
+"offshore wind","Neodymium",180
+"offshore wind","Neodymium",41
+"offshore wind","Neodymium",140
+"offshore wind","Neodymium",187
+"offshore wind","Neodymium",40
+"offshore wind","Neodymium",43
+"offshore wind","Neodymium",166
+"offshore wind","Neodymium",150
+"offshore wind","Neodymium",200
+"offshore wind","Neodymium",195
+"offshore wind","Neodymium",186
+"offshore wind","Neodymium",151
+"offshore wind","Neodymium",148
+"offshore wind","Praseodymium",35
+"offshore wind","Praseodymium",31
+"offshore wind","Praseodymium",33
+"offshore wind","Steel",350000
+"offshore wind","Steel",317000
+"offshore wind","Steel",333500
+"offshore wind","Terbium",7
+"offshore wind","Terbium",6
+"offshore wind","Vanadium",7000
+"offshore wind","Copper",2440
+"offshore wind","Copper",2514.285714
+"offshore wind","Copper",1566.666667
+"offshore wind","Copper",1570.833333
+"offshore wind","Copper",5560
+"offshore wind","Copper",5642.857143
+"offshore wind","Copper",4916.666667
+"offshore wind","Copper",4895.833333
+"offshore wind","Copper",2520
+"offshore wind","Copper",3057.142857
+"offshore wind","Copper",891.6666667
+"offshore wind","Copper",1066.666667
+"offshore wind","Copper",3057
+"offshore wind","Copper",892
+"offshore wind","Copper",1067
+"offshore wind","Copper",2514
+"offshore wind","Copper",1567
+"offshore wind","Copper",1571
+"offshore wind","Copper",5643
+"offshore wind","Copper",4917
+"offshore wind","Copper",4896
+"offshore wind","Steel",147576
+"offshore wind","Steel",803094
+"offshore wind","Steel",917224
+"offshore wind","Steel",530417
+"offshore wind","Fiberglass",5823
+"offshore wind","Fiberglass",5833
+"offshore wind","Fiberglass",10551
+"offshore wind","Copper",1650
+"offshore wind","Copper",5218
+"offshore wind","Copper",9601
+"offshore wind","Aluminum",1000
+"offshore wind","Aluminum",898
+"offshore wind","Aluminum",556
+"offshore wind","Steel",193257
+"offshore wind","Fiberglass",10921
+"offshore wind","Copper",2337
+"offshore wind","Cement",142
+"offshore wind","Cement",220
+"offshore wind","Aluminum",2140
+"offshore wind","Copper",9580
+"offshore wind","Neodymium",186
+"offshore wind","Dysprosium",12
+"offshore wind","Steel",193257
+"offshore wind","Fiberglass",10921
+"offshore wind","Copper",2337
+"offshore wind","Cement",142
+"offshore wind","Cement",220
+"offshore wind","Aluminum",2140
+"offshore wind","Copper",9580
+"onshore wind","Aluminum",300
+"onshore wind","Aluminum",700
+"onshore wind","Aluminum",3100
+"onshore wind","Aluminum",5300
+"onshore wind","Copper",1400
+"onshore wind","Copper",1800
+"onshore wind","Copper",3700
+"onshore wind","Copper",6100
+"onshore wind","Steel",54000
+"onshore wind","Steel",105000
+"onshore wind","Steel",160000
+"onshore wind","Steel",204000
+"onshore wind","Steel",148000
+"onshore wind","Copper",1143
+"onshore wind","Copper",4318
+"onshore wind","Neodymium",41
+"onshore wind","Nickel",111
+"onshore wind","Dysprosium",22
+"onshore wind","Lead",6720
+"onshore wind","Aluminum",260
+"onshore wind","Chromium",359
+"onshore wind","Copper",2000
+"onshore wind","Dysprosium",0.9
+"onshore wind","Neodymium",6.2
+"onshore wind","Nickel",111
+"onshore wind","Praseodymium",1.3
+"onshore wind","Steel",132000
+"onshore wind","Chromium",358.9
+"onshore wind","Copper",1012
+"onshore wind","Dysprosium",0.9
+"onshore wind","Molybdenum",75.3
+"onshore wind","Neodymium",6.2
+"onshore wind","Nickel",376.6
+"onshore wind","Niobium",37.7
+"onshore wind","Praseodymium",1.3
+"onshore wind","Terbium",0.3
+"onshore wind","Vanadium",90.4
+"onshore wind","Aluminum",370
+"onshore wind","Copper",2000
+"onshore wind","Aluminum",260
+"onshore wind","Copper",1830
+"onshore wind","Steel",135000
+"onshore wind","Steel",132500
+"onshore wind","Copper",2750
+"onshore wind","Aluminum",1900
+"onshore wind","Copper",4000
+"onshore wind","Aluminum",560
+"onshore wind","Copper",2700
+"onshore wind","Copper",7000
+"onshore wind","Dysprosium",4.86
+"onshore wind","Dysprosium",14.58
+"onshore wind","Neodymium",60.92
+"onshore wind","Neodymium",182.75
+"onshore wind","Nickel",111
+"onshore wind","Steel",112670
+"onshore wind","Steel",172100
+"onshore wind","Aluminum",3000
+"onshore wind","Aluminum",50
+"onshore wind","Aluminum",260
+"onshore wind","Aluminum",3530
+"onshore wind","Aluminum",560
+"onshore wind","Aluminum",830
+"onshore wind","Aluminum",1372
+"onshore wind","Boron",1
+"onshore wind","Chromium",789
+"onshore wind","Chromium",902
+"onshore wind","Chromium",359
+"onshore wind","Chromium",683
+"onshore wind","Copper",1143
+"onshore wind","Copper",3000
+"onshore wind","Copper",4000
+"onshore wind","Copper",2000
+"onshore wind","Copper",2000
+"onshore wind","Copper",2500
+"onshore wind","Copper",3000
+"onshore wind","Copper",1745
+"onshore wind","Copper",1200
+"onshore wind","Copper",5500
+"onshore wind","Copper",4700
+"onshore wind","Copper",1750
+"onshore wind","Copper",1408
+"onshore wind","Copper",2700
+"onshore wind","Copper",2300
+"onshore wind","Copper",1012
+"onshore wind","Copper",2497
+"onshore wind","Praseodymium",4
+"onshore wind","Praseodymium",1
+"onshore wind","Praseodymium",3
+"onshore wind","Steel",103000
+"onshore wind","Steel",115000
+"onshore wind","Steel",140000
+"onshore wind","Steel",150000
+"onshore wind","Steel",98000
+"onshore wind","Steel",148000
+"onshore wind","Steel",120000
+"onshore wind","Steel",89840
+"onshore wind","Steel",138000
+"onshore wind","Steel",119985
+"onshore wind","Terbium",1
+"onshore wind","Vanadium",90
+"onshore wind","Copper",2733.333333
+"onshore wind","Copper",2520
+"onshore wind","Copper",2500
+"onshore wind","Copper",4800
+"onshore wind","Copper",4608.695652
+"onshore wind","Copper",5066.666667
+"onshore wind","Copper",2242.424242
+"onshore wind","Copper",2478.26087
+"onshore wind","Copper",2333.333333
+"onshore wind","Copper",2242
+"onshore wind","Copper",2478
+"onshore wind","Copper",2333
+"onshore wind","Copper",2733
+"onshore wind","Copper",4609
+"onshore wind","Copper",5067
+"onshore wind","Steel",107000
+"onshore wind","Steel",113000
+"onshore wind","Aluminum",1600
+"onshore wind","Aluminum",1400
+"onshore wind","Boron",1
+"onshore wind","Chromium",580
+"onshore wind","Chromium",470
+"onshore wind","Copper",1400
+"onshore wind","Copper",950
+"onshore wind","Dysprosium",6
+"onshore wind","Dysprosium",2
+"onshore wind","Manganese",800
+"onshore wind","Manganese",780
+"onshore wind","Molybdenum",119
+"onshore wind","Molybdenum",99
+"onshore wind","Neodymium",12
+"onshore wind","Neodymium",51
+"onshore wind","Nickel",440
+"onshore wind","Nickel",430
+"onshore wind","Praseodymium",4
+"onshore wind","Terbium",1
+"onshore wind","Zinc",5500
+"onshore wind","Neodymium",36
+"onshore wind","Copper",1500
+"onshore wind","Steel",84900
+"onshore wind","Copper",4982
+"onshore wind","Nickel",377
+"onshore wind","Steel",120480
+"onshore wind","Fiberglass",8980
+"onshore wind","Copper",1700
+"onshore wind","Cement",41388
+"onshore wind","Cement",64214
+"onshore wind","Aluminum",4900
+"onshore wind","Steel",130480
+"onshore wind","Fiberglass",7400
+"onshore wind","Copper",1740
+"onshore wind","Cement",47099
+"onshore wind","Cement",73075
+"onshore wind","Aluminum",5080
+"onshore wind","Aluminum",830
+"onshore wind","Copper",1200
+"onshore wind","Copper",1750
+"onshore wind","Copper",1408
+"onshore wind","Copper",2500
+"onshore wind","Nickel",111
+"onshore wind","Steel",148000
+"onshore wind","Steel",89840
+"onshore wind","Aluminum",560
+"onshore wind","Dysprosium",1.4
+"onshore wind","Dysprosium",1.8
+"onshore wind","Dysprosium",3.7
+"onshore wind","Dysprosium",2.9
+"onshore wind","Neodymium",49.6
+"onshore wind","Neodymium",40
+"onshore wind","Neodymium",24.8
+"onshore wind","Neodymium",20
+"onshore wind","Dysprosium",1.6
+"onshore wind","Dysprosium",3.3
+"onshore wind","Dysprosium",1.6
+"onshore wind","Dysprosium",3.3
+"onshore wind","Neodymium",20.4
+"onshore wind","Neodymium",40.8
+"onshore wind","Neodymium",16
+"onshore wind","Neodymium",24.8
+"onshore wind","Neodymium",32
+"onshore wind","Neodymium",49.6
+"onshore wind","Steel",108667
+"onshore wind","Steel",181200
+"onshore wind","Steel",117667
+"onshore wind","Steel",114266
+"onshore wind","Steel",101176
+"onshore wind","Steel",105120
+"onshore wind","Steel",129333
+"onshore wind","Steel",131150
+"onshore wind","Steel",120040
+"onshore wind","Steel",133300
+"onshore wind","Aluminum",2000
+"onshore wind","Aluminum",3200
+"onshore wind","Aluminum",1765
+"onshore wind","Aluminum",1680
+"onshore wind","Aluminum",2133
+"onshore wind","Aluminum",2150
+"onshore wind","Aluminum",1960
+"onshore wind","Aluminum",2200
+"onshore wind","Copper",2000
+"onshore wind","Copper",3200
+"onshore wind","Copper",1867
+"onshore wind","Copper",1529
+"onshore wind","Copper",1920
+"onshore wind","Copper",2066
+"onshore wind","Copper",2200
+"onshore wind","Copper",2242
+"onshore wind","Copper",2478
+"onshore wind","Copper",2333
+"onshore wind","Copper",2520
+"onshore wind","Copper",3057
+"onshore wind","Copper",892
+"onshore wind","Copper",1067
+"onshore wind","Copper",5761
+"onshore wind","Copper",2994
+"onshore wind","Copper",6759
+"onshore wind","Copper",2540
+"onshore wind","Copper",3538
+"onshore wind","Dysprosium",21
+"onshore wind","Neodymium",202.5
+"onshore wind","Steel",132000
+"onshore wind","Steel",119500
+"onshore wind","Aluminum",500
+"onshore wind","Aluminum",700
+"onshore wind","Boron",6
+"onshore wind","Chromium",525
+"onshore wind","Copper",5000
+"onshore wind","Copper",3000
+"onshore wind","Dysprosium",6
+"onshore wind","Dysprosium",17
+"onshore wind","Manganese",790
+"onshore wind","Molybdenum",109
+"onshore wind","Neodymium",28
+"onshore wind","Neodymium",180
+"onshore wind","Nickel",340
+"onshore wind","Nickel",240
+"onshore wind","Praseodymium",35
+"onshore wind","Praseodymium",9
+"onshore wind","Terbium",1
+"onshore wind","Terbium",7
+"onshore wind","Zinc",5500
+"onshore wind","Neodymium",180.5
+"onshore wind","Neodymium",186
+"onshore wind","Dysprosium",12
+"onshore wind","Aluminum",1060
+"onshore wind","Chromium",239
+"onshore wind","Copper",10000
+"onshore wind","Dysprosium",29
+"onshore wind","Lead",6720
+"onshore wind","Neodymium",183
+"onshore wind","Nickel",111
+"onshore wind","Praseodymium",48
+"onshore wind","Steel",132000
+"onshore wind","Terbium",1.3
+"onshore wind","Copper",4200
+"onshore wind","Steel",122780
+"onshore wind","Fiberglass",9580
+"onshore wind","Copper",3320
+"onshore wind","Cement",38717
+"onshore wind","Cement",60070
+"onshore wind","Aluminum",13200
+"onshore wind","Copper",4700
+"onshore wind","Dysprosium",14
+"onshore wind","Dysprosium",13.3
+"onshore wind","Neodymium",150
+"onshore wind","Neodymium",200
+"onshore wind","Steel",76160
+"onshore wind","Dysprosium",24
+"onshore wind","Dysprosium",27.7
+"onshore wind","Dysprosium",28
+"onshore wind","Neodymium",180
+"onshore wind","Neodymium",198
+"onshore wind","Dysprosium",8.1
+"onshore wind","Neodymium",117.45
+"onshore wind","Dysprosium",14
+"onshore wind","Dysprosium",28
+"onshore wind","Dysprosium",21
+"onshore wind","Neodymium",150
+"onshore wind","Neodymium",220
+"onshore wind","Neodymium",185
+"onshore wind","Terbium",6.2
+"onshore wind","Terbium",9
+"onshore wind","Terbium",7.6
+"onshore wind","Terbium",8
+"onshore wind","Copper",4700
+"onshore wind","Dysprosium",13
+"onshore wind","Neodymium",200
+"onshore wind","Nickel",377
+"onshore wind","Neodymium",203
+"onshore wind","Dysprosium",14
+"onshore wind","Neodymium",310
+"onshore wind","Neodymium",166
+"onshore wind","Neodymium",56
+"onshore wind","Neodymium",244
+"onshore wind","Neodymium",127
+"onshore wind","Neodymium",38
+"onshore wind","Praseodymium",75
+"onshore wind","Praseodymium",17
+"onshore wind","Praseodymium",3
+"onshore wind","Praseodymium",59
+"onshore wind","Praseodymium",13
+"onshore wind","Praseodymium",2
+"onshore wind","Dysprosium",50
+"onshore wind","Dysprosium",17
+"onshore wind","Dysprosium",3
+"onshore wind","Dysprosium",39
+"onshore wind","Dysprosium",13
+"onshore wind","Dysprosium",2
+"onshore wind","Terbium",30
+"onshore wind","Terbium",9
+"onshore wind","Terbium",2
+"onshore wind","Terbium",24
+"onshore wind","Terbium",7
+"onshore wind","Terbium",1
+"onshore wind","Dysprosium",7.3
+"onshore wind","Neodymium",105.85
+"onshore wind","Yttrium",0.45
+"onshore wind","Yttrium",2
+"onshore wind","Copper",5500
+"onshore wind","Copper",4700
+"onshore wind","Dysprosium",14
+"onshore wind","Dysprosium",13
+"onshore wind","Dysprosium",18
+"onshore wind","Dysprosium",13.3
+"onshore wind","Neodymium",150
+"onshore wind","Neodymium",200
+"onshore wind","Neodymium",195
+"onshore wind","Neodymium",186
+"onshore wind","Nickel",112
+"onshore wind","Steel",98900
+"onshore wind","Steel",120000
+"onshore wind","Dysprosium",11.7
+"onshore wind","Dysprosium",15
+"onshore wind","Neodymium",201.5
+"onshore wind","Neodymium",162.5
+"onshore wind","Dysprosium",13.4
+"onshore wind","Dysprosium",13.4
+"onshore wind","Neodymium",165
+"onshore wind","Neodymium",165
+"onshore wind","Dysprosium",27.7
+"onshore wind","Neodymium",198
+"onshore wind","Steel",115133
+"onshore wind","Steel",116250
+"onshore wind","Steel",108920
+"onshore wind","Steel",117900
+"onshore wind","Aluminum",1733
+"onshore wind","Aluminum",1750
+"onshore wind","Aluminum",1640
+"onshore wind","Aluminum",1800
+"onshore wind","Copper",15267
+"onshore wind","Copper",15350
+"onshore wind","Copper",12680
+"onshore wind","Copper",14233
+"onshore wind","Copper",2733
+"onshore wind","Copper",2520
+"onshore wind","Copper",2500
+"onshore wind","Copper",4800
+"onshore wind","Copper",4609
+"onshore wind","Copper",5067
+"onshore wind","Copper",2440
+"onshore wind","Copper",2514
+"onshore wind","Copper",1567
+"onshore wind","Copper",1571
+"onshore wind","Copper",5560
+"onshore wind","Copper",5643
+"onshore wind","Copper",4917
+"onshore wind","Copper",4896
+"Solar Distributed","Copper",7000
+"Solar Distributed","Aluminum",38500
+"Solar Distributed","Silicon",4
+"Solar Distributed","Silver",20
+"Solar Distributed","Silver",35.6
+"Solar Distributed","Silicon",6629
+"Solar Distributed","Silver",11
+"Solar Distributed","Silver",80
+"Solar Distributed","Lead",5.53
+"Solar Distributed","Lead",6.32
+"Solar Distributed","Nickel",1.3
+"Solar Distributed","Silver",59
+"Solar Distributed","Silver",68.17
+"Solar Distributed","Copper",825
+"Solar Distributed","Copper",943
+"Solar Distributed","Silicon",2930
+"Solar Distributed","Silicon",3450
+"Solar Distributed","Glass",53400
+"Solar Distributed","Steel",56000
+"Solar Distributed","Silicon",7000
+"Solar Distributed","Glass",70000
+"Solar Distributed","Copper",7000
+"Solar Distributed","Cement",4847
+"Solar Distributed","Cement",7520
+"Solar Distributed","Aluminum",19000
+"Solar Distributed","Cement",6497
+"Solar Distributed","Cement",10080
+"Solar Distributed","Silicon",3347
+"Solar Distributed","Silicon",638
+"Solar Distributed","Silicon",2882
+"Solar Distributed","Silicon",6629
+"Solar Distributed","Silver",54.8125
+"Solar Distributed","Silver",38.36875
+"Solar Distributed","Silver",32.53125
+"Solar Distributed","Silver",29.45625
+"Solar Distributed","Silver",10
+"Solar Distributed","Copper",884
+"Solar Distributed","Steel",55900
+"Solar Distributed","Copper",7530
+"Solar Distributed","Cement",6775
+"Solar Distributed","Cement",10512
+"Solar Distributed","Aluminum",19000
+"Solar Distributed","Aluminum",10953
+"Solar Distributed","Copper",2741
+"Solar Distributed","Lead",336
+"Solar Distributed","Magnesium",53.5
+"Solar Distributed","Silicon",3653
+"Solar Distributed","Silver",24
+"Solar Distributed","Tin",577
+"Solar Distributed","Silver",13
+"Solar Distributed","Silver",15
+"Solar Distributed","Silver",18
+"Solar Distributed","Glass",66700
+"Solar Distributed","Nickel",1
+"Solar Distributed","Silver",84
+"Solar Distributed","Silicon",6630
+"Solar Distributed","Silver",36
+"Solar Distributed","Silver",19
+"Solar Distributed","Silver",36
+"Solar Distributed","Copper",300
+"Solar Distributed","Nickel",1.1
+"Solar Distributed","Silicon",3653
+"Solar Distributed","Silver",19
+"Solar Distributed","Silver",10
+"Solar Distributed","Silver",20
+"Solar Distributed","Silver",80
+"Solar Distributed","Lead",6
+"Solar Distributed","Nickel",1.3
+"Solar Distributed","Silicon",6630
+"Solar Distributed","Silver",4
+"Solar Distributed","Silver",47
+"Solar Distributed","Silver",57
+"Solar Distributed","Silver",17
+"Solar Distributed","Copper",250
+"Solar Distributed","Lead",72
+"Solar Distributed","Silver",5
+"Solar Distributed","Silicon",9000
+"Solar Distributed","Copper",825
+"Solar Distributed","Copper",458
+"Solar Distributed","Lead",39
+"Solar Distributed","Nickel",1
+"Solar Distributed","Silicon",6428
+"Solar Distributed","Silver",36
+"Solar Distributed","Silver",30
+"NGGT","Nickel",8
+"NGGT","Manganese",199
+"NGGT","Copper",471
+"NGGT","Nickel",11
+"NGGT","Manganese",124
+"NGGT","Copper",500
+"NGGT","Copper",538
+"NGGT","Steel",31030
+"NGGT","Cement",11403
+"NGGT","Cement",15640
+"NGGT","Aluminum",204
+"NGGT","Steel",51130
+"NGGT","Cement",7350
+"NGGT","Cement",10080
+"NGGT","Aluminum",230
+"NGGT","Nickel",10
+"NGGT","Manganese",112
+"NGGT","Copper",454
+"Gas","Nickel",8
+"Gas","Manganese",199
+"Gas","Copper",471
+"Gas","Nickel",11
+"Gas","Manganese",124
+"Gas","Copper",500
+"Gas","Copper",538
+"Gas","Steel",31030
+"Gas","Cement",11403
+"Gas","Cement",15640
+"Gas","Aluminum",204
+"Gas","Steel",51130
+"Gas","Cement",7350
+"Gas","Cement",10080
+"Gas","Aluminum",230
+"Gas","Nickel",10
+"Gas","Manganese",112
+"Gas","Copper",454

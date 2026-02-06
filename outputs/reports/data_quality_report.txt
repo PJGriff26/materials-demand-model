@@ -1,0 +1,138 @@
+================================================================================
+MATERIAL INTENSITY DATA QUALITY REPORT
+================================================================================
+
+Total records: 1326
+Technologies: 21
+Materials: 31
+Tech-Material combinations: 169
+
+--------------------------------------------------------------------------------
+KNOWN DATA CORRECTIONS (will be applied automatically)
+--------------------------------------------------------------------------------
+  CIGS / Indium: 44155 → 44.155 (2 occurrences)
+    Reason: Decimal placement error: 1000x too high vs other CIGS Indium values (5-83 kg/MW)
+  utility-scale solar pv / Silicon: 4 → 4000 (1 occurrences)
+    Reason: Decimal placement error: 1000x too low vs other solar Silicon values (median 3653 kg/MW)
+  Solar Distributed / Silicon: 4 → 4000 (1 occurrences)
+    Reason: Decimal placement error: 1000x too low vs other solar Silicon values (median 3653 kg/MW)
+
+--------------------------------------------------------------------------------
+STATISTICAL OUTLIERS (flagged for review)
+--------------------------------------------------------------------------------
+  CIGS / Indium: 44155.00
+    Median: 23.00, Ratio: 1919.8x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]; Z-score: 6.08; Ratio: 1919.8x median
+  CIGS / Indium: 44155.00
+    Median: 23.00, Ratio: 1919.8x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]; Z-score: 6.08; Ratio: 1919.8x median
+  CIGS / Cadmium: 265.00
+    Median: 1.30, Ratio: 203.8x, N=3
+    Flagged: Ratio: 203.8x median
+  CIGS / Copper: 7530.00
+    Median: 250.00, Ratio: 30.1x, N=13
+    Flagged: IQR: outside [-1262.00, 1734.00]
+  CIGS / Copper: 7000.00
+    Median: 250.00, Ratio: 28.0x, N=13
+    Flagged: IQR: outside [-1262.00, 1734.00]
+  CIGS / Copper: 7000.00
+    Median: 250.00, Ratio: 28.0x, N=13
+    Flagged: IQR: outside [-1262.00, 1734.00]
+  CIGS / Gallium: 124.00
+    Median: 6.70, Ratio: 18.5x, N=41
+    Flagged: IQR: outside [-14.20, 26.40]; Z-score: 4.33
+  CIGS / Gallium: 124.00
+    Median: 6.70, Ratio: 18.5x, N=41
+    Flagged: IQR: outside [-14.20, 26.40]; Z-score: 4.33
+  Solar Distributed / Lead: 336.00
+    Median: 22.66, Ratio: 14.8x, N=6
+    Flagged: IQR: outside [-166.93, 236.76]
+  utility-scale solar pv / Lead: 336.00
+    Median: 22.66, Ratio: 14.8x, N=6
+    Flagged: IQR: outside [-166.93, 236.76]
+  offshore wind / Aluminum: 9400.00
+    Median: 1030.00, Ratio: 9.1x, N=20
+    Flagged: IQR: outside [-4977.00, 7854.00]
+  onshore wind / Aluminum: 13200.00
+    Median: 1660.00, Ratio: 8.0x, N=38
+    Flagged: IQR: outside [-4057.25, 6798.00]; Z-score: 4.93
+  onshore wind / Copper: 15350.00
+    Median: 2520.00, Ratio: 6.1x, N=102
+    Flagged: IQR: outside [-6271.75, 12889.00]; Z-score: 4.34
+  onshore wind / Copper: 15267.00
+    Median: 2520.00, Ratio: 6.1x, N=102
+    Flagged: IQR: outside [-6271.75, 12889.00]; Z-score: 4.31
+  onshore wind / Copper: 14233.00
+    Median: 2520.00, Ratio: 5.6x, N=102
+    Flagged: IQR: outside [-6271.75, 12889.00]
+  CdTe / Tellurium: 500.00
+    Median: 90.00, Ratio: 5.6x, N=55
+    Flagged: IQR: outside [-98.00, 259.00]; Z-score: 5.22
+  CIGS / Gallium: 29.00
+    Median: 6.70, Ratio: 4.3x, N=41
+    Flagged: IQR: outside [-14.20, 26.40]
+  offshore wind / Steel: 917224.00
+    Median: 221335.00, Ratio: 4.1x, N=20
+    Flagged: IQR: outside [-396875.00, 888500.00]
+  CIGS / Indium: 84.00
+    Median: 23.00, Ratio: 3.7x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]
+  CIGS / Indium: 83.00
+    Median: 23.00, Ratio: 3.6x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]
+  CIGS / Indium: 83.00
+    Median: 23.00, Ratio: 3.6x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]
+  CIGS / Indium: 83.00
+    Median: 23.00, Ratio: 3.6x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]
+  CIGS / Indium: 83.00
+    Median: 23.00, Ratio: 3.6x, N=76
+    Flagged: IQR: outside [-30.75, 76.00]
+  offshore wind / Nickel: 376.57
+    Median: 111.00, Ratio: 3.4x, N=4
+    Flagged: IQR: outside [-88.18, 376.57]
+  CdTe / Cadmium: 244.26
+    Median: 78.00, Ratio: 3.1x, N=40
+    Flagged: IQR: outside [-53.50, 193.25]
+  CdTe / Cadmium: 244.00
+    Median: 78.00, Ratio: 3.1x, N=40
+    Flagged: IQR: outside [-53.50, 193.25]
+  CdTe / Tellurium: 260.00
+    Median: 90.00, Ratio: 2.9x, N=55
+    Flagged: IQR: outside [-98.00, 259.00]
+
+--------------------------------------------------------------------------------
+SUSPICIOUS PATTERNS (potential unit errors)
+--------------------------------------------------------------------------------
+  Solar Distributed / Silicon: 4.0
+    Issue: Possible unit error: ~1/1000 of median (0.001095x)
+    Suggested: 4.0 → 4000.000
+  utility-scale solar pv / Silicon: 4.0
+    Issue: Possible unit error: ~1/1000 of median (0.001095x)
+    Suggested: 4.0 → 4000.000
+
+--------------------------------------------------------------------------------
+SUMMARY BY TECHNOLOGY
+--------------------------------------------------------------------------------
+  ASIGE: 15 records, 5 materials, 0 outliers
+  Bio CCS: 13 records, 6 materials, 0 outliers
+  Biomass: 14 records, 6 materials, 0 outliers
+  CDTE: 15 records, 5 materials, 0 outliers
+  CIGS: 187 records, 12 materials, 14 outliers
+  CSP: 16 records, 8 materials, 0 outliers
+  CdTe: 112 records, 9 materials, 4 outliers
+  Coal: 29 records, 6 materials, 0 outliers
+  Coal CCS: 30 records, 6 materials, 0 outliers
+  Gas: 18 records, 6 materials, 0 outliers
+  Gas CCS: 18 records, 6 materials, 0 outliers
+  Geothermal: 26 records, 4 materials, 0 outliers
+  Hydro: 16 records, 4 materials, 0 outliers
+  NGCC: 18 records, 6 materials, 0 outliers
+  NGGT: 18 records, 6 materials, 0 outliers
+  Nuclear New: 36 records, 7 materials, 0 outliers
+  Solar Distributed: 84 records, 11 materials, 1 outliers
+  a-Si: 30 records, 10 materials, 0 outliers
+  offshore wind: 180 records, 16 materials, 3 outliers
+  onshore wind: 367 records, 19 materials, 4 outliers
+  utility-scale solar pv: 84 records, 11 materials, 1 outliers

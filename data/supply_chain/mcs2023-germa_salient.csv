@@ -1,0 +1,6 @@
+﻿DataSource,Commodity,Year,USprod_Primary_kg,USprod_Secondary_kg,Imports_Metal_kg,Imports_GeO2_kg,Exports_kg,Shipments_Gov_kg,Consump_kg,Price_Metal_dkg,Price_GeO2_dkg,NIR_pct
+MCS2023,Germanium,2018,0,W,10000,12000,3600,0,30000,1543,1084,>50
+MCS2023,Germanium,2019,0,W,14000,21000,4500,0,30000,1236,913,>50
+MCS2023,Germanium,2020,0,W,14000,12000,4800,0,30000,1046,724,>50
+MCS2023,Germanium,2021,0,W,13000,17000,7500,0,30000,1187,770,>50
+MCS2023,Germanium,2022,0,W,14000,15000,5800,0,30000,1300,840,>50
