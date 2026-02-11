@@ -23,7 +23,7 @@ from scipy.stats import spearmanr
 from pathlib import Path
 
 from config import (
-    FIGURES_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
+    FIGURES_DIMRED_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
     FIGSIZE_STANDARD, FIGSIZE_WIDE
 )
 
@@ -31,7 +31,7 @@ from config import (
 def _save(fig, stem):
     """Save figure in all configured formats."""
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
+        fig.savefig(FIGURES_DIMRED_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
 
 
 def load_features():
@@ -891,10 +891,11 @@ def main():
     print(f"  Materials: {material_feats.shape}")
 
     # Analyze scenarios (n/p ratio is acceptable)
+    # Scree analysis: 4 PCs reach 80% cumulative variance
     scenario_results = analyze_dataset(
         scenario_feats,
         "scenarios",
-        n_components=5,
+        n_components=4,
         spca_alpha=1.0
     )
 
@@ -911,7 +912,7 @@ def main():
     print("ANALYSIS COMPLETE")
     print("=" * 70)
     print(f"\nOutputs saved to:")
-    print(f"  Figures: {FIGURES_DIR}")
+    print(f"  Figures: {FIGURES_DIMRED_DIR}")
     print(f"  Data: {RESULTS_DIR}")
     print("\nKey findings:")
 

@@ -10,13 +10,13 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score, silhouette_samples
-from config import FIGURES_DIR, FIGURE_DPI, FIGURE_FORMAT, FIGSIZE_STANDARD, FIGSIZE_WIDE
+from config import FIGURES_KMEANS_DIR, FIGURE_DPI, FIGURE_FORMAT, FIGSIZE_STANDARD, FIGSIZE_WIDE
 
 
 def _save(fig, stem):
     """Save figure in all configured formats."""
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
+        fig.savefig(FIGURES_KMEANS_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
 
 
 # ── Elbow / silhouette sweep ──────────────────────────────────────────────────
@@ -140,8 +140,12 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
         ax_table.axis("off")
         rf = raw_features.copy()
         rf["cluster"] = labels
-        # Restrict to features used in clustering
+        # Restrict to features used in clustering; if none match (e.g. SPCA
+        # scores), fall back to all numeric raw-feature columns.
         surviving = [f for f in feature_names if f in rf.columns]
+        if not surviving:
+            surviving = [c for c in rf.select_dtypes("number").columns
+                         if c != "cluster"]
         medians = rf.groupby("cluster")[surviving].median()
 
         # Short display names for readability
@@ -328,8 +332,12 @@ def plot_pca_biplot_centroid_labels(X, labels, feature_names, name, entity_names
         ax_table.axis("off")
         rf = raw_features.copy()
         rf["cluster"] = labels
-        # Restrict to features used in clustering
+        # Restrict to features used in clustering; if none match (e.g. SPCA
+        # scores), fall back to all numeric raw-feature columns.
         surviving = [f for f in feature_names if f in rf.columns]
+        if not surviving:
+            surviving = [c for c in rf.select_dtypes("number").columns
+                         if c != "cluster"]
         medians = rf.groupby("cluster")[surviving].median()
 
         # Short display names for readability

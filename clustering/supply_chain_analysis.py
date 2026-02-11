@@ -16,7 +16,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from config import (
-    DEMAND_FILE, RISK_INPUTS_FILE, FIGURES_DIR,
+    DEMAND_FILE, RISK_INPUTS_FILE, FIGURES_SUPPLY_CHAIN_DIR,
     DEMAND_TO_RISK, FIGURE_DPI, FIGURE_FORMAT,
 )
 
@@ -208,7 +208,7 @@ def fig3_demand_sourcing(demand, risk):
 
     fig.tight_layout()
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"fig3_demand_sourcing.{fmt}", dpi=FIGURE_DPI,
+        fig.savefig(FIGURES_SUPPLY_CHAIN_DIR / f"fig3_demand_sourcing.{fmt}", dpi=FIGURE_DPI,
                     bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved fig3_demand_sourcing")
@@ -292,7 +292,7 @@ def fig4_reserve_adequacy(demand, risk):
 
     fig.tight_layout()
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"fig4_reserve_adequacy.{fmt}", dpi=FIGURE_DPI,
+        fig.savefig(FIGURES_SUPPLY_CHAIN_DIR / f"fig4_reserve_adequacy.{fmt}", dpi=FIGURE_DPI,
                     bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved fig4_reserve_adequacy")
@@ -379,7 +379,7 @@ def fig4_reserve_adequacy_max(demand, risk):
 
     fig.tight_layout()
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"fig4_reserve_adequacy_max.{fmt}", dpi=FIGURE_DPI,
+        fig.savefig(FIGURES_SUPPLY_CHAIN_DIR / f"fig4_reserve_adequacy_max.{fmt}", dpi=FIGURE_DPI,
                     bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved fig4_reserve_adequacy_max")
@@ -479,7 +479,7 @@ def fig4_reserve_adequacy_us(demand, risk):
 
     fig.tight_layout()
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"fig4_reserve_adequacy_us.{fmt}", dpi=FIGURE_DPI,
+        fig.savefig(FIGURES_SUPPLY_CHAIN_DIR / f"fig4_reserve_adequacy_us.{fmt}", dpi=FIGURE_DPI,
                     bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved fig4_reserve_adequacy_us")
@@ -588,7 +588,7 @@ def figSI_production_shares_crc(risk):
 
     fig.tight_layout()
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"figSI_production_shares_crc.{fmt}", dpi=FIGURE_DPI,
+        fig.savefig(FIGURES_SUPPLY_CHAIN_DIR / f"figSI_production_shares_crc.{fmt}", dpi=FIGURE_DPI,
                     bbox_inches="tight")
     plt.close(fig)
     print(f"  Saved figSI_production_shares_crc")

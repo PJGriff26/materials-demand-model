@@ -68,7 +68,7 @@ The following files were **not copied** as they were duplicates, demos with " co
 
 ---
 
-## Current Repository Structure (Updated February 2026)
+## Current Repository Structure (Updated February 8, 2026)
 
 ```
 materials_demand_model/
@@ -100,12 +100,15 @@ materials_demand_model/
 │   ├── config.py                # Configuration settings
 │   ├── feature_engineering.py   # Scenario/material features
 │   ├── preprocessing.py         # Data preprocessing (VIF, scaling)
-│   ├── main_analysis.py         # K-means clustering
-│   ├── visualization.py         # Clustering visualizations
-│   ├── pca_feature_importance.py # PCA analysis
-│   ├── sparse_nmf_analysis.py   # Sparse PCA and NMF
-│   ├── sparse_pca_story.py      # Sparse PCA interpretation
-│   └── supply_chain_analysis.py # Supply chain risk analysis
+│   ├── clustering.py            # ClusterAnalyzer class (K-means)
+│   ├── main_analysis.py         # Production clustering pipeline (SPCA → K-means)
+│   ├── visualization.py         # Per-cluster visualizations
+│   ├── pca_feature_importance.py # Standard PCA analysis
+│   ├── sparse_nmf_analysis.py   # Sparse PCA, NMF, method comparison
+│   ├── sparse_pca_story.py      # Sparse PCA interpretation & story figures
+│   ├── factor_analysis.py       # Factor Analysis module (NEW Feb 2026)
+│   ├── clustering_comparison.py # 4-method clustering comparison (NEW Feb 2026)
+│   └── supply_chain_analysis.py # Supply chain risk analysis (CRC sourcing)
 │
 ├── visualizations/               # Visualization scripts
 │   ├── manuscript_figures.py    # Publication figures
@@ -130,10 +133,18 @@ materials_demand_model/
 │
 ├── outputs/                      # Generated results
 │   ├── data/                    # CSV outputs
-│   │   ├── clustering/          # Cluster results
+│   │   ├── clustering/          # Cluster results & feature CSVs
+│   │   │   └── comparison/      # 4-method comparison metrics & labels
 │   │   └── sensitivity/         # Sensitivity analysis results
 │   ├── figures/                 # Visualization outputs
-│   │   ├── clustering/          # Cluster visualizations
+│   │   ├── clustering/          # Cluster visualizations (organized by analysis)
+│   │   │   ├── kmeans/          # Elbow, silhouette, biplot, profiles
+│   │   │   ├── pca_analysis/    # Scree, loadings, feature importance
+│   │   │   ├── dimensionality_reduction/  # Sparse PCA, NMF, method comparison
+│   │   │   ├── spca_story/      # Sparse PCA interpretation & quadrants
+│   │   │   ├── supply_chain/    # CRC sourcing, reserve adequacy
+│   │   │   ├── factor_analysis/ # FA loadings & communalities
+│   │   │   └── comparison/      # 4-method clustering comparison
 │   │   ├── exploratory/         # EDA figures
 │   │   ├── manuscript/          # Publication figures
 │   │   ├── sensitivity/         # Sensitivity figures
@@ -144,7 +155,10 @@ materials_demand_model/
     ├── variable_reference.csv   # All variables documented
     ├── visualization_inventory.csv  # All figures documented
     ├── SI_methodology.md        # Supplementary methods
-    └── [technical docs]         # Various technical docs
+    ├── README_VISUALIZATION_TOOLS.md  # Visualization tools guide
+    ├── README_supply_chain_risk.md    # Supply chain analysis docs
+    └── archive/                 # Superseded diagnostic documents
+        └── [old diagnostic .md files]
 ```
 
 ---

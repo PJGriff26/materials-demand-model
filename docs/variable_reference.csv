@@ -97,7 +97,15 @@ VIF,Preprocessing,dimensionless,Variance Inflation Factor for multicollinearity,
 RANDOM_SEED,Clustering Config,integer,Random seed for reproducibility,42,N/A - configured
 K_RANGE,Clustering Config,range,Range of cluster numbers to test,range(2 11) = k=2 to k=10,N/A - configured
 N_INIT,Clustering Config,integer,Number of k-means random initializations,20,N/A - configured
-VIF_THRESHOLD,Clustering Config,dimensionless,Maximum allowed VIF before dropping feature,10.0,N/A - configured
+VIF_THRESHOLD,Clustering Config,dimensionless,Maximum allowed VIF before dropping feature (legacy — not used in SPCA pipeline),10.0,N/A - configured
+SPC1-SPC5 (materials),Sparse PCA Scores,z-score,Five sparse principal components for materials: Demand Scale / Geopolitical Risk / Reserve Geography / Import Concentration / Capacity Stress,SparsePCA(n_components=5 alpha=2.0) on standardized material features,material_features_raw.csv → spca_scores_materials.csv
+SPC1-SPC4 (scenarios),Sparse PCA Scores,z-score,Four sparse principal components for scenarios: Demand Scale & Wind / Demand Uncertainty / Supply Chain Stress / Solar & Storage Mix,SparsePCA(n_components=4 alpha=1.0) on standardized scenario features,scenario_features_raw.csv → spca_scores_scenarios.csv
+FA1-FA5 (materials),Factor Analysis Scores,z-score,Five latent factors for materials extracted by FactorAnalysis,FactorAnalysis(n_components=5 max_iter=1000) on standardized material features,material_features_raw.csv → fa_scores_materials.csv
+FA1-FA4 (scenarios),Factor Analysis Scores,z-score,Four latent factors for scenarios extracted by FactorAnalysis,FactorAnalysis(n_components=4 max_iter=1000) on standardized scenario features,scenario_features_raw.csv → fa_scores_scenarios.csv
+communality,Factor Analysis Diagnostic,dimensionless (0-1),Fraction of feature variance explained by latent factors,sum(loading_ij²) across all factors j for feature i,fa_communalities_*.csv
+uniqueness,Factor Analysis Diagnostic,dimensionless (0-1),Feature-specific noise variance not explained by factors,fa.noise_variance_ per feature,fa_communalities_*.csv
+pairwise_ari,Comparison Metric,dimensionless (-1 to 1),Adjusted Rand Index between cluster labels from two methods,adjusted_rand_score(labels_method_i labels_method_j),comparison_pairwise_ari_*.csv
+cluster_balance,Comparison Metric,dimensionless (0-1),Evenness of cluster sizes,1 - (max_size - min_size) / n_entities,comparison_metrics_*.csv
 SILHOUETTE_THRESHOLD,Clustering Config,dimensionless,Minimum silhouette score for valid clustering,0.5,N/A - configured
 ARI_THRESHOLD,Clustering Config,dimensionless,Minimum Adjusted Rand Index for stability,0.8,N/A - configured
 intensity_data.csv,Raw Data File,N/A,Material intensity values by technology from literature review,Contains: technology Material value (t/GW),Literature compilation
@@ -149,4 +157,13 @@ outputs/figures/manuscript/,Output Directory,N/A,Publication-quality figures (fi
 outputs/figures/supply_chain/,Output Directory,N/A,Supply chain risk visualizations (risk ranking heatmap),PNG format + CSV summary,risk_ranking_chart.py
 outputs/data/clustering/,Output Directory,N/A,Clustering results (features clusters profiles VIF),CSV and TXT formats,clustering/main_analysis.py
 outputs/data/sensitivity/,Output Directory,N/A,Sensitivity analysis results (technology contributions),CSV format,Sensitivity analysis scripts
+outputs/figures/clustering/comparison/,Output Directory,N/A,Clustering method comparison visualizations,PNG and PDF formats,clustering/clustering_comparison.py
+outputs/data/clustering/comparison/,Output Directory,N/A,Clustering comparison metrics and label CSVs,CSV and TXT formats,clustering/clustering_comparison.py
+fa_scores_*.csv,Output Data File,N/A,Factor Analysis scores for scenarios/materials,Columns: entity FA1 FA2 ... FAn,clustering/factor_analysis.py
+fa_loadings_*.csv,Output Data File,N/A,Factor Analysis loading matrix,Rows: features; Columns: FA1 FA2 ... FAn,clustering/factor_analysis.py
+fa_communalities_*.csv,Output Data File,N/A,Factor Analysis communalities per feature,Columns: feature communality uniqueness,clustering/factor_analysis.py
+comparison_metrics_*.csv,Output Data File,N/A,Clustering comparison metrics per method,Columns: method n_input_features optimal_k silhouette stability_ari ...,clustering/clustering_comparison.py
+comparison_pairwise_ari_*.csv,Output Data File,N/A,4x4 pairwise ARI matrix between methods,Rows/Columns: VIF-Pruned PCA Sparse PCA Factor Analysis,clustering/clustering_comparison.py
+comparison_labels_*.csv,Output Data File,N/A,Entity cluster labels per method,Columns: entity VIF-Pruned PCA Sparse PCA Factor Analysis,clustering/clustering_comparison.py
+comparison_summary_report.txt,Output Report,N/A,Human-readable clustering comparison summary with recommendation,Method comparison tables + pairwise ARI + recommendation,clustering/clustering_comparison.py
 visualization_inventory.csv,Documentation,N/A,Inventory of all visualizations with input variables and data sources,Columns: Visualization Name / Output Path / Category / X-axis / Y-axis / Color / Additional Variables / Data Source / Script,docs/visualization_inventory.csv

@@ -19,7 +19,7 @@ from sklearn.preprocessing import StandardScaler
 from pathlib import Path
 
 from config import (
-    FIGURES_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
+    FIGURES_PCA_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
     FIGSIZE_STANDARD, FIGSIZE_WIDE
 )
 
@@ -27,7 +27,7 @@ from config import (
 def _save(fig, stem):
     """Save figure in all configured formats."""
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
+        fig.savefig(FIGURES_PCA_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
 
 
 def load_features():
@@ -423,7 +423,7 @@ def main():
     print("ANALYSIS COMPLETE")
     print("=" * 70)
     print(f"\nOutputs saved to:")
-    print(f"  Figures: {FIGURES_DIR}")
+    print(f"  Figures: {FIGURES_PCA_DIR}")
     print(f"  Data: {RESULTS_DIR}")
     print("\nKey outputs:")
     print("  - scree_plot_*.png: Explained variance by component")

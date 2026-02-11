@@ -1,0 +1,241 @@
+================================================================================
+CRITICAL FINDINGS: RESULTS AND CONCLUSIONS
+================================================================================
+Materials Demand Monte Carlo Simulation Model
+Stock-Flow Model | 10,000 Iterations | 61 NREL Standard Scenarios | 2026-2050
+
+
+1. DEMAND MAGNITUDE AND TEMPORAL DYNAMICS
+--------------------------------------------------------------------------------
+
+The stock-flow Monte Carlo simulation (10,000 iterations, 61 NREL Standard
+Scenarios, 2026-2050) reveals that U.S. clean energy deployment will generate
+material demand at industrial scales that challenge existing supply chains.
+Across all scenarios, median annual material demand peaks around 2032-2035,
+driven by the front-loaded deployment wave required to meet mid-century
+decarbonization targets, then declines as the capacity stock matures and net
+additions diminish.
+
+Peak-year median demands (2035, all-scenario aggregate):
+
+  Material        Median Demand (tonnes)     95% CI
+  ---------------------------------------------------------------
+  Steel           1.95 billion               [1.53B, 2.44B]
+  Cement          706 million                [544M, 866M]
+  Glass           474 million                [426M, 519M]
+  Aluminum        134 million                [100M, 235M]
+  Copper          45 million                 [24M, 105M]
+  Silicon         30 million                 [7.7M, 53M]
+
+Critically, demand is not sustained at peak levels. By 2050, median steel
+demand falls to 584 million tonnes (30% of peak), and copper falls to 14
+million tonnes (31% of peak). This temporal concentration -- a deployment
+"pulse" rather than a plateau -- has important implications for supply chain
+investment: infrastructure built to meet 2030s demand may face
+underutilization by the 2040s.
+
+
+2. SUPPLY CHAIN BOTTLENECKS: WHERE DEMAND EXCEEDS PRODUCTION
+--------------------------------------------------------------------------------
+
+Comparing 2035 median demands to current U.S. production capacity reveals
+several materials where projected demand vastly exceeds domestic supply:
+
+  Material        Demand-to-Production Ratio     Import Reliance
+  ---------------------------------------------------------------
+  Rare Earths     231-391x production            98%
+  Vanadium        22-24x production              64%
+  Zinc            3.2-5.7x production            81%
+  Tin             2.4x production                77%
+  Manganese       No domestic production         100%
+  Niobium         No domestic production         100%
+
+For bulk materials, the picture is more nuanced. Steel demand (35,590 kMT in
+Mid_Case) represents only 43% of current U.S. production capacity (82,980
+kMT), suggesting steel is not a binding constraint. Aluminum demand (2,151
+kMT) is 87% of domestic production, tight but manageable. However, copper
+demand is the critical bulk-material bottleneck: its 95% confidence interval
+spans a 4.4x range [24M, 105M tonnes], reflecting deep uncertainty in
+material intensity data (87% of copper's total variance is within-scenario,
+i.e., driven by intensity uncertainty rather than scenario choice).
+
+
+3. UNCERTAINTY DECOMPOSITION: WHAT DRIVES DEMAND UNCERTAINTY
+--------------------------------------------------------------------------------
+
+The variance decomposition reveals a fundamental structural finding: on a
+demand-weighted basis, scenario uncertainty (68.9%) dominates intensity
+uncertainty (31.1%), meaning that which energy pathway the U.S. follows
+matters more than how much material each MW of capacity requires. However,
+this aggregate masks a critical bifurcation:
+
+Materials dominated by scenario uncertainty (>80% between-scenario variance):
+  - Manganese (99.7%), Zinc (94.3%), Lead (94.2%), Niobium (94.4%),
+    Tin (92.7%), Fiberglass (90.9%), Glass (90.7%), Magnesium (92.7%)
+  - These materials have well-characterized intensities but demand volumes
+    that depend heavily on which technologies are deployed.
+
+Materials dominated by intensity uncertainty (>70% within-scenario variance):
+  - Copper (87.0%), Tellurium (92.4%), Silicon (85.8%), Cadmium (89.9%),
+    Praseodymium (95.7%), Dysprosium (96.2%), Gallium (97.7%),
+    Selenium (94.2%)
+  - For these materials, improving the precision of material intensity data
+    would substantially reduce demand forecast uncertainty, regardless of
+    scenario.
+
+This has a direct policy implication: for copper and critical minerals like
+tellurium and rare earth elements, the marginal value of better engineering
+data on material content per MW exceeds the marginal value of scenario
+refinement. For steel, cement, and zinc, the reverse is true -- scenario
+assumptions drive nearly all uncertainty.
+
+
+4. SENSITIVITY ANALYSIS: WHICH PARAMETERS MATTER MOST
+--------------------------------------------------------------------------------
+
+Spearman rank correlations (n=1,000 Monte Carlo iterations) identify 30
+technology-material pairs with strong monotonic relationships (|rho| >= 0.7)
+between sampled intensity and resulting demand. The top-ranked parameters by
+both Spearman correlation and intensity elasticity converge on the same set
+of critical relationships:
+
+Single-source dependencies (rho = 1.0, elasticity = 100%):
+  - Selenium, Gadolinium, Gallium --> exclusively from CIGS thin-film solar
+  - Yttrium --> exclusively from onshore wind
+  - Tellurium, Cadmium --> predominantly from CdTe solar (>91%)
+
+Near-monopoly technology dependencies (rho > 0.97, elasticity > 85%):
+  - Zinc: 98% from onshore wind
+  - Terbium, Niobium: 93-94% from onshore wind
+  - Fiberglass, Lead: 93% from onshore wind
+  - Neodymium, Dysprosium: 91% from onshore wind
+  - Silicon, Silver, Magnesium: 86-88% from utility-scale solar PV
+
+The dominance of onshore wind as the single largest demand driver for 15+
+materials, and utility-scale solar PV for another cluster, means that
+technology-specific policy decisions (e.g., favoring offshore vs. onshore
+wind, or crystalline silicon vs. thin-film solar) propagate directly into
+material demand profiles. A 6/10 agreement rate between the elasticity-based
+and Spearman-based rankings confirms the robustness of these findings across
+analytical methods.
+
+
+5. GEOPOLITICAL SUPPLY CHAIN RISK
+--------------------------------------------------------------------------------
+
+The supply chain risk analysis reveals a tiered risk structure:
+
+Extreme risk (composite > 0.80):
+  Yttrium (0.95) and Rare Earths (0.81) combine near-total import
+  dependence, extreme China concentration (74-94% of imports), high
+  geopolitical risk, and high source concentration. These materials are
+  used in permanent magnets essential for wind turbines.
+
+High risk (composite 0.40-0.52):
+  Manganese (0.52), Niobium (0.50), Chromium (0.45), Tin (0.42),
+  Vanadium (0.40) all exhibit 100% or near-total import dependence
+  combined with elevated geopolitical risk.
+
+Moderate risk with volume concerns (composite 0.29-0.37):
+  Zinc (0.35), Silver (0.37), and Aluminum (0.29) present moderate risk
+  profiles but at enormous absolute volumes, where even small supply
+  disruptions translate to large tonnage shortfalls.
+
+The intersection of high demand volume, high demand uncertainty, and high
+supply chain risk identifies rare earth elements, vanadium, zinc, and
+manganese as the materials posing the greatest compounded risk to U.S. clean
+energy deployment.
+
+
+6. SCENARIO CLUSTERING AND POLICY PATHWAYS
+--------------------------------------------------------------------------------
+
+K-means clustering (k=4, silhouette=0.47) partitions the 61 NREL scenarios
+into four distinct demand archetypes differentiated primarily by demand
+trajectory slope, temporal concentration, and energy storage deployment
+fraction:
+
+  Cluster 2 (aggressive decarbonization, e.g., CO2e_100by2035):
+    Highest cumulative demand (293M tonnes), peak demand near 98M tonnes,
+    high wind penetration. These scenarios front-load deployment most
+    aggressively.
+
+  Cluster 3 (high hydrogen / no-IRA scenarios):
+    Highest cumulative demand (303M tonnes) but more evenly distributed
+    temporally, with lower storage fractions and higher import-exposed
+    demand.
+
+  Cluster 1 (baseline / moderate scenarios):
+    The largest cluster, moderate demand levels (270M cumulative), peak
+    around 2032.
+
+  Cluster 0 (conservative / constrained scenarios):
+    Lowest peak demand, but high temporal concentration.
+
+The policy implication: accelerated decarbonization timelines (2035 vs. 2050
+targets) do not merely scale demand upward -- they compress the deployment
+pulse, creating more acute short-term supply chain stress even if cumulative
+demand differs modestly.
+
+
+7. CONCLUSIONS FOR ENERGY POLICY
+--------------------------------------------------------------------------------
+
+1. Material supply chains will not be the binding constraint for bulk
+   materials (steel, cement, glass), where existing production capacity
+   exceeds projected demand. However, specialty and critical minerals face
+   potential multi-decade bottlenecks that require proactive policy
+   intervention.
+
+2. The single most important material supply chain risk is the concentration
+   of critical mineral demand in onshore wind technology. Fifteen materials
+   derive >80% of their energy-transition demand from onshore wind alone.
+   Diversifying technology pathways (offshore wind, alternative generator
+   designs, reduced-rare-earth motors) is a direct material security
+   strategy.
+
+3. For copper, silicon, and thin-film solar materials, the priority is data
+   quality improvement, not scenario analysis. These materials' forecast
+   uncertainty is dominated by intensity parameter uncertainty, meaning
+   better engineering characterization of material content per MW of
+   installed capacity will narrow confidence intervals more than any
+   refinement of deployment scenarios.
+
+4. The temporal "pulse" of demand peaking in the early-to-mid 2030s creates
+   a planning dilemma: supply chain investments made to meet near-term
+   demand spikes may face 50-70% demand declines by 2050 as deployment
+   rates mature. Policymakers and industry should plan for a ramp-up /
+   ramp-down cycle rather than sustained peak demand.
+
+5. China and geopolitical concentration risk is most acute for permanent
+   magnet materials (rare earths, yttrium) essential to wind power. Domestic
+   processing capacity, strategic reserves, and allied-nation supply
+   diversification are warranted for materials scoring above 0.80 on the
+   composite risk index.
+
+
+================================================================================
+DATA SOURCES
+================================================================================
+
+All findings derived from model outputs:
+  - outputs/data/material_demand_summary.csv
+  - outputs/data/material_demand_by_scenario.csv
+  - outputs/data/demand_vs_production_comparison.csv
+  - outputs/data/sensitivity/variance_decomposition.csv
+  - outputs/data/sensitivity/spearman_sensitivity.csv
+  - outputs/data/sensitivity/intensity_elasticity.csv
+  - outputs/data/sensitivity/technology_contributions.csv
+  - outputs/data/sensitivity/scenario_sensitivity.csv
+  - outputs/data/clustering/scenario_clusters.csv
+  - outputs/data/clustering/scenario_cluster_profiles.csv
+  - outputs/figures/supply_chain/risk_scores_by_material.csv
+
+Model: Stock-flow Monte Carlo (10,000 iterations)
+Capacity data: NREL Standard Scenarios (61 scenarios)
+Intensity data: NREL material intensity database (1,326 records)
+Risk data: USGS mineral commodity summaries
+
+================================================================================
+END OF FINDINGS
+================================================================================

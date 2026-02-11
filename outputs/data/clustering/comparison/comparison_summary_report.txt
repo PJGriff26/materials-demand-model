@@ -1,0 +1,74 @@
+======================================================================
+CLUSTERING COMPARISON SUMMARY REPORT
+======================================================================
+
+
+──────────────────────────────────────────────────
+  SCENARIOS
+──────────────────────────────────────────────────
+
+  Method Comparison:
+  Method                 k   Silhouette    Stability   Features
+  ─────────────────────────────────────────────────────────
+  VIF-Pruned             6        0.559        0.916          2
+  PCA                    6        0.459        0.755          4
+  Sparse PCA             3        0.458        0.716          4
+  Factor Analysis        6        0.477        0.708          4
+
+  Best silhouette: VIF-Pruned (0.559)
+  Best stability:  VIF-Pruned (0.916)
+
+  Pairwise ARI between methods:
+                 VIF-Pruned    PCA  Sparse PCA  Factor Analysis
+VIF-Pruned            1.000  0.459       0.389            0.538
+PCA                   0.459  1.000       0.532            0.558
+Sparse PCA            0.389  0.532       1.000            0.550
+Factor Analysis       0.538  0.558       0.550            1.000
+
+  Mean pairwise ARI (agreement with other methods):
+    Factor Analysis      0.549
+    PCA                  0.516
+    Sparse PCA           0.490
+    VIF-Pruned           0.462
+
+──────────────────────────────────────────────────
+  MATERIALS
+──────────────────────────────────────────────────
+
+  Method Comparison:
+  Method                 k   Silhouette    Stability   Features
+  ─────────────────────────────────────────────────────────
+  VIF-Pruned             6        0.373        0.590         10
+  PCA                    7        0.436        0.723          6
+  Sparse PCA             6        0.519        0.707          5
+  Factor Analysis        7        0.478        0.727          5
+
+  Best silhouette: Sparse PCA (0.519)
+  Best stability:  Factor Analysis (0.727)
+
+  Pairwise ARI between methods:
+                 VIF-Pruned    PCA  Sparse PCA  Factor Analysis
+VIF-Pruned            1.000  0.734       0.713            0.466
+PCA                   0.734  1.000       0.813            0.525
+Sparse PCA            0.713  0.813       1.000            0.545
+Factor Analysis       0.466  0.525       0.545            1.000
+
+  Mean pairwise ARI (agreement with other methods):
+    Sparse PCA           0.690
+    PCA                  0.690
+    VIF-Pruned           0.638
+    Factor Analysis      0.512
+
+
+======================================================================
+RECOMMENDATION
+======================================================================
+
+Sparse PCA is recommended as the primary clustering input because:
+  1. Sparsity is ideal for HDLSS data (31 materials, 24 features)
+  2. Components are directly interpretable (named: Demand Scale, etc.)
+  3. L1 regularization handles multicollinearity without VIF's order-dependence
+  4. See empirical metrics above to confirm or challenge this recommendation
+
+If PCA or FA shows substantially higher silhouette/stability,
+consider switching the production pipeline (main_analysis.py).

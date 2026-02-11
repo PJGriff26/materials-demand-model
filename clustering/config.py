@@ -82,6 +82,43 @@ USGS_2023_FILES = {
     "Tellurium": "mcs2023tellu_salient.csv",
 }
 
+# ── Figure subdirectories ────────────────────────────────────────────────────
+FIGURES_KMEANS_DIR = FIGURES_DIR / "kmeans"
+FIGURES_PCA_DIR = FIGURES_DIR / "pca_analysis"
+FIGURES_DIMRED_DIR = FIGURES_DIR / "dimensionality_reduction"
+FIGURES_SPCA_STORY_DIR = FIGURES_DIR / "spca_story"
+FIGURES_SUPPLY_CHAIN_DIR = FIGURES_DIR / "supply_chain"
+FIGURES_FA_DIR = FIGURES_DIR / "factor_analysis"
+
+# ── Clustering comparison parameters ─────────────────────────────────────────
+COMPARISON_FIGURES_DIR = FIGURES_DIR / "comparison"
+COMPARISON_DATA_DIR = RESULTS_DIR / "comparison"
+
+METHOD_LABELS = ["VIF-Pruned", "PCA", "Sparse PCA", "Factor Analysis"]
+METHOD_KEYS = ["vif", "pca", "spca", "fa"]
+
+SPCA_N_COMPONENTS = {"scenarios": 4, "materials": 5}
+SPCA_ALPHA = {"scenarios": 1.0, "materials": 2.0}
+FA_N_COMPONENTS = {"scenarios": 4, "materials": 5}
+
+SCENARIO_LOG_FEATURES = [
+    "total_cumulative_demand", "peak_demand", "mean_demand_early",
+    "total_import_exposed_demand",
+]
+MATERIAL_LOG_FEATURES = [
+    "mean_demand", "peak_demand", "demand_volatility",
+    "domestic_production", "cumulative_demand",
+    "mean_capacity_ratio", "max_capacity_ratio",
+]
+
 # ── Create output directories ─────────────────────────────────────────────────
 os.makedirs(FIGURES_DIR, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
+os.makedirs(FIGURES_KMEANS_DIR, exist_ok=True)
+os.makedirs(FIGURES_PCA_DIR, exist_ok=True)
+os.makedirs(FIGURES_DIMRED_DIR, exist_ok=True)
+os.makedirs(FIGURES_SPCA_STORY_DIR, exist_ok=True)
+os.makedirs(FIGURES_SUPPLY_CHAIN_DIR, exist_ok=True)
+os.makedirs(FIGURES_FA_DIR, exist_ok=True)
+os.makedirs(COMPARISON_FIGURES_DIR, exist_ok=True)
+os.makedirs(COMPARISON_DATA_DIR, exist_ok=True)

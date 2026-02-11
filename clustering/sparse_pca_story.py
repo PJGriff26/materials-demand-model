@@ -18,7 +18,7 @@ from sklearn.preprocessing import StandardScaler
 from pathlib import Path
 
 from config import (
-    FIGURES_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
+    FIGURES_SPCA_STORY_DIR, RESULTS_DIR, FIGURE_DPI, FIGURE_FORMAT,
     FIGSIZE_STANDARD, FIGSIZE_WIDE
 )
 
@@ -26,7 +26,7 @@ from config import (
 def _save(fig, stem):
     """Save figure in all configured formats."""
     for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
+        fig.savefig(FIGURES_SPCA_STORY_DIR / f"{stem}.{fmt}", dpi=FIGURE_DPI, bbox_inches="tight")
 
 
 # ============================================================================
@@ -51,19 +51,17 @@ MATERIAL_COMPONENT_DESCRIPTIONS = {
 }
 
 SCENARIO_COMPONENT_NAMES = {
-    'SPC1': 'Growth Pattern',
-    'SPC2': 'Uncertainty',
+    'SPC1': 'Demand Scale & Wind',
+    'SPC2': 'Demand Uncertainty',
     'SPC3': 'Supply Chain Stress',
-    'SPC4': 'Demand Scale',
-    'SPC5': 'Solar+Storage Focus'
+    'SPC4': 'Solar & Storage Mix',
 }
 
 SCENARIO_COMPONENT_DESCRIPTIONS = {
-    'SPC1': 'Rapid growth vs.\nfront-loaded demand',
+    'SPC1': 'Peak demand, early build-out,\nwind deployment fraction',
     'SPC2': 'High variability\nacross simulations',
     'SPC3': 'Production capacity\nexceedance risk',
-    'SPC4': 'Total cumulative\ndemand magnitude',
-    'SPC5': 'Solar and storage\ntechnology share'
+    'SPC4': 'Solar + storage\ndeployment share',
 }
 
 
@@ -344,9 +342,9 @@ def plot_scenario_landscape(scores, name='scenarios'):
     """
     fig, ax = plt.subplots(figsize=(14, 10))
 
-    # Use SPC4 (Demand Scale) and SPC2 (Uncertainty)
-    x = scores['SPC4']  # Demand Scale
-    y = scores['SPC2']  # Uncertainty
+    # Use SPC1 (Demand Scale & Wind) and SPC2 (Demand Uncertainty)
+    x = scores['SPC1']  # Demand Scale & Wind
+    y = scores['SPC2']  # Demand Uncertainty
 
     # Color by SPC3 (Supply Chain Stress)
     colors = scores['SPC3']
@@ -393,8 +391,8 @@ def plot_scenario_landscape(scores, name='scenarios'):
            ha='center', va='center', fontsize=10, color='#4575b4',
            bbox=dict(boxstyle='round', facecolor='white', alpha=0.8))
 
-    ax.set_xlabel('Demand Scale →', fontsize=12, fontweight='bold')
-    ax.set_ylabel('Uncertainty →', fontsize=12, fontweight='bold')
+    ax.set_xlabel('Demand Scale & Wind →', fontsize=12, fontweight='bold')
+    ax.set_ylabel('Demand Uncertainty →', fontsize=12, fontweight='bold')
     ax.set_title('Scenario Landscape Analysis\n(Sparse PCA)', fontsize=14, fontweight='bold')
 
     fig.tight_layout()
@@ -560,7 +558,7 @@ def main():
     print("\n" + "=" * 70)
     print("COMPLETE")
     print("=" * 70)
-    print(f"\nOutputs saved to: {FIGURES_DIR}")
+    print(f"\nOutputs saved to: {FIGURES_SPCA_STORY_DIR}")
 
 
 if __name__ == "__main__":

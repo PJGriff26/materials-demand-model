@@ -2,20 +2,23 @@
 """
 Main script: run the complete clustering analysis pipeline.
 
+Clusters scenarios and materials using pre-computed Sparse PCA scores
+(from sparse_nmf_analysis.py) as input to K-means.
+
 Usage:
     cd clustering/
+    python sparse_nmf_analysis.py   # must run first to generate SPCA scores
     python main_analysis.py
 """
 
 import pandas as pd
 import numpy as np
 
-from config import RESULTS_DIR, FIGURES_DIR
+from config import RESULTS_DIR, FIGURES_KMEANS_DIR
 from feature_engineering import (
     load_demand_data, load_nrel_data, load_risk_data, load_usgs_2023_thin_film,
     engineer_scenario_features, engineer_material_features,
 )
-from preprocessing import preprocess_pipeline
 from clustering import ClusterAnalyzer
 from visualization import (
     plot_elbow, plot_pca_biplot, plot_pca_biplot_centroid_labels, plot_silhouette,
@@ -27,6 +30,7 @@ from visualization import (
 def main():
     print("=" * 80)
     print("CLUSTERING ANALYSIS — ENERGY TRANSITION SCENARIOS & MATERIALS")
+    print("  (Using Sparse PCA scores as clustering input)")
     print("=" * 80)
 
     # ── Step 1: Load data ─────────────────────────────────────────────────
@@ -50,155 +54,123 @@ def main():
     material_feats = engineer_material_features(demand, risk_data, thin_film)
     print(f"  Material features: {material_feats.shape}")
 
-    # Save raw features
+    # Save raw features (needed for cluster profile interpretation)
     scenario_feats.to_csv(RESULTS_DIR / "scenario_features_raw.csv")
     material_feats.to_csv(RESULTS_DIR / "material_features_raw.csv")
 
-    # ── Step 3: Preprocessing ─────────────────────────────────────────────
-    # Note: Scenario preprocessing is done in Step 4 with two configurations
-    scen_log_feats = [
-        "total_cumulative_demand", "peak_demand", "mean_demand_early",
-        "total_import_exposed_demand",
-    ]
+    # ── Step 3: Load Sparse PCA scores ────────────────────────────────────
+    print("\n▸ Step 3: Loading Sparse PCA scores...")
 
-    print("\n▸ Step 3: Preprocessing materials...")
-    mat_log_feats = [
-        "mean_demand", "peak_demand", "domestic_production",
-        "mean_capacity_ratio", "max_capacity_ratio",
-        "domestic_reserves_years", "global_reserves_years",
-    ]
-    X_mat, scaler_mat, vif_mat, dropped_mat = preprocess_pipeline(
-        material_feats, log_features=mat_log_feats,
-    )
-    print(f"  Final material feature set: {list(X_mat.columns)}")
+    spca_mat_path = RESULTS_DIR / "spca_scores_materials.csv"
+    spca_scen_path = RESULTS_DIR / "spca_scores_scenarios.csv"
 
-    # ── Step 4: Scenario clustering (two configurations) ─────────────────
-    print("\n▸ Step 4: Clustering scenarios...")
+    if not spca_mat_path.exists() or not spca_scen_path.exists():
+        raise FileNotFoundError(
+            "SPCA score files not found. Run sparse_nmf_analysis.py first.\n"
+            f"  Expected: {spca_mat_path}\n"
+            f"  Expected: {spca_scen_path}"
+        )
 
-    # ────────────────────────────────────────────────────────────────────
-    # Configuration A: VIF=50, enforced k=4
-    # ────────────────────────────────────────────────────────────────────
-    print("\n  ── Config A: VIF=50, k=4 ──")
-    X_scen_v50, _, vif_scen_v50, dropped_scen_v50 = preprocess_pipeline(
-        scenario_feats, log_features=scen_log_feats, vif_threshold=50.0,
-    )
-    print(f"    Features (VIF≤50): {list(X_scen_v50.columns)}")
+    X_mat = pd.read_csv(spca_mat_path, index_col=0)
+    X_scen = pd.read_csv(spca_scen_path, index_col=0)
 
-    analyzer_scen_v50 = ClusterAnalyzer(X_scen_v50, name="scenarios_vif50")
-    k_range_v50, wcss_v50, sil_v50 = analyzer_scen_v50.find_optimal_k()
-    plot_elbow(k_range_v50, wcss_v50, sil_v50, "scenarios_vif50_k4")
+    # Apply interpretable labels (derived from SPCA loadings inspection)
+    SCEN_COMPONENT_LABELS = {
+        "SPC1": "Demand Scale & Wind",
+        "SPC2": "Demand Uncertainty",
+        "SPC3": "Supply Chain Stress",
+        "SPC4": "Solar & Storage Mix",
+    }
+    MAT_COMPONENT_LABELS = {
+        "SPC1": "Demand Scale",
+        "SPC2": "Geopolitical Risk",
+        "SPC3": "Reserve Geography",
+        "SPC4": "Import Concentration",
+        "SPC5": "Capacity Stress",
+    }
+    X_scen.columns = [SCEN_COMPONENT_LABELS.get(c, c) for c in X_scen.columns]
+    X_mat.columns = [MAT_COMPONENT_LABELS.get(c, c) for c in X_mat.columns]
 
-    best_k_v50 = 4
-    print(f"    → Using k={best_k_v50}")
-    scen_labels_v50 = analyzer_scen_v50.fit_final_model(best_k_v50)
-    analyzer_scen_v50.validate_stability()
-    sens_scen_v50 = analyzer_scen_v50.feature_sensitivity()
+    print(f"  Material SPCA scores: {X_mat.shape}  ({list(X_mat.columns)})")
+    print(f"  Scenario SPCA scores: {X_scen.shape}  ({list(X_scen.columns)})")
 
-    # Cluster interpretations based on feature profiles:
-    # - Cluster 0: High stress + front-loaded (Con_NG, DAC/Low_Demand_CO2e_100by2035)
-    # - Cluster 1: Baseline majority (n=35) - gradual, moderate stress
-    # - Cluster 2: All 100by2035 targets - steep decline, high storage needs
-    # - Cluster 3: Growing demand (Con_RE, High_H2, No_IRA) - only cluster with positive slope
-    scen_cluster_names_v50 = {
-        0: "High-stress front-loaded\n(rapid early deployment)",
-        1: "Baseline steady-state\n(gradual transition)",
-        2: "Deep decarbonization\n(100% by 2035 targets)",
-        3: "Sustained growth\n(conservative/no policy)",
+    # ── Step 4: Scenario clustering ───────────────────────────────────────
+    print("\n▸ Step 4: Clustering scenarios (on SPCA scores)...")
+
+    analyzer_scen = ClusterAnalyzer(X_scen, name="scenarios")
+    k_range_s, wcss_s, sil_s = analyzer_scen.find_optimal_k()
+    plot_elbow(k_range_s, wcss_s, sil_s, "scenarios")
+
+    best_k_scen = k_range_s[int(np.argmax(sil_s))]
+    print(f"\n  → Silhouette-optimal k={best_k_scen}")
+
+    # Cap scenario k at 7 for interpretability (61 scenarios / 7 ≈ 9 per cluster).
+    if best_k_scen > 7:
+        sil_arr = np.array(sil_s)
+        candidates = [(k_range_s[i], sil_arr[i])
+                      for i in range(len(sil_arr)) if 2 <= k_range_s[i] <= 7]
+        if candidates:
+            best_k_scen = max(candidates, key=lambda x: x[1])[0]
+            best_sil = dict(candidates)[best_k_scen]
+            print(f"  → Capping to k={best_k_scen} (silhouette={best_sil:.3f})"
+                  f" for interpretability")
+
+    scen_labels = analyzer_scen.fit_final_model(best_k_scen)
+    analyzer_scen.validate_stability()
+    sens_scen = analyzer_scen.feature_sensitivity()
+
+    scen_cluster_names = {
+        0: "Volatile / peak-and-decline",
+        1: "Aggressive decarbonization",
+        2: "Moderate / sustained growth",
     }
 
-    # Centroid-labeled biplot for VIF=50, k=4
     plot_pca_biplot_centroid_labels(
-        X_scen_v50.values, scen_labels_v50, list(X_scen_v50.columns),
-        "scenarios_vif50_k4", entity_names=list(X_scen_v50.index),
-        cluster_names=scen_cluster_names_v50,
+        X_scen.values, scen_labels, list(X_scen.columns),
+        "scenarios", entity_names=list(X_scen.index),
+        cluster_names=scen_cluster_names,
         raw_features=scenario_feats,
     )
-    plot_silhouette(X_scen_v50.values, scen_labels_v50, "scenarios_vif50_k4")
-    plot_feature_sensitivity(sens_scen_v50, "scenarios_vif50_k4")
+    plot_silhouette(X_scen.values, scen_labels, "scenarios")
+    plot_feature_sensitivity(sens_scen, "scenarios")
 
-    # ────────────────────────────────────────────────────────────────────
-    # Configuration B: VIF=10, silhouette-optimal k
-    # ────────────────────────────────────────────────────────────────────
-    print("\n  ── Config B: VIF=10, silhouette-optimal k ──")
-    X_scen_v10, _, vif_scen_v10, dropped_scen_v10 = preprocess_pipeline(
-        scenario_feats, log_features=scen_log_feats, vif_threshold=10.0,
-    )
-    print(f"    Features (VIF≤10): {list(X_scen_v10.columns)}")
-
-    analyzer_scen_v10 = ClusterAnalyzer(X_scen_v10, name="scenarios_vif10")
-    k_range_v10, wcss_v10, sil_v10 = analyzer_scen_v10.find_optimal_k()
-    plot_elbow(k_range_v10, wcss_v10, sil_v10, "scenarios_vif10_optimal")
-
-    # Use silhouette-optimal k
-    best_k_v10 = k_range_v10[int(np.argmax(sil_v10))]
-    print(f"    → Silhouette-optimal k={best_k_v10}")
-    scen_labels_v10 = analyzer_scen_v10.fit_final_model(best_k_v10)
-    analyzer_scen_v10.validate_stability()
-    sens_scen_v10 = analyzer_scen_v10.feature_sensitivity()
-
-    # Cluster interpretations based on demand_slope × peak_supply_chain_stress:
-    # - Cluster 0: Steep decline, moderate stress (100% clean targets)
-    # - Cluster 1: Nearly flat, elevated stress (constrained RE scenarios)
-    # - Cluster 2: Baseline majority (n=25) - flat, moderate stress
-    # - Cluster 3: Strong growth, low stress (H2 economy, 2050 targets)
-    # - Cluster 4: Steep decline, HIGHEST stress (aggressive + constraints)
-    # - Cluster 5: Moderate decline, lowest stress (balanced advanced scenarios)
-    scen_cluster_names_v10 = {
-        0: "Rapid decarbonization\n(100% clean targets)",
-        1: "Constrained transition\n(limited RE, elevated stress)",
-        2: "Baseline steady-state",
-        3: "Sustained H2 growth\n(long-term expansion)",
-        4: "High-stress rapid decline\n(aggressive + constraints)",
-        5: "Low-stress balanced\n(advanced technologies)",
-    }
-
-    # Centroid-labeled biplot for VIF=10, optimal k
-    plot_pca_biplot_centroid_labels(
-        X_scen_v10.values, scen_labels_v10, list(X_scen_v10.columns),
-        "scenarios_vif10_optimal", entity_names=list(X_scen_v10.index),
-        cluster_names=scen_cluster_names_v10,
-        raw_features=scenario_feats,
-    )
-    plot_silhouette(X_scen_v10.values, scen_labels_v10, "scenarios_vif10_optimal")
-    plot_feature_sensitivity(sens_scen_v10, "scenarios_vif10_optimal")
-
-    # ────────────────────────────────────────────────────────────────────
-    # Use Config A (VIF=50, k=4) as the primary for downstream analysis
-    # ────────────────────────────────────────────────────────────────────
-    X_scen = X_scen_v50
-    scen_labels = scen_labels_v50
-    analyzer_scen = analyzer_scen_v50
-    vif_scen = vif_scen_v50
-    dropped_scen = dropped_scen_v50
-    best_k_scen = best_k_v50
-    scen_cluster_names = scen_cluster_names_v50
-
-    # Also generate spaghetti plot for primary config
     plot_demand_spaghetti(
         demand, scen_labels, X_scen.index, "scenarios",
         cluster_names=scen_cluster_names,
     )
 
     # ── Step 5: Material clustering ───────────────────────────────────────
-    print("\n▸ Step 5: Clustering materials...")
+    print("\n▸ Step 5: Clustering materials (on SPCA scores)...")
     analyzer_mat = ClusterAnalyzer(X_mat, name="materials")
     k_range_m, wcss_m, sil_m = analyzer_mat.find_optimal_k()
     plot_elbow(k_range_m, wcss_m, sil_m, "materials")
 
-    #best_k_mat = k_range_m[int(np.argmax(sil_m))]
-    best_k_mat = 4
-    print(f"\n  → Using k={best_k_mat} for materials")
+    best_k_mat = k_range_m[int(np.argmax(sil_m))]
+    print(f"\n  → Silhouette-optimal k={best_k_mat} for materials")
+
+    # k=2 is a trivial volume split for materials (Steel/Cement vs rest).
+    # Select the best k in 3-7 range for interpretable groupings.
+    if best_k_mat == 2:
+        sil_arr = np.array(sil_m)
+        candidates = [(k_range_m[i], sil_arr[i])
+                      for i in range(len(sil_arr)) if 3 <= k_range_m[i] <= 7]
+        if candidates:
+            best_k_mat = max(candidates, key=lambda x: x[1])[0]
+            best_sil = dict(candidates)[best_k_mat]
+            print(f"  → Overriding to k={best_k_mat} (silhouette={best_sil:.3f})"
+                  f" for interpretability")
+
     mat_labels = analyzer_mat.fit_final_model(best_k_mat)
     analyzer_mat.validate_stability()
     sens_mat = analyzer_mat.feature_sensitivity()
 
-    # Material cluster names based on cluster profiles
-    # These will be refined after inspecting cluster characteristics
     mat_cluster_names = {
-        0: "Bulk construction\n(Steel, Cement, Glass)",
-        1: "High-risk critical\n(REEs, Te, V)",
-        2: "Moderate-risk specialty\n(Cd, Ga, Se, In)",
-        3: "Established supply\n(Cu, Al, Si, Ni)",
+        0: "Base metals (OECD-sourced)",
+        1: "Bulk industrial",
+        2: "Import-dependent specialty",
+        3: "Low-volume, concentrated-source",
+        4: "Neodymium (REE outlier)",
+        5: "REE permanent magnet elements",
     }
 
     # Standard biplot with individual material labels
@@ -280,24 +252,23 @@ def main():
     mat_profiles.to_csv(RESULTS_DIR / "material_cluster_profiles.csv")
     stress.to_csv(RESULTS_DIR / "stress_matrix.csv")
 
-    vif_scen.to_csv(RESULTS_DIR / "vif_scenarios.csv", index=False)
-    vif_mat.to_csv(RESULTS_DIR / "vif_materials.csv", index=False)
-
     # Validation summary
+    scen_sil = analyzer_scen.results.get('silhouette_scores', [0])
+    mat_sil = analyzer_mat.results.get('silhouette_scores', [0])
     with open(RESULTS_DIR / "validation_metrics.txt", "w") as f:
-        f.write(f"Scenario clustering: k={best_k_scen}\n")
-        f.write(f"  Silhouette: {analyzer_scen.results.get('silhouette_scores', [0])[-1]:.3f}\n")
+        f.write(f"Scenario clustering (Sparse PCA-based): k={best_k_scen}\n")
+        f.write(f"  Silhouette: {scen_sil[best_k_scen - 2]:.3f}\n")
         f.write(f"  Stability ARI: {analyzer_scen.results.get('stability_ari_mean', 0):.3f}\n")
-        f.write(f"  Features used: {list(X_scen.columns)}\n")
-        f.write(f"  Features dropped (VIF): {dropped_scen}\n\n")
-        f.write(f"Material clustering: k={best_k_mat}\n")
-        f.write(f"  Silhouette: {analyzer_mat.results.get('silhouette_scores', [0])[-1]:.3f}\n")
+        f.write(f"  Input features: {list(X_scen.columns)}\n")
+        f.write(f"  Method: K-means on {len(X_scen.columns)} Sparse PCA components (alpha=1.0)\n\n")
+        f.write(f"Material clustering (Sparse PCA-based): k={best_k_mat}\n")
+        f.write(f"  Silhouette: {mat_sil[best_k_mat - 2]:.3f}\n")
         f.write(f"  Stability ARI: {analyzer_mat.results.get('stability_ari_mean', 0):.3f}\n")
-        f.write(f"  Features used: {list(X_mat.columns)}\n")
-        f.write(f"  Features dropped (VIF): {dropped_mat}\n")
+        f.write(f"  Input features: {list(X_mat.columns)}\n")
+        f.write(f"  Method: K-means on {len(X_mat.columns)} Sparse PCA components (alpha=2.0)\n")
 
     print(f"\n  Results → {RESULTS_DIR}")
-    print(f"  Figures → {FIGURES_DIR}")
+    print(f"  Figures → {FIGURES_KMEANS_DIR}")
     print("\n" + "=" * 80)
     print("ANALYSIS COMPLETE")
     print("=" * 80)
