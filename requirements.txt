@@ -1,18 +1,22 @@
 # Materials Demand Model - Python Dependencies
 # ==============================================
+# Pinned to versions used during development/publication.
+# Python 3.11+ recommended.
+
 # Core scientific computing
-numpy>=1.24.0,<2.0.0
-pandas>=2.0.0,<3.0.0
-scipy>=1.11.0,<2.0.0
+numpy==2.3.1
+pandas==2.3.0
+scipy==1.16.0
+
+# Machine learning (clustering, PCA, preprocessing)
+scikit-learn==1.8.0
+
+# Statistical analysis (VIF calculation)
+statsmodels==0.14.6
 
 # Visualization
-matplotlib>=3.7.0,<4.0.0
-seaborn>=0.12.0,<1.0.0
+matplotlib==3.10.3
+seaborn==0.13.2
 
-# Optional: For enhanced sensitivity analysis
-# Uncomment if you want to use Sobol sensitivity analysis
-# SALib>=1.4.0,<2.0.0
-
-# Optional: For Latin Hypercube Sampling
-# Uncomment for advanced sampling strategies
-# pyDOE2>=1.3.0
+# Excel file support (risk_charts_inputs.xlsx)
+openpyxl==3.1.5

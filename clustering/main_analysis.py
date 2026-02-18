@@ -129,7 +129,7 @@ def main():
         X_scen.values, scen_labels, list(X_scen.columns),
         "scenarios", entity_names=list(X_scen.index),
         cluster_names=scen_cluster_names,
-        raw_features=scenario_feats,
+        raw_features=X_scen,
     )
     plot_silhouette(X_scen.values, scen_labels, "scenarios")
     plot_feature_sensitivity(sens_scen, "scenarios")
@@ -178,7 +178,7 @@ def main():
         X_mat.values, mat_labels, list(X_mat.columns),
         "materials", entity_names=list(X_mat.index),
         cluster_names=mat_cluster_names,
-        raw_features=material_feats,
+        raw_features=X_mat,
     )
 
     # Clean biplot with only centroid labels (no individual material names)
@@ -186,7 +186,7 @@ def main():
         X_mat.values, mat_labels, list(X_mat.columns),
         "materials", entity_names=list(X_mat.index),
         cluster_names=mat_cluster_names,
-        raw_features=material_feats,
+        raw_features=X_mat,
     )
 
     plot_silhouette(X_mat.values, mat_labels, "materials")
@@ -195,17 +195,22 @@ def main():
     # ── Step 6: Cluster profiles ──────────────────────────────────────────
     print("\n▸ Step 6: Cluster interpretation...")
 
-    scen_profiles = analyzer_scen.get_cluster_profiles(scenario_feats)
-    mat_profiles = analyzer_mat.get_cluster_profiles(material_feats)
+    # Profiles on SPCA scores (what the clustering actually used)
+    scen_profiles_spca = analyzer_scen.get_cluster_profiles(X_scen)
+    mat_profiles_spca = analyzer_mat.get_cluster_profiles(X_mat)
 
-    print("\nScenario cluster profiles (raw means):")
-    print(scen_profiles.round(2).to_string())
+    print("\nScenario cluster profiles (SPCA component means):")
+    print(scen_profiles_spca.round(2).to_string())
 
-    print("\nMaterial cluster profiles (raw means):")
-    print(mat_profiles.round(2).to_string())
+    print("\nMaterial cluster profiles (SPCA component means):")
+    print(mat_profiles_spca.round(2).to_string())
 
-    plot_cluster_profiles(scen_profiles, "scenarios")
-    plot_cluster_profiles(mat_profiles, "materials")
+    plot_cluster_profiles(scen_profiles_spca, "scenarios")
+    plot_cluster_profiles(mat_profiles_spca, "materials")
+
+    # Also compute raw-feature profiles for CSV export (detailed reference)
+    scen_profiles_raw = analyzer_scen.get_cluster_profiles(scenario_feats)
+    mat_profiles_raw = analyzer_mat.get_cluster_profiles(material_feats)
 
     # ── Step 7: Stress matrix ─────────────────────────────────────────────
     print("\n▸ Step 7: Scenario × Material stress matrix...")
@@ -248,8 +253,10 @@ def main():
     })
     mat_results.to_csv(RESULTS_DIR / "material_clusters.csv", index=False)
 
-    scen_profiles.to_csv(RESULTS_DIR / "scenario_cluster_profiles.csv")
-    mat_profiles.to_csv(RESULTS_DIR / "material_cluster_profiles.csv")
+    scen_profiles_spca.to_csv(RESULTS_DIR / "scenario_cluster_profiles.csv")
+    mat_profiles_spca.to_csv(RESULTS_DIR / "material_cluster_profiles.csv")
+    scen_profiles_raw.to_csv(RESULTS_DIR / "scenario_cluster_profiles_raw.csv")
+    mat_profiles_raw.to_csv(RESULTS_DIR / "material_cluster_profiles_raw.csv")
     stress.to_csv(RESULTS_DIR / "stress_matrix.csv")
 
     # Validation summary

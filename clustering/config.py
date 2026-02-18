@@ -41,7 +41,7 @@ ARI_THRESHOLD = 0.8
 
 # ── Visualization parameters ──────────────────────────────────────────────────
 FIGURE_DPI = 300
-FIGURE_FORMAT = ["png", "pdf"]
+FIGURE_FORMAT = ["png"]
 FIGSIZE_STANDARD = (10, 8)
 FIGSIZE_WIDE = (14, 8)
 
@@ -87,8 +87,10 @@ FIGURES_KMEANS_DIR = FIGURES_DIR / "kmeans"
 FIGURES_PCA_DIR = FIGURES_DIR / "pca_analysis"
 FIGURES_DIMRED_DIR = FIGURES_DIR / "dimensionality_reduction"
 FIGURES_SPCA_STORY_DIR = FIGURES_DIR / "spca_story"
-FIGURES_SUPPLY_CHAIN_DIR = FIGURES_DIR / "supply_chain"
 FIGURES_FA_DIR = FIGURES_DIR / "factor_analysis"
+
+# Manuscript figures (supply chain figs 3, 4, SI live here alongside figs 1, 2, S1, S3)
+FIGURES_MANUSCRIPT_DIR = OUTPUTS_DIR / "figures" / "manuscript"
 
 # ── Clustering comparison parameters ─────────────────────────────────────────
 COMPARISON_FIGURES_DIR = FIGURES_DIR / "comparison"
@@ -118,7 +120,7 @@ os.makedirs(FIGURES_KMEANS_DIR, exist_ok=True)
 os.makedirs(FIGURES_PCA_DIR, exist_ok=True)
 os.makedirs(FIGURES_DIMRED_DIR, exist_ok=True)
 os.makedirs(FIGURES_SPCA_STORY_DIR, exist_ok=True)
-os.makedirs(FIGURES_SUPPLY_CHAIN_DIR, exist_ok=True)
 os.makedirs(FIGURES_FA_DIR, exist_ok=True)
+os.makedirs(FIGURES_MANUSCRIPT_DIR, exist_ok=True)
 os.makedirs(COMPARISON_FIGURES_DIR, exist_ok=True)
 os.makedirs(COMPARISON_DATA_DIR, exist_ok=True)

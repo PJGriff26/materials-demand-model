@@ -107,26 +107,56 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
 
     # Label points if names provided and enabled
     if show_entity_names and entity_names is not None:
-        for idx, txt in enumerate(entity_names):
-            ax.annotate(
-                txt, (X_pca[idx, 0], X_pca[idx, 1]),
-                fontsize=6, alpha=0.6,
-                textcoords="offset points", xytext=(4, 4),
-            )
+        try:
+            from adjustText import adjust_text
+        except ImportError:
+            adjust_text = None
 
-    # Loading vectors
+        n_entities = len(entity_names)
+        xs, ys = X_pca[:, 0], X_pca[:, 1]
+
+        if n_entities > 25:
+            # Label only outliers for dense plots
+            x_med, y_med = np.median(xs), np.median(ys)
+            dist = np.sqrt((xs - x_med) ** 2 + (ys - y_med) ** 2)
+            q75 = np.percentile(dist, 75)
+            iqr = q75 - np.percentile(dist, 25)
+            threshold = q75 + 1.0 * iqr
+            label_mask = dist > threshold
+        else:
+            label_mask = np.ones(n_entities, dtype=bool)
+
+        texts = []
+        for idx in np.where(label_mask)[0]:
+            t = ax.text(xs[idx], ys[idx], entity_names[idx],
+                        fontsize=6, alpha=0.7)
+            texts.append(t)
+
+        if adjust_text is not None and texts:
+            adjust_text(texts, ax=ax,
+                        arrowprops=dict(arrowstyle='-', color='gray',
+                                        alpha=0.4, lw=0.5))
+
+    # Loading vectors — only label top 8 by magnitude
+    max_loading_labels = 8
     scale = max(np.abs(X_pca).max(axis=0)) * 0.8
+    magnitudes = np.sqrt(loadings[:, 0] ** 2 + loadings[:, 1] ** 2)
+    mag_threshold = np.sort(magnitudes)[-min(max_loading_labels, len(magnitudes))]
+
     for j, feat in enumerate(feature_names):
+        is_top = magnitudes[j] >= mag_threshold
         ax.annotate(
             "", xy=(loadings[j, 0] * scale, loadings[j, 1] * scale),
             xytext=(0, 0),
-            arrowprops=dict(arrowstyle="->", color="gray", lw=1.2),
+            arrowprops=dict(arrowstyle="->", color="gray", lw=1.2,
+                            alpha=0.7 if is_top else 0.15),
         )
-        ax.text(
-            loadings[j, 0] * scale * 1.08,
-            loadings[j, 1] * scale * 1.08,
-            feat, fontsize=7, color="gray", ha="center",
-        )
+        if is_top:
+            ax.text(
+                loadings[j, 0] * scale * 1.08,
+                loadings[j, 1] * scale * 1.08,
+                feat, fontsize=7, color="gray", ha="center",
+            )
 
     ev = pca.explained_variance_ratio_
     ax.set_xlabel(f"PC1 ({ev[0]:.1%} variance)")
@@ -214,7 +244,7 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
             if c == -1:
                 cell.set_text_props(fontweight="bold", fontsize=7)
 
-        ax_table.set_title("Cluster medians (raw features)", fontsize=10,
+        ax_table.set_title("Cluster medians (SPCA components)", fontsize=10,
                            fontweight="bold", pad=10)
 
     fig.tight_layout()
@@ -306,19 +336,26 @@ def plot_pca_biplot_centroid_labels(X, labels, feature_names, name, entity_names
             bbox=dict(boxstyle="round,pad=0.3", facecolor="white", edgecolor=color, alpha=0.9),
         )
 
-    # Loading vectors
+    # Loading vectors — only label top 8 by magnitude
+    max_loading_labels = 8
     scale = max(np.abs(X_pca).max(axis=0)) * 0.8
+    magnitudes = np.sqrt(loadings[:, 0] ** 2 + loadings[:, 1] ** 2)
+    mag_threshold = np.sort(magnitudes)[-min(max_loading_labels, len(magnitudes))]
+
     for j, feat in enumerate(feature_names):
+        is_top = magnitudes[j] >= mag_threshold
         ax.annotate(
             "", xy=(loadings[j, 0] * scale, loadings[j, 1] * scale),
             xytext=(0, 0),
-            arrowprops=dict(arrowstyle="->", color="gray", lw=1.2),
+            arrowprops=dict(arrowstyle="->", color="gray", lw=1.2,
+                            alpha=0.7 if is_top else 0.15),
         )
-        ax.text(
-            loadings[j, 0] * scale * 1.08,
-            loadings[j, 1] * scale * 1.08,
-            feat, fontsize=7, color="gray", ha="center",
-        )
+        if is_top:
+            ax.text(
+                loadings[j, 0] * scale * 1.08,
+                loadings[j, 1] * scale * 1.08,
+                feat, fontsize=7, color="gray", ha="center",
+            )
 
     ev = pca.explained_variance_ratio_
     ax.set_xlabel(f"PC1 ({ev[0]:.1%} variance)")
@@ -404,7 +441,7 @@ def plot_pca_biplot_centroid_labels(X, labels, feature_names, name, entity_names
             if c == -1:
                 cell.set_text_props(fontweight="bold", fontsize=7)
 
-        ax_table.set_title("Cluster medians (raw features)", fontsize=10,
+        ax_table.set_title("Cluster medians (SPCA components)", fontsize=10,
                            fontweight="bold", pad=10)
 
     fig.tight_layout()

@@ -74,3 +74,9 @@ dist/
 *.tmp
 *.bak
 .cache/
+
+# Paper generation (not for public repo)
+paper/
+
+# Paper_Draft output directory
+../../../Paper_Draft/

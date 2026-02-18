@@ -2,7 +2,7 @@
 
 **A Research-Grade Monte Carlo Simulation Framework for Energy Infrastructure Materials Demand**
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
@@ -22,111 +22,120 @@ This repository provides a comprehensive Monte Carlo simulation framework for es
 
 ```
 materials_demand_model/
+├── run_pipeline.py                   # Full reproducibility pipeline (Steps 1–10)
+├── requirements.txt                  # Pinned Python dependencies
+├── setup.py                          # Package installation
+│
 ├── src/                              # Core simulation engine
 │   ├── __init__.py
 │   ├── data_ingestion.py             # Data loading and validation
-│   ├── data_quality.py               # Data quality checks
 │   ├── distribution_fitting.py       # Statistical distribution fitting
 │   ├── technology_mapping.py         # Technology-material mappings
 │   ├── stock_flow_simulation.py      # Monte Carlo simulation engine
 │   └── materials_visualizations.py   # Core visualization tools
 │
-├── clustering/                       # Clustering & feature analysis
-│   ├── main_analysis.py              # K-means clustering pipeline
+├── analysis/                         # Sensitivity analysis module
+│   ├── __init__.py
+│   └── sensitivity_analysis.py       # Variance decomposition, elasticity, Spearman
+│
+├── clustering/                       # Clustering & dimensionality reduction
+│   ├── config.py                     # Paths and configuration
 │   ├── feature_engineering.py        # Scenario/material feature calculation
 │   ├── preprocessing.py              # VIF filtering, StandardScaler
-│   ├── pca_feature_importance.py     # PCA-based feature importance
-│   ├── sparse_nmf_analysis.py        # Sparse PCA & NMF comparison
-│   ├── supply_chain_analysis.py      # Reserve adequacy visualizations
-│   ├── visualization.py              # Clustering visualizations
-│   └── config.py                     # Paths and configuration
+│   ├── clustering.py                 # ClusterAnalyzer class (K-means)
+│   ├── main_analysis.py              # Production pipeline (SPCA → K-means)
+│   ├── visualization.py              # Per-cluster visualizations
+│   ├── pca_feature_importance.py     # Standard PCA analysis
+│   ├── sparse_nmf_analysis.py        # Sparse PCA, NMF, method comparison
+│   ├── sparse_pca_story.py           # Sparse PCA interpretation & narratives
+│   ├── factor_analysis.py            # Factor Analysis module
+│   ├── clustering_comparison.py      # 4-method comparison (VIF/PCA/SPCA/FA)
+│   └── supply_chain_analysis.py      # CRC sourcing, reserve adequacy
 │
 ├── visualizations/                   # Manuscript & analysis figures
-│   ├── manuscript_figures.py         # Publication-quality figures
+│   ├── manuscript_figures.py         # Fig. 2, SI capacity/intensity figures
+│   ├── manuscript_fig1.py            # Fig. 1 demand curves
 │   ├── risk_ranking_chart.py         # Supply chain risk charts
-│   ├── feature_scatterplots.py       # EDA correlation plots
-│   └── compare_figures.py            # Old vs new figure comparison
+│   └── feature_scatterplots.py       # EDA scatterplots & correlations
 │
-├── data/                             # Input data
+├── data/                             # Input data (see data/README.md)
 │   ├── intensity_data.csv            # Material intensity (t/GW)
 │   ├── StdScen24_annual_national.csv # NREL Standard Scenarios 2024
-│   ├── input_usgs.csv                # USGS supply chain data
-│   ├── risk_charts_inputs.xlsx       # Reserve/import data by country
-│   └── supply_chain/                 # USGS 2023 mineral commodity CSVs
-│       ├── mcs2023-cadmi_salient.csv
-│       ├── mcs2023-galli_salient.csv
-│       └── ...
+│   └── supply_chain/
+│       └── risk_charts_inputs.xlsx   # USGS/trade risk data
 │
-├── examples/                         # Example scripts
-│   ├── run_simulation.py             # Complete simulation workflow
-│   ├── sensitivity_analysis.py       # Sensitivity analysis
-│   ├── supply_chain_risk_analysis.py # Risk assessment
-│   ├── generate_eda_figures.py       # Exploratory visualizations
-│   └── diagnostics/                  # Debugging/validation scripts
+├── examples/                         # Example workflows
+│   ├── run_simulation.py             # Complete simulation example
+│   └── supply_chain_risk_analysis.py # Risk analysis example
 │
-├── outputs/                          # Generated results
-│   ├── data/                         # CSV outputs
-│   │   ├── material_demand_by_scenario.csv
-│   │   ├── material_demand_summary.csv
-│   │   ├── clustering/               # Cluster assignments, features, VIF
-│   │   └── sensitivity/              # Sensitivity analysis results
-│   ├── figures/                      # Visualizations
-│   │   ├── clustering/               # PCA biplots, silhouette, profiles
+├── tests/                            # Testing and validation
+│   ├── conftest.py                   # Pytest configuration
+│   ├── test_pipeline.py              # Regression tests
+│   └── validate_units.py             # Unit conversion validation
+│
+├── outputs/                          # Generated results (gitignored CSVs)
+│   ├── data/
+│   │   ├── clustering/               # Cluster results, features, scores
+│   │   │   └── comparison/           # 4-method comparison metrics
+│   │   └── sensitivity/              # Variance decomposition, Spearman
+│   ├── figures/
+│   │   ├── clustering/               # Organized by analysis type
+│   │   │   ├── kmeans/               # Elbow, silhouette, biplot, profiles
+│   │   │   ├── pca_analysis/         # Scree, loadings, feature importance
+│   │   │   ├── dimensionality_reduction/  # SPCA, NMF, method comparison
+│   │   │   ├── spca_story/           # Named components, quadrant plots
+│   │   │   ├── supply_chain/         # CRC sourcing, reserve adequacy
+│   │   │   ├── factor_analysis/      # FA loadings & communalities
+│   │   │   └── comparison/           # 4-method clustering comparison
+│   │   ├── exploratory/              # EDA figures
 │   │   ├── manuscript/               # Publication figures
-│   │   ├── supply_chain/             # Risk charts, heatmaps
-│   │   ├── demand/                   # Monte Carlo visualizations
-│   │   └── comparison/               # Old vs new figure comparisons
+│   │   ├── sensitivity/              # Sensitivity figures
+│   │   └── supply_chain/             # Risk visualizations
 │   └── reports/                      # Text reports
 │
-├── docs/                             # Documentation
-│   ├── variable_reference.csv        # Master variable documentation
-│   ├── visualization_inventory.csv   # All visualizations with data sources
-│   ├── MONTE_CARLO_ASSESSMENT.md     # Technical assessment
-│   ├── README_supply_chain_risk.md   # Risk methodology
-│   └── ...
-│
-├── tests/                            # Validation
-│   └── validate_units.py
-│
-├── proposal_figures/                 # Proposal/presentation figures
-├── requirements.txt                  # Python dependencies
-├── setup.py                          # Package installation
-├── QUICKSTART.md                     # Quick start guide
-├── PIPELINE_DOCUMENTATION.md         # Full pipeline documentation
-└── LICENSE                           # MIT License
+└── docs/                             # Documentation
+    ├── variable_reference.csv        # Master variable documentation
+    ├── visualization_inventory.csv   # All 72 visualizations documented
+    ├── SI_methodology.md             # Supplementary methods
+    ├── README_supply_chain_risk.md   # Risk methodology
+    └── archive/                      # Superseded diagnostic documents
 ```
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.11 or higher
 - pip package manager
 
 ### Setup
 
-1. **Clone or download this repository**:
-   ```bash
-   cd /path/to/materials_demand_model
-   ```
+```bash
+git clone https://github.com/PJGriff26/materials-demand-model.git
+cd materials-demand-model
+pip install -r requirements.txt
+```
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Verify installation**:
-   ```bash
-   python -c "from src import MaterialsStockFlowSimulation; print('Installation successful!')"
-   ```
+Verify installation:
+```bash
+python -c "from src import MaterialsStockFlowSimulation; print('OK')"
+```
 
 ## Quick Start
 
-### Running a Complete Simulation
+### Reproduce All Results
 
 ```bash
-cd examples
-python run_simulation.py
+python run_pipeline.py                    # Full pipeline (Steps 1–10, ~20 min)
+python run_pipeline.py --skip-simulation  # Skip MC if outputs exist (~5 min)
+python run_pipeline.py --step 5           # Run only one step
+python run_pipeline.py --from 3           # Resume from Step 3
+```
+
+### Run Simulation Only
+
+```bash
+python examples/run_simulation.py
 ```
 
 This will:
@@ -214,7 +223,7 @@ This implementation follows:
 - **NIST Technical Note 1297**: Guidelines for uncertainty evaluation
 - **Best practices** from peer-reviewed infrastructure modeling literature
 
-See [`docs/MONTE_CARLO_ASSESSMENT.md`](docs/MONTE_CARLO_ASSESSMENT.md) for detailed technical assessment.
+See [`docs/archive/MONTE_CARLO_ASSESSMENT.md`](docs/archive/MONTE_CARLO_ASSESSMENT.md) for detailed technical assessment.
 
 ## Data Sources
 
@@ -259,7 +268,7 @@ After unit correction, typical annual demand (2035, aggressive buildout):
 - **Aluminum**: 10-100 million tonnes
 - **Cement**: 100-500 million tonnes
 
-**Note**: Previous versions had a 1000× error (outputs in trillions). This has been fixed as of January 2026. See [`docs/UNIT_FIX_SUMMARY.md`](docs/UNIT_FIX_SUMMARY.md).
+**Note**: Previous versions had a 1000× error (outputs in trillions). This has been fixed as of January 2026. See [`docs/archive/UNIT_FIX_SUMMARY.md`](docs/archive/UNIT_FIX_SUMMARY.md).
 
 ## Customization
 
@@ -305,22 +314,21 @@ simulation, results = run_full_simulation(
 
 ## Validation and Testing
 
-### Unit Validation
+### Running Tests
 
 ```bash
-cd tests
-python validate_units.py
+pip install pytest
+pytest tests/                         # All tests
+pytest tests/ -m "not slow"           # Skip slow simulation tests
+python tests/validate_units.py        # Unit conversion validation
 ```
 
-This checks:
-- Unit conversion (t/GW → t/MW) is applied correctly
-- Material intensity values are in reasonable ranges
-- No unit errors in output magnitudes
-
-### Expected Checks
-- ✓ Copper intensity: 0.02 - 22 t/MW
-- ✓ Steel intensity: 7 - 1206 t/MW
-- ✓ Maximum intensity < 10,000 t/MW (sanity check)
+### Test Coverage
+- **Data loading**: Verifies input files load correctly with expected columns
+- **Technology mapping**: Validates technology lifetimes and mappings
+- **Distribution fitting**: Checks distribution fits for sample materials
+- **Simulation regression**: Runs small MC (N=100) to verify output shape, non-negativity, and reproducibility
+- **Unit validation**: Confirms t/GW → t/MW conversion is correct
 
 ## Known Limitations
 
@@ -334,7 +342,7 @@ This checks:
 
 5. **Limited Technologies**: Some emerging technologies (batteries, DAC, electrolyzers) lack material intensity data.
 
-See [`docs/MONTE_CARLO_ASSESSMENT.md`](docs/MONTE_CARLO_ASSESSMENT.md) for detailed discussion of limitations and recommended enhancements.
+See [`docs/archive/MONTE_CARLO_ASSESSMENT.md`](docs/archive/MONTE_CARLO_ASSESSMENT.md) for detailed discussion of limitations and recommended enhancements.
 
 ## Contributing
 
@@ -379,5 +387,5 @@ For questions, issues, or collaboration opportunities:
 
 ---
 
-**Version**: 1.1.0 (February 2026)
+**Version**: 2.0.0 (February 2026)
 **Status**: Research-Grade - Publication Ready

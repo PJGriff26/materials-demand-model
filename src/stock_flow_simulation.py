@@ -126,17 +126,21 @@ class SimulationResult:
     """Container for Monte Carlo simulation results"""
     # Raw results: [iteration, scenario, year, material] = demand
     iterations_data: np.ndarray
-    
+
     # Metadata
     n_iterations: int
     scenarios: List[str]
     years: List[int]
     materials: List[str]
-    
+
     # Aggregation indices
     scenario_idx: Dict[str, int]
     year_idx: Dict[int, int]
     material_idx: Dict[str, int]
+
+    # Convergence tracking
+    converged: bool = False
+    convergence_iteration: Optional[int] = None
     
     def get_statistics(
         self,
@@ -406,46 +410,67 @@ class MaterialsStockFlowSimulation:
     def run_monte_carlo(
         self,
         n_iterations: int = 10000,
-        scenarios_to_run: Optional[List[str]] = None
+        scenarios_to_run: Optional[List[str]] = None,
+        convergence_rtol: float = 0.01,
+        convergence_check_every: int = 500,
+        convergence_min_iterations: int = 1000,
     ) -> SimulationResult:
         """
-        Run Monte Carlo simulation.
-        
+        Run Monte Carlo simulation with optional convergence-based early stopping.
+
+        The simulation checks whether running means have stabilised at regular
+        intervals.  When the maximum relative change across all
+        (scenario, year, material) cells falls below *convergence_rtol*,
+        the simulation stops early.  Set ``convergence_rtol=0`` to disable
+        early stopping and always run the full *n_iterations*.
+
         Parameters
         ----------
         n_iterations : int
-            Number of Monte Carlo iterations
+            Hard maximum number of Monte Carlo iterations (default 10,000).
         scenarios_to_run : List[str], optional
-            Subset of scenarios to run (default: all)
-        
+            Subset of scenarios to run (default: all).
+        convergence_rtol : float
+            Relative tolerance for convergence (default 0.01 = 1 %).
+        convergence_check_every : int
+            Check convergence every this many iterations (default 500).
+        convergence_min_iterations : int
+            Minimum iterations before convergence checks begin (default 1,000).
+
         Returns
         -------
         SimulationResult
-            Results container with statistics
+            Results container with statistics and convergence metadata.
         """
         logger.info("="*80)
         logger.info("MONTE CARLO SIMULATION")
         logger.info("="*80)
-        logger.info(f"Iterations: {n_iterations:,}")
-        
+        logger.info(f"Max iterations: {n_iterations:,}")
+        if convergence_rtol > 0:
+            logger.info(f"Convergence: rtol={convergence_rtol}, "
+                        f"check every {convergence_check_every}, "
+                        f"min {convergence_min_iterations}")
+        else:
+            logger.info("Convergence checking disabled")
+
         # Filter scenarios if specified
         if scenarios_to_run is not None:
             scenarios = [s for s in self.scenarios if s in scenarios_to_run]
         else:
             scenarios = self.scenarios
-        
+
         logger.info(f"Scenarios: {len(scenarios)}")
-        
+
         # Build stock-flow model (same for all iterations)
         stock_flow_states = self.build_stock_flow_model()
-        
+
         # Filter stock-flow states for selected scenarios
         if scenarios_to_run is not None:
             stock_flow_states = {
                 k: v for k, v in stock_flow_states.items()
                 if k[0] in scenarios_to_run
             }
-        
+
         # Create result arrays
         # Shape: [iterations, scenarios, years, materials]
         results_array = np.zeros((
@@ -454,47 +479,93 @@ class MaterialsStockFlowSimulation:
             len(self.years),
             len(self.materials)
         ))
-        
+
         # Create index mappings
         scenario_idx = {s: i for i, s in enumerate(scenarios)}
         year_idx = {y: i for i, y in enumerate(self.years)}
         material_idx = {m: i for i, m in enumerate(self.materials)}
-        
+
+        # Convergence state
+        prev_means = None
+        converged = False
+        final_iteration = n_iterations
+
         # Run Monte Carlo iterations
         logger.info("\nRunning Monte Carlo iterations...")
-        
+
         for iteration in range(n_iterations):
             # Progress logging
             if iteration % max(1, n_iterations // 10) == 0:
-                logger.info(f"  Iteration {iteration:,}/{n_iterations:,} ({100*iteration/n_iterations:.0f}%)")
-            
+                logger.info(f"  Iteration {iteration:,}/{n_iterations:,} "
+                            f"({100*iteration/n_iterations:.0f}%)")
+
             # Sample intensities for this iteration
             sampled_intensities = self.sample_intensities()
-            
+
             # Calculate demand for this iteration
             demand = self.calculate_material_demand_single_iteration(
                 stock_flow_states,
                 sampled_intensities
             )
-            
+
             # Store in array
             for (scenario, year, material), demand_value in demand.items():
                 i_s = scenario_idx[scenario]
                 i_y = year_idx[year]
                 i_m = material_idx[material]
                 results_array[iteration, i_s, i_y, i_m] = demand_value
-        
-        logger.info("✓ Monte Carlo simulation complete")
-        
+
+            # ── Convergence check ──────────────────────────────────────────
+            completed = iteration + 1
+            if (convergence_rtol > 0
+                    and completed >= convergence_min_iterations
+                    and completed % convergence_check_every == 0):
+
+                current_means = results_array[:completed].mean(axis=0)
+
+                if prev_means is not None:
+                    mask = np.abs(prev_means) > 1e-10
+                    if mask.any():
+                        rel_change = (
+                            np.abs(current_means[mask] - prev_means[mask])
+                            / np.abs(prev_means[mask])
+                        )
+                        max_rel_change = float(rel_change.max())
+                        logger.info(f"  Convergence check at {completed:,}: "
+                                    f"max relative change = {max_rel_change:.6f}")
+
+                        if max_rel_change < convergence_rtol:
+                            converged = True
+                            final_iteration = completed
+                            logger.info(
+                                f"  *** Converged at iteration {completed:,} "
+                                f"(rtol={convergence_rtol})")
+                            break
+
+                prev_means = current_means
+
+        # Truncate array if converged early
+        if converged:
+            results_array = results_array[:final_iteration]
+        else:
+            final_iteration = n_iterations
+            if convergence_rtol > 0:
+                logger.info(f"  Reached max iterations ({n_iterations:,}) "
+                            "without convergence")
+
+        logger.info(f"Monte Carlo complete: {final_iteration:,} iterations used")
+
         return SimulationResult(
             iterations_data=results_array,
-            n_iterations=n_iterations,
+            n_iterations=final_iteration,
             scenarios=scenarios,
             years=self.years,
             materials=self.materials,
             scenario_idx=scenario_idx,
             year_idx=year_idx,
-            material_idx=material_idx
+            material_idx=material_idx,
+            converged=converged,
+            convergence_iteration=final_iteration if converged else None,
         )
 
 
@@ -507,11 +578,14 @@ def run_full_simulation(
     capacity_path: Union[str, Path],
     n_iterations: int = 10000,
     scenarios_to_run: Optional[List[str]] = None,
-    random_state: int = 42
+    random_state: int = 42,
+    convergence_rtol: float = 0.01,
+    convergence_check_every: int = 500,
+    convergence_min_iterations: int = 1000,
 ) -> Tuple[MaterialsStockFlowSimulation, SimulationResult]:
     """
     Run complete simulation pipeline from data files to results.
-    
+
     Parameters
     ----------
     intensity_path : str or Path
@@ -519,12 +593,19 @@ def run_full_simulation(
     capacity_path : str or Path
         Path to capacity projections CSV
     n_iterations : int
-        Number of Monte Carlo iterations
+        Hard maximum number of Monte Carlo iterations (default 10,000).
     scenarios_to_run : List[str], optional
         Subset of scenarios (default: all)
     random_state : int
         Random seed
-    
+    convergence_rtol : float
+        Relative tolerance for early stopping (default 0.01 = 1 %).
+        Set to 0 to disable convergence checking.
+    convergence_check_every : int
+        Check convergence every this many iterations (default 500).
+    convergence_min_iterations : int
+        Minimum iterations before convergence checks begin (default 1,000).
+
     Returns
     -------
     simulation : MaterialsStockFlowSimulation
@@ -535,23 +616,23 @@ def run_full_simulation(
     logger.info("="*80)
     logger.info("FULL SIMULATION PIPELINE")
     logger.info("="*80)
-    
+
     # Step 1: Load data
     logger.info("\nStep 1: Loading data...")
     data = load_all_data(
         intensity_path=intensity_path,
         national_capacity_path=capacity_path
     )
-    
+
     # Step 2: Fit distributions
     logger.info("\nStep 2: Fitting distributions...")
     fitter = DistributionFitter()
     fitted_dists = fitter.fit_all(data['intensity'])
-    
+
     # Step 3: Validate technology mapping
     logger.info("\nStep 3: Validating technology mapping...")
     validate_mapping()
-    
+
     # Step 4: Initialize simulation
     logger.info("\nStep 4: Initializing simulation...")
     simulation = MaterialsStockFlowSimulation(
@@ -560,18 +641,25 @@ def run_full_simulation(
         fitted_distributions=fitted_dists,
         random_state=random_state
     )
-    
+
     # Step 5: Run Monte Carlo
     logger.info("\nStep 5: Running Monte Carlo simulation...")
     results = simulation.run_monte_carlo(
         n_iterations=n_iterations,
-        scenarios_to_run=scenarios_to_run
+        scenarios_to_run=scenarios_to_run,
+        convergence_rtol=convergence_rtol,
+        convergence_check_every=convergence_check_every,
+        convergence_min_iterations=convergence_min_iterations,
     )
-    
+
     logger.info("\n" + "="*80)
     logger.info("SIMULATION COMPLETE")
+    if results.converged:
+        logger.info(f"Converged at iteration {results.convergence_iteration:,}")
+    else:
+        logger.info(f"Ran full {results.n_iterations:,} iterations")
     logger.info("="*80)
-    
+
     return simulation, results
 
 

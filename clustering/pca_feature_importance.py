@@ -254,14 +254,25 @@ def plot_feature_importance(importance_df, name):
     print(f"  Saved feature_importance_{name}")
 
 
-def plot_biplot(X_scaled, pca, feature_names, name, pc_x=1, pc_y=2, entity_names=None):
+def plot_biplot(X_scaled, pca, feature_names, name, pc_x=1, pc_y=2, entity_names=None,
+                max_loading_labels=8):
     """
     PCA biplot showing samples and loading vectors.
+
+    Only the top *max_loading_labels* loading vectors (by magnitude) are
+    labeled; shorter vectors are drawn as faint arrows without text.
+    Entity labels are only shown for outlier points when there are many
+    entities (>25), and use adjustText for repulsion when available.
     """
+    try:
+        from adjustText import adjust_text
+    except ImportError:
+        adjust_text = None
+
     # Transform data
     X_pca = pca.transform(X_scaled)
 
-    fig, ax = plt.subplots(figsize=FIGSIZE_STANDARD)
+    fig, ax = plt.subplots(figsize=(12, 10))
 
     # Plot samples
     ax.scatter(
@@ -274,38 +285,62 @@ def plot_biplot(X_scaled, pca, feature_names, name, pc_x=1, pc_y=2, entity_names
         c='#4292c6'
     )
 
-    # Add entity labels if provided
+    # Add entity labels — only outliers for dense plots
     if entity_names is not None:
-        for idx, txt in enumerate(entity_names):
-            ax.annotate(
-                txt,
-                (X_pca[idx, pc_x - 1], X_pca[idx, pc_y - 1]),
-                fontsize=6,
-                alpha=0.6,
-                textcoords='offset points',
-                xytext=(4, 4)
-            )
+        n_entities = len(entity_names)
+        xs = X_pca[:, pc_x - 1]
+        ys = X_pca[:, pc_y - 1]
 
-    # Loading vectors
+        if n_entities > 25:
+            # Label only outliers (beyond 1.5 IQR from median)
+            x_med, y_med = np.median(xs), np.median(ys)
+            dist = np.sqrt((xs - x_med) ** 2 + (ys - y_med) ** 2)
+            q75 = np.percentile(dist, 75)
+            iqr = q75 - np.percentile(dist, 25)
+            threshold = q75 + 1.0 * iqr
+            label_mask = dist > threshold
+        else:
+            label_mask = np.ones(n_entities, dtype=bool)
+
+        texts = []
+        for idx in np.where(label_mask)[0]:
+            t = ax.text(
+                xs[idx], ys[idx], entity_names[idx],
+                fontsize=6, alpha=0.7,
+            )
+            texts.append(t)
+
+        if adjust_text is not None and texts:
+            adjust_text(texts, ax=ax, arrowprops=dict(arrowstyle='-', color='gray',
+                        alpha=0.4, lw=0.5))
+
+    # Loading vectors — only label the longest ones
     loadings = pca.components_.T
     scale = max(np.abs(X_pca[:, [pc_x - 1, pc_y - 1]]).max(axis=0)) * 0.8
 
+    # Compute vector magnitudes for this PC pair
+    magnitudes = np.sqrt(loadings[:, pc_x - 1] ** 2 + loadings[:, pc_y - 1] ** 2)
+    mag_threshold = np.sort(magnitudes)[-min(max_loading_labels, len(magnitudes))]
+
     for j, feat in enumerate(feature_names):
+        is_top = magnitudes[j] >= mag_threshold
+        arrow_alpha = 0.7 if is_top else 0.15
         ax.annotate(
             '',
             xy=(loadings[j, pc_x - 1] * scale, loadings[j, pc_y - 1] * scale),
             xytext=(0, 0),
-            arrowprops=dict(arrowstyle='->', color='red', lw=1.2, alpha=0.7)
+            arrowprops=dict(arrowstyle='->', color='red', lw=1.2, alpha=arrow_alpha)
         )
-        ax.text(
-            loadings[j, pc_x - 1] * scale * 1.1,
-            loadings[j, pc_y - 1] * scale * 1.1,
-            feat,
-            fontsize=7,
-            color='red',
-            ha='center',
-            alpha=0.8
-        )
+        if is_top:
+            ax.text(
+                loadings[j, pc_x - 1] * scale * 1.1,
+                loadings[j, pc_y - 1] * scale * 1.1,
+                feat,
+                fontsize=7,
+                color='red',
+                ha='center',
+                alpha=0.8
+            )
 
     ev = pca.explained_variance_ratio_
     ax.set_xlabel(f'PC{pc_x} ({ev[pc_x - 1]:.1%} variance)')

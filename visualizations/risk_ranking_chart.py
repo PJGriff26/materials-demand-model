@@ -280,7 +280,7 @@ def main():
     # Paths
     base_dir = Path(__file__).resolve().parent.parent
     data_path = base_dir / "data" / "supply_chain" / "risk_charts_inputs.xlsx"
-    output_dir = base_dir / "outputs" / "figures" / "supply_chain"
+    output_dir = base_dir / "outputs" / "figures" / "supply_chain_risk"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"Loading data from: {data_path}")
@@ -314,9 +314,11 @@ def main():
     for mat, row in bottom5.iterrows():
         print(f"  {mat}: {row['Import Dependency']:.3f}")
 
-    # Save summary CSV
-    risk_df.to_csv(output_dir / "risk_scores_by_material.csv")
-    print(f"\nRisk scores saved to: {output_dir / 'risk_scores_by_material.csv'}")
+    # Save summary CSV (data goes to data dir, not figures)
+    data_output_dir = base_dir / "outputs" / "data" / "supply_chain"
+    data_output_dir.mkdir(parents=True, exist_ok=True)
+    risk_df.to_csv(data_output_dir / "risk_scores_by_material.csv")
+    print(f"\nRisk scores saved to: {data_output_dir / 'risk_scores_by_material.csv'}")
 
     plt.show()
 

@@ -205,6 +205,11 @@ def plot_biplot(scores, loadings, component_names, name, pc_x=0, pc_y=1):
     comp_x = loadings.columns[pc_x]
     comp_y = loadings.columns[pc_y]
 
+    try:
+        from adjustText import adjust_text
+    except ImportError:
+        adjust_text = None
+
     # Plot entities
     ax.scatter(
         scores.iloc[:, pc_x],
@@ -216,40 +221,66 @@ def plot_biplot(scores, loadings, component_names, name, pc_x=0, pc_y=1):
         linewidth=0.5
     )
 
-    # Label entities
-    for idx in scores.index:
-        ax.annotate(
-            idx,
-            (scores.loc[idx].iloc[pc_x], scores.loc[idx].iloc[pc_y]),
-            fontsize=8,
-            alpha=0.8,
-            textcoords='offset points',
-            xytext=(5, 5)
-        )
+    # Label entities — only outliers for dense plots, adjustText for repulsion
+    n_entities = len(scores)
+    xs = scores.iloc[:, pc_x].values
+    ys = scores.iloc[:, pc_y].values
 
-    # Plot loading vectors (only non-zero)
+    if n_entities > 25:
+        x_med, y_med = np.median(xs), np.median(ys)
+        dist = np.sqrt((xs - x_med) ** 2 + (ys - y_med) ** 2)
+        q75 = np.percentile(dist, 75)
+        iqr = q75 - np.percentile(dist, 25)
+        threshold = q75 + 1.0 * iqr
+        label_mask = dist > threshold
+    else:
+        label_mask = np.ones(n_entities, dtype=bool)
+
+    texts = []
+    for i, idx in enumerate(scores.index):
+        if label_mask[i]:
+            t = ax.text(xs[i], ys[i], idx, fontsize=7, alpha=0.8)
+            texts.append(t)
+
+    if adjust_text is not None and texts:
+        adjust_text(texts, ax=ax,
+                    arrowprops=dict(arrowstyle='-', color='gray', alpha=0.4, lw=0.5))
+
+    # Plot loading vectors (only non-zero) — label top 8 by magnitude
+    max_loading_labels = 8
     scale = max(scores.iloc[:, pc_x].abs().max(), scores.iloc[:, pc_y].abs().max()) * 0.8
 
+    # Compute magnitudes for non-zero loadings
+    nonzero_feats = []
     for feat in loadings.index:
         lx = loadings.loc[feat, comp_x]
         ly = loadings.loc[feat, comp_y]
-
         if abs(lx) > 1e-6 or abs(ly) > 1e-6:
+            nonzero_feats.append((feat, lx, ly, np.sqrt(lx**2 + ly**2)))
+
+    if nonzero_feats:
+        mags = [m for _, _, _, m in nonzero_feats]
+        mag_threshold = sorted(mags)[-min(max_loading_labels, len(mags))]
+
+        for feat, lx, ly, mag in nonzero_feats:
+            is_top = mag >= mag_threshold
             ax.annotate(
                 '',
                 xy=(lx * scale, ly * scale),
                 xytext=(0, 0),
-                arrowprops=dict(arrowstyle='->', color='#e31a1c', lw=1.5, alpha=0.8)
+                arrowprops=dict(arrowstyle='->', color='#e31a1c', lw=1.5,
+                                alpha=0.8 if is_top else 0.2)
             )
-            ax.text(
-                lx * scale * 1.1,
-                ly * scale * 1.1,
-                feat,
-                fontsize=9,
-                color='#e31a1c',
-                fontweight='bold',
-                ha='center'
-            )
+            if is_top:
+                ax.text(
+                    lx * scale * 1.1,
+                    ly * scale * 1.1,
+                    feat,
+                    fontsize=9,
+                    color='#e31a1c',
+                    fontweight='bold',
+                    ha='center'
+                )
 
     ax.axhline(0, color='gray', linestyle='-', alpha=0.3)
     ax.axvline(0, color='gray', linestyle='-', alpha=0.3)

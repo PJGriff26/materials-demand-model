@@ -1058,8 +1058,8 @@ Examples:
     parser.add_argument(
         '--outdir',
         type=Path,
-        default=Path('./outputs/figures/supply_chain'),
-        help='Output directory (default: ./outputs/figures/supply_chain)'
+        default=Path('./outputs/figures/supply_chain_risk'),
+        help='Output directory (default: ./outputs/figures/supply_chain_risk)'
     )
 
     parser.add_argument(
