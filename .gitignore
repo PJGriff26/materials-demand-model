@@ -77,6 +77,24 @@ dist/
 
 # Paper generation (not for public repo)
 paper/
+visualizations/manuscript_*.py
+
+# Paper-related docs
+docs/SI_methodology.md
+docs/manuscript_figure_map.csv
+docs/visualization_inventory.csv
 
 # Paper_Draft output directory
 ../../../Paper_Draft/
+
+# Old proposal figures
+proposal_figures/
+
+# Archive figures
+outputs/figures/archive/
+
+# Claude Code logs (private)
+CHANGELOG_CLAUDE_CODE.md
+
+# Excel lock files
+~$*

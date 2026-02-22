@@ -23,11 +23,16 @@ from config import (
 # ── CRC colour scheme (matches manuscript) ────────────────────────────────────
 CRC_ORDER = ["United States", "OECD", 1, 2, 3, 4, 5, 6, 7, "China", "Undefined"]
 CRC_COLORS = {
-    "United States": "#1f77b4",
-    "OECD": "#2ca02c",
-    1: "#98df8a", 2: "#d4e157", 3: "#ffeb3b",
-    4: "#ffca28", 5: "#ffa726", 6: "#ff7043", 7: "#e53935",
-    "China": "#d62728",
+    "United States": "#1f77b4",   # Blue
+    "OECD": "#2ca02c",            # Green
+    1: "#98df8a",                  # Light green
+    2: "#c0ca33",                  # Yellow-green (shifted from #d4e157)
+    3: "#fdd835",                  # Golden yellow (shifted from #ffeb3b)
+    4: "#ffb300",                  # Amber (shifted from #ffca28 for wider hue gap)
+    5: "#fb8c00",                  # Deep orange (shifted from #ffa726)
+    6: "#f4511e",                  # Red-orange (shifted from #ff7043)
+    7: "#e53935",                  # Red
+    "China": "#880e4f",            # Dark magenta (was #d62728, now distinct from CRC 7)
     "Undefined": "#999999",
 }
 CRC_LABELS = {
@@ -222,29 +227,43 @@ def fig4_reserve_adequacy(demand, risk):
     """
     For each material, show reserve coverage ratio (reserves / cumulative demand 2026-2050),
     broken down by CRC category of where reserves are located.
-    Uses MEDIAN demand across 61 scenarios.
+    Uses the MAXIMUM demand scenario for each material independently.
+
+    Rationale: The 61 NREL scenarios are not equally weighted, so the median
+    across scenarios is not meaningful.  The maximum-demand framing answers
+    "can reserves meet demand even under the most material-intensive pathway?"
 
     Values > 1 mean reserves exceed projected demand; < 1 means reserves insufficient.
     """
     reserves_crc = _get_reserves_by_crc(risk)
 
-    # Calculate cumulative demand 2026-2050 (median across scenarios)
+    # Calculate cumulative demand 2026-2050 per scenario
     demand_2026_2050 = demand[(demand["year"] >= 2026) & (demand["year"] <= 2050)]
-    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum()
-    cumulative_demand = scenario_totals.groupby("material").median()
+    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum().unstack(fill_value=0)
 
-    materials = sorted(set(DEMAND_TO_RISK.keys()) & set(cumulative_demand.index))
+    # Worst case: highest cumulative demand across all scenarios, per material
+    max_demand = scenario_totals.max()
+    max_scenario = scenario_totals.idxmax()
+
+    materials = sorted(set(DEMAND_TO_RISK.keys()) & set(max_demand.index))
     risk_names = {m: DEMAND_TO_RISK[m] for m in materials}
 
     plot_data = []
+    scenario_labels = {}
     for mat in materials:
         rn = risk_names[mat]
-        cum_dem = cumulative_demand.get(mat, 0)
+        cum_dem = max_demand.get(mat, 0)
         if cum_dem == 0:
             continue
+        # Skip materials where USGS does not report reserves (all zeros).
+        # These are either reported under a different commodity (e.g. bauxite
+        # for aluminum, iron ore for steel) or are effectively unlimited
+        # (cement from limestone, silicon from silica, magnesium from seawater).
         mat_res = reserves_crc[reserves_crc["material"] == rn]
+        if mat_res["reserves_kt"].sum() == 0:
+            continue
+        scenario_labels[mat] = max_scenario.get(mat, "unknown")
         for _, row in mat_res.iterrows():
-            # Coverage ratio: reserves / cumulative demand (>1 = adequate, <1 = insufficient)
             coverage = (row["reserves_kt"] * 1000) / cum_dem
             plot_data.append({
                 "material": mat, "crc": row["crc"], "coverage": coverage,
@@ -280,10 +299,10 @@ def fig4_reserve_adequacy(demand, risk):
     ax.axvline(x=1, color="red", linestyle="--", linewidth=1.5, label="Reserves = Demand")
 
     ax.set_xlabel("Reserve coverage ratio (reserves / cumulative demand 2026-2050)")
-    ax.set_title("Economic reserve adequacy by CRC category — MEDIAN scenario\n"
-                 "(global reserves ÷ median energy transition demand through 2050, n=61 scenarios)")
+    ax.set_title("Economic reserve adequacy by CRC category — maximum demand scenario\n"
+                 "(global reserves ÷ highest-demand scenario per material, n=61 scenarios)")
     ax.set_xscale("log")
-    ax.set_xlim(0.1, 1e7)  # x-axis from 10^-1 to 10^7
+    ax.set_xlim(0.1, 1e7)
 
     handles = [mpatches.Patch(color=CRC_COLORS[c], label=CRC_LABELS[c]) for c in CRC_ORDER]
     handles.append(plt.Line2D([0], [0], color="red", linestyle="--", linewidth=1.5, label="Reserves = Demand"))
@@ -298,93 +317,6 @@ def fig4_reserve_adequacy(demand, risk):
     print(f"  Saved fig4_reserve_adequacy")
 
 
-def fig4_reserve_adequacy_max(demand, risk):
-    """
-    For each material, show reserve coverage ratio using MAXIMUM demand scenario.
-    Annotates which scenario yields the highest demand for each material.
-    """
-    reserves_crc = _get_reserves_by_crc(risk)
-
-    # Calculate cumulative demand 2026-2050 per scenario
-    demand_2026_2050 = demand[(demand["year"] >= 2026) & (demand["year"] <= 2050)]
-    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum().unstack(fill_value=0)
-
-    # Find max demand and which scenario it comes from for each material
-    max_demand = scenario_totals.max()
-    max_scenario = scenario_totals.idxmax()
-
-    materials = sorted(set(DEMAND_TO_RISK.keys()) & set(max_demand.index))
-    risk_names = {m: DEMAND_TO_RISK[m] for m in materials}
-
-    plot_data = []
-    scenario_labels = {}
-    for mat in materials:
-        rn = risk_names[mat]
-        cum_dem = max_demand.get(mat, 0)
-        if cum_dem == 0:
-            continue
-        scenario_labels[mat] = max_scenario.get(mat, "unknown")
-        mat_res = reserves_crc[reserves_crc["material"] == rn]
-        for _, row in mat_res.iterrows():
-            coverage = (row["reserves_kt"] * 1000) / cum_dem
-            plot_data.append({
-                "material": mat, "crc": row["crc"], "coverage": coverage,
-            })
-
-    df = pd.DataFrame(plot_data)
-    if df.empty:
-        print("  No reserve data available for plotting.")
-        return
-
-    # Total coverage per material for sorting
-    total_coverage = df.groupby("material")["coverage"].sum().sort_values(ascending=True)
-    mat_order = total_coverage.index.tolist()
-
-    # Create y-axis labels with scenario names
-    y_labels = [f"{m} ({scenario_labels.get(m, '?')[:25]})" for m in mat_order]
-
-    fig, ax = plt.subplots(figsize=(16, max(8, len(mat_order) * 0.5)))
-
-    bottoms = {m: 0 for m in mat_order}
-    for crc_cat in CRC_ORDER:
-        vals = []
-        for m in mat_order:
-            row = df[(df["material"] == m) & (df["crc"] == crc_cat)]
-            vals.append(row["coverage"].values[0] if len(row) > 0 else 0)
-        ax.barh(
-            range(len(mat_order)), vals, left=[bottoms[m] for m in mat_order],
-            color=CRC_COLORS.get(crc_cat, "#cccccc"),
-            label=CRC_LABELS.get(crc_cat, str(crc_cat)),
-            edgecolor="white", linewidth=0.3,
-        )
-        for i, m in enumerate(mat_order):
-            bottoms[m] += vals[i]
-
-    ax.set_yticks(range(len(mat_order)))
-    ax.set_yticklabels(y_labels, fontsize=8)
-
-    # Add vertical line at coverage = 1
-    ax.axvline(x=1, color="red", linestyle="--", linewidth=1.5, label="Reserves = Demand")
-
-    ax.set_xlabel("Reserve coverage ratio (reserves / cumulative demand 2026-2050)")
-    ax.set_title("Economic reserve adequacy by CRC category — MAXIMUM demand scenario\n"
-                 "(global reserves ÷ highest scenario demand through 2050; scenario name in parentheses)")
-    ax.set_xscale("log")
-    ax.set_xlim(0.1, 1e7)
-
-    handles = [mpatches.Patch(color=CRC_COLORS[c], label=CRC_LABELS[c]) for c in CRC_ORDER]
-    handles.append(plt.Line2D([0], [0], color="red", linestyle="--", linewidth=1.5, label="Reserves = Demand"))
-    ax.legend(handles=handles, loc="lower right", fontsize=7, ncol=2)
-    ax.grid(True, alpha=0.2, axis="x")
-
-    fig.tight_layout()
-    for fmt in FIGURE_FORMAT:
-        fig.savefig(FIGURES_MANUSCRIPT_DIR / f"fig4_reserve_adequacy_max.{fmt}", dpi=FIGURE_DPI,
-                    bbox_inches="tight")
-    plt.close(fig)
-    print(f"  Saved fig4_reserve_adequacy_max")
-
-
 # ═══════════════════════════════════════════════════════════════════════════════
 # Fig. 4b: US-only reserve adequacy
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -393,6 +325,7 @@ def fig4_reserve_adequacy_us(demand, risk):
     """
     For each material, show US reserve coverage ratio (US reserves / cumulative demand 2026-2050).
     Simple horizontal bar chart showing domestic reserve adequacy.
+    Uses maximum demand scenario per material.
 
     Values > 1 mean US reserves exceed projected demand; < 1 means US reserves insufficient.
     """
@@ -409,21 +342,34 @@ def fig4_reserve_adequacy_us(demand, risk):
         val = pd.to_numeric(us_row[mat].values[0], errors="coerce")
         us_reserves[mat] = val * 1000 if pd.notna(val) else 0  # kt → tonnes
 
-    # Calculate cumulative demand 2026-2050 (median across scenarios)
+    # Calculate cumulative demand 2026-2050 — worst-case scenario per material
     demand_2026_2050 = demand[(demand["year"] >= 2026) & (demand["year"] <= 2050)]
-    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum()
-    cumulative_demand = scenario_totals.groupby("material").median()
+    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum().unstack(fill_value=0)
+    cumulative_demand = scenario_totals.max()
 
     materials = sorted(set(DEMAND_TO_RISK.keys()) & set(cumulative_demand.index))
     risk_names = {m: DEMAND_TO_RISK[m] for m in materials}
+
+    # Check which materials have any global reserves reported (same logic as fig4)
+    reserves_df_all = risk["reserves"]
+    mat_cols_all = [c for c in reserves_df_all.columns if c != "Unnamed: 0"]
+    global_row = reserves_df_all[reserves_df_all["Unnamed: 0"] == "Global"]
+    has_global_reserves = set()
+    for mc in mat_cols_all:
+        val = pd.to_numeric(global_row[mc].values[0], errors="coerce") if len(global_row) else 0
+        if pd.notna(val) and val > 0:
+            has_global_reserves.add(mc)
 
     plot_data = []
     for mat in materials:
         rn = risk_names[mat]
         cum_dem = cumulative_demand.get(mat, 0)
-        us_res = us_reserves.get(rn, 0)
         if cum_dem == 0:
             continue
+        # Skip materials where USGS does not report reserves at all
+        if rn not in has_global_reserves:
+            continue
+        us_res = us_reserves.get(rn, 0)
         coverage = us_res / cum_dem
         plot_data.append({
             "material": mat,
@@ -461,8 +407,8 @@ def fig4_reserve_adequacy_us(demand, risk):
     ax.axvline(x=1, color="red", linestyle="--", linewidth=1.5, label="Reserves = Demand")
 
     ax.set_xlabel("US reserve coverage ratio (US reserves / cumulative demand 2026-2050)")
-    ax.set_title("US domestic reserve adequacy for energy transition\n"
-                 "(US reserves ÷ total projected demand through 2050)")
+    ax.set_title("US domestic reserve adequacy — maximum demand scenario\n"
+                 "(US reserves ÷ highest-demand scenario per material through 2050)")
     ax.set_xscale("log")
 
     # Custom legend for colors
@@ -539,6 +485,18 @@ def figSI_production_shares_crc(risk):
         print("  No production data available for plotting.")
         return
 
+    # Deduplicate material names that arise from duplicate Excel columns
+    # (e.g., "Cement" and "Cement.1" from pandas reading duplicate headers)
+    production_crc["material"] = production_crc["material"].str.replace(
+        r"\.\d+$", "", regex=True
+    )
+    # Re-aggregate after dedup
+    production_crc = (
+        production_crc.groupby(["material", "crc"])["production_kt"]
+        .sum()
+        .reset_index()
+    )
+
     # Calculate shares per material
     total_prod = production_crc.groupby("material")["production_kt"].sum()
 
@@ -607,13 +565,10 @@ if __name__ == "__main__":
     print("\nGenerating Fig. 3: Demand with CRC sourcing breakdown...")
     fig3_demand_sourcing(demand, risk)
 
-    print("\nGenerating Fig. 4: Reserve adequacy by CRC category (median scenario)...")
+    print("\nGenerating Fig. 4: Reserve adequacy by CRC category (maximum demand)...")
     fig4_reserve_adequacy(demand, risk)
 
-    print("\nGenerating Fig. 4 (max): Reserve adequacy by CRC category (max scenario)...")
-    fig4_reserve_adequacy_max(demand, risk)
-
-    print("\nGenerating Fig. 4b: US-only reserve adequacy...")
+    print("\nGenerating Fig. 4b: US-only reserve adequacy (maximum demand)...")
     fig4_reserve_adequacy_us(demand, risk)
 
     print("\nGenerating Fig. SI: Production shares by CRC category...")
