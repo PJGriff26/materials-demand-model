@@ -80,8 +80,7 @@ dist/
 *.bak
 .cache/
 
-# Paper generation (not for public repo)
-paper/
+# Manuscript figure scripts (kept locally, not in repo)
 visualizations/manuscript_*.py
 
 # Paper-related docs
@@ -96,11 +95,9 @@ docs/visualization_inventory.csv
 # proposal_figures/
 
 # Archive figures (except figure_validation and prototype)
-outputs/figures/archive/
+outputs/figures/archive/*
 !outputs/figures/archive/figure_validation/
-!outputs/figures/archive/figure_validation/**
 !outputs/figures/archive/prototype/
-!outputs/figures/archive/prototype/**
 
 # Claude Code logs (private)
 CHANGELOG_CLAUDE_CODE.md

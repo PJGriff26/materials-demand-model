@@ -57,9 +57,7 @@ materials_demand_model/
 │   ├── clustering_comparison.py      # 4-method comparison (VIF/PCA/SPCA/FA)
 │   └── supply_chain_analysis.py      # CRC sourcing, reserve adequacy
 │
-├── visualizations/                   # Manuscript & analysis figures
-│   ├── manuscript_figures.py         # Fig. 2, SI capacity/intensity figures
-│   ├── manuscript_fig1.py            # Fig. 1 demand curves
+├── visualizations/                   # Analysis & figure generation
 │   ├── risk_ranking_chart.py         # Supply chain risk charts
 │   ├── feature_scatterplots.py       # EDA scatterplots & correlations
 │   ├── compare_figures.py            # Before/after figure comparison
@@ -68,12 +66,6 @@ materials_demand_model/
 │       ├── sensitivity_analysis.py   # Sensitivity analysis example
 │       ├── supply_chain_risk_analysis.py  # Risk analysis example
 │       └── diagnostics/              # Debugging & inspection scripts
-│
-├── paper/                            # Manuscript generation scripts
-│   ├── generate_manuscript.py        # Main manuscript generator
-│   ├── generate_si.py               # Supplementary information generator
-│   ├── extract_results.py            # Results extraction for manuscript
-│   └── organize_figures.py           # Figure organization for submission
 │
 ├── proposal_figures/                 # Original proposal visualizations
 │   ├── figure1_scenario_spaghetti.*  # Scenario ensemble plots
@@ -103,8 +95,7 @@ materials_demand_model/
 │   ├── data/
 │   │   ├── clustering/               # Cluster results, features, scores
 │   │   │   └── comparison/           # 4-method comparison metrics
-│   │   ├── sensitivity/              # Variance decomposition, Spearman
-│   │   └── supply_chain/             # CRC allocation, risk scores
+│   │   └── sensitivity/              # Variance decomposition, Spearman
 │   ├── figures/
 │   │   ├── manuscript/               # Publication figures (Fig. 1–4, SI)
 │   │   ├── clustering/               # Organized by analysis type
@@ -124,12 +115,9 @@ materials_demand_model/
 │
 └── docs/                             # Documentation
     ├── variable_reference.csv        # Master variable documentation
-    ├── visualization_inventory.csv   # All visualizations documented
-    ├── SI_methodology.md             # Supplementary methods
     ├── README_supply_chain_risk.md   # Risk methodology
     ├── README_VISUALIZATION_TOOLS.md # Visualization tooling guide
     ├── REPOSITORY_ORGANIZATION.md    # Repo organization reference
-    ├── manuscript_figure_map.csv     # Figure-to-code mapping
     └── archive/                      # Superseded diagnostic documents
 ```
 

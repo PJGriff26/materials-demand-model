@@ -31,24 +31,18 @@ outputs/
 │   │       ├── comparison_metrics_*.csv
 │   │       ├── comparison_pairwise_ari_*.csv
 │   │       └── comparison_summary_report.txt
-│   ├── sensitivity/                   # Sensitivity analysis results
-│   │   ├── variance_decomposition.csv
-│   │   ├── variance_decomposition_by_year.csv
-│   │   ├── uncertainty_decomposition.csv
-│   │   ├── intensity_elasticity.csv
-│   │   ├── spearman_sensitivity.csv
-│   │   ├── spearman_iteration_data.csv
-│   │   ├── scenario_sensitivity.csv
-│   │   ├── temporal_sensitivity.csv
-│   │   ├── technology_contributions.csv
-│   │   ├── material_correlations.csv
-│   │   └── high_correlation_pairs.csv
-│   └── supply_chain/                  # Supply chain risk data
-│       ├── allocated_demand_by_crc.csv
-│       ├── crc_shares_audit.csv
-│       ├── demand_vs_production_comparison.csv
-│       ├── risk_scores_by_material.csv
-│       └── risk_analysis_summary.txt
+│   └── sensitivity/                   # Sensitivity analysis results
+│       ├── variance_decomposition.csv
+│       ├── variance_decomposition_by_year.csv
+│       ├── uncertainty_decomposition.csv
+│       ├── intensity_elasticity.csv
+│       ├── spearman_sensitivity.csv
+│       ├── spearman_iteration_data.csv
+│       ├── scenario_sensitivity.csv
+│       ├── temporal_sensitivity.csv
+│       ├── technology_contributions.csv
+│       ├── material_correlations.csv
+│       └── high_correlation_pairs.csv
 │
 ├── figures/                           # All visualizations
 │   ├── manuscript/                    # Publication-quality figures
