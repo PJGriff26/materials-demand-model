@@ -679,36 +679,29 @@ def engineer_material_features(demand, risk_data, thin_film_data):
         return np.polyfit(year_arr, vals, 1)[0]
     feats["demand_slope"] = mat_year.apply(_slope, axis=1)
 
-    # 7. Number of scenarios with non-zero demand
-    feats["n_active_scenarios"] = (
-        demand[demand["mean"] > 0]
-        .groupby("material")["scenario"]
-        .nunique()
-    )
-
     # ── Supply-chain / risk features ──────────────────────────────────────
 
-    # 8. US domestic production (tonnes)
+    # 7. US domestic production (tonnes)
     feats["domestic_production"] = us_production.reindex(feats.index).fillna(0)
 
-    # 9. Import dependency (0–1 fraction, 1 = fully imported)
+    # 8. Import dependency (0–1 fraction, 1 = fully imported)
     feats["import_dependency"] = import_dep.reindex(feats.index).fillna(1.0)
 
-    # 10. CRC-weighted supply risk (0–8 scale)
+    # 9. CRC-weighted supply risk (0–8 scale)
     feats["crc_weighted_risk"] = crc_mapped.reindex(feats.index).fillna(5.0)
 
-    # 11. Mean capacity ratio: mean scenario demand / US production
+    # 10. Mean capacity ratio: mean scenario demand / US production
     mat_annual_mean = scen_totals.groupby("material")["mean"].mean()
     feats["mean_capacity_ratio"] = (
         mat_annual_mean / us_production
     ).reindex(feats.index).fillna(0)
 
-    # 12. Max capacity ratio
+    # 11. Max capacity ratio
     feats["max_capacity_ratio"] = (
         scen_totals.groupby("material")["mean"].max() / us_production
     ).reindex(feats.index).fillna(0)
 
-    # 13. Exceedance frequency: fraction of scenarios where demand > production
+    # 12. Exceedance frequency: fraction of scenarios where demand > production
     exceed = scen_totals.merge(
         us_production.rename("production").reset_index().rename(
             columns={"index": "material"}
@@ -725,12 +718,12 @@ def engineer_material_features(demand, risk_data, thin_film_data):
     # These features compare total energy transition demand to known reserves,
     # answering: "What fraction of reserves does the transition consume?"
 
-    # 14. Cumulative demand: total demand 2026-2050 (median across scenarios)
+    # 13. Cumulative demand: total demand 2026-2050 (median across scenarios)
     #     Sum annual demand for each scenario, then take median across scenarios
     scenario_cumulative = year_pivot.sum(axis=1).groupby("material").median()
     feats["cumulative_demand"] = scenario_cumulative.reindex(feats.index).fillna(0)
 
-    # 15. Reserve consumption %: (cumulative_demand / global_reserves) × 100
+    # 14. Reserve consumption %: (cumulative_demand / global_reserves) × 100
     #     Interpretation: "X% of known global reserves consumed by energy transition"
     #     Values >100% indicate reserves are insufficient
     global_res = global_reserves.reindex(feats.index).fillna(0)
@@ -739,7 +732,7 @@ def engineer_material_features(demand, risk_data, thin_film_data):
     )
     feats.loc[global_res == 0, "reserve_consumption_pct"] = 0
 
-    # 16. Domestic reserve coverage: domestic_reserves / cumulative_demand
+    # 15. Domestic reserve coverage: domestic_reserves / cumulative_demand
     #     Interpretation: "Fraction of transition demand covered by US reserves"
     #     Values <1 indicate need for imports; values >1 indicate domestic sufficiency
     domestic_res = domestic_reserves.reindex(feats.index).fillna(0)
@@ -748,7 +741,7 @@ def engineer_material_features(demand, risk_data, thin_film_data):
     )
     feats.loc[feats["cumulative_demand"] == 0, "domestic_reserve_coverage"] = 0
 
-    # 17. Global reserve coverage: global_reserves / cumulative_demand
+    # 16. Global reserve coverage: global_reserves / cumulative_demand
     #     Interpretation: "How many times over can global reserves meet transition demand"
     #     Values <1 indicate global shortage risk
     feats["global_reserve_coverage"] = (
@@ -758,39 +751,39 @@ def engineer_material_features(demand, risk_data, thin_film_data):
 
     # ── Reserves-by-CRC features (Fig. 4 style) ─────────────────────────
 
-    # 18. Fraction of global reserves in high-risk countries (CRC 5-7 + China)
+    # 17. Fraction of global reserves in high-risk countries (CRC 5-7 + China)
     feats["reserves_high_risk_frac"] = (
         reserves_crc["reserves_high_risk_frac"].reindex(feats.index).fillna(0)
     )
 
-    # 19. Fraction of global reserves in OECD + US
+    # 18. Fraction of global reserves in OECD + US
     feats["reserves_oecd_frac"] = (
         reserves_crc["reserves_oecd_frac"].reindex(feats.index).fillna(0)
     )
 
-    # 20. Fraction of global reserves in China
+    # 19. Fraction of global reserves in China
     feats["reserves_china_frac"] = (
         reserves_crc["reserves_china_frac"].reindex(feats.index).fillna(0)
     )
 
     # ── CRC sourcing breakdown features (Fig. 3 style) ──────────────────
 
-    # 21. Fraction of imports from China
+    # 20. Fraction of imports from China
     feats["import_china_frac"] = (
         sourcing["import_china_frac"].reindex(feats.index).fillna(0)
     )
 
-    # 22. Fraction of imports from high-risk countries (CRC 5-7 + China)
+    # 21. Fraction of imports from high-risk countries (CRC 5-7 + China)
     feats["import_high_risk_frac"] = (
         sourcing["import_high_risk_frac"].reindex(feats.index).fillna(0)
     )
 
-    # 23. Fraction of imports from OECD countries
+    # 22. Fraction of imports from OECD countries
     feats["import_oecd_frac"] = (
         sourcing["import_oecd_frac"].reindex(feats.index).fillna(0)
     )
 
-    # 24. Import concentration (HHI of country shares, 0-1)
+    # 23. Import concentration (HHI of country shares, 0-1)
     feats["import_hhi"] = (
         sourcing["import_hhi"].reindex(feats.index).fillna(0)
     )

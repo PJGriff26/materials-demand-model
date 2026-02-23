@@ -64,26 +64,26 @@ Interpretation: A 1% increase in [Technology] intensity for [Material]
 3. SPEARMAN CORRELATION SENSITIVITY ANALYSIS
 --------------------------------------------------------------------------------
 Total parameters analyzed: 169
-Significant correlations (p < 0.05): 63 (37.3%)
+Significant correlations (p < 0.05): 70 (41.4%)
 Strong correlations (|ρ| ≥ 0.7): 30
-Moderate correlations (0.4 ≤ |ρ| < 0.7): 2
+Moderate correlations (0.4 ≤ |ρ| < 0.7): 3
 
 Top 15 parameters by Spearman correlation:
 Material        Technology                  ρ      p-value Interpretation      
 ------------------------------------------------------------------------------
-Gadium          CIGS                   1.000*    0.00e+00 strong positive     
+Yttrium         onshore wind           1.000*    0.00e+00 strong positive     
 Selenium        CIGS                   1.000*    0.00e+00 strong positive     
 Gallium         CIGS                   1.000*    0.00e+00 strong positive     
-Yttrium         onshore wind           1.000*    0.00e+00 strong positive     
+Gadium          CIGS                   1.000*    0.00e+00 strong positive     
 Tellurium       CdTe                   1.000*    0.00e+00 strong positive     
 Indium          CIGS                   1.000*    0.00e+00 strong positive     
 Cadmium         CdTe                   1.000*    0.00e+00 strong positive     
 Vanadium        offshore wind          1.000*    0.00e+00 strong positive     
 Zinc            onshore wind           1.000*    0.00e+00 strong positive     
-Terbium         onshore wind           1.000*    0.00e+00 strong positive     
 Chromium        onshore wind           1.000*    0.00e+00 strong positive     
+Terbium         onshore wind           1.000*    0.00e+00 strong positive     
+Nickel          onshore wind           1.000*    0.00e+00 strong positive     
 Praseodymium    onshore wind           0.999*    0.00e+00 strong positive     
-Nickel          onshore wind           0.999*    0.00e+00 strong positive     
 Neodymium       onshore wind           0.999*    0.00e+00 strong positive     
 Niobium         onshore wind           0.997*    0.00e+00 strong positive     
 
@@ -107,11 +107,11 @@ Interpretation guide:
   - Yttrium/onshore wind: 100.0% elasticity
 
 * Most influential parameters (by Spearman ρ):
-  - Gadium/CIGS: ρ = 1.000
+  - Yttrium/onshore wind: ρ = 1.000
   - Selenium/CIGS: ρ = 1.000
   - Gallium/CIGS: ρ = 1.000
 
-* Methods agreement: 6/10 top parameters appear in both elasticity and Spearman rankings
+* Methods agreement: 5/10 top parameters appear in both elasticity and Spearman rankings
 
 ================================================================================
 END OF REPORT

@@ -607,7 +607,7 @@ def generate_summary_report(all_results, all_metrics, all_ari):
     lines.append("=" * 70)
     lines.append("")
     lines.append("Sparse PCA is recommended as the primary clustering input because:")
-    lines.append("  1. Sparsity is ideal for HDLSS data (31 materials, 24 features)")
+    lines.append("  1. Sparsity is ideal for HDLSS data (31 materials, 23 features)")
     lines.append("  2. Components are directly interpretable (named: Demand Scale, etc.)")
     lines.append("  3. L1 regularization handles multicollinearity without VIF's order-dependence")
     lines.append("  4. See empirical metrics above to confirm or challenge this recommendation")

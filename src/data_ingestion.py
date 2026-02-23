@@ -24,6 +24,7 @@ import warnings
 # Import data quality module for outlier detection and corrections
 from src.data_quality import (
     KNOWN_CORRECTIONS,
+    KNOWN_REMOVALS,
     IQR_MULTIPLIER,
     detect_outliers,
 )
@@ -255,6 +256,21 @@ class MaterialIntensityLoader:
                     logger.info(f"Data correction: {tech}/{mat}: {wrong_val} → {correct_val} ({n_matches}x)")
             if corrections_applied > 0:
                 logger.info(f"Applied {corrections_applied} known data corrections")
+
+        # ════════════════════════════════════════════════════════════════════════
+        # STEP 1b: Remove known single-point outliers
+        # ════════════════════════════════════════════════════════════════════════
+        if apply_corrections:
+            removals_applied = 0
+            for tech, mat, bad_val, reason in KNOWN_REMOVALS:
+                mask = (df['technology'] == tech) & (df['Material'] == mat) & (df['value'] == bad_val)
+                n_matches = mask.sum()
+                if n_matches > 0:
+                    df = df[~mask].copy()
+                    removals_applied += n_matches
+                    logger.info(f"Outlier removal: {tech}/{mat} = {bad_val} ({reason})")
+            if removals_applied > 0:
+                logger.info(f"Removed {removals_applied} known single-point outliers")
 
         # ════════════════════════════════════════════════════════════════════════
         # STEP 2: Filter statistical outliers (>100x median within tech-material group)

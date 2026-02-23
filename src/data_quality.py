@@ -44,10 +44,34 @@ KNOWN_CORRECTIONS = [
 ]
 
 # Values flagged but NOT corrected (require expert review):
-# - CIGS/Cadmium 265: Only 3 data points, could be legitimate high estimate
-# - CIGS/Copper 7000-7530: May represent BOS (balance of system) vs cell-only values
-# - CIGS/Gallium 124: 2 occurrences at 18x median - could be different CIGS formulations
-# - CdTe/Tellurium 500: Single high estimate, may represent worst-case scenario
+# - CIGS/Copper 7000-7530: 3 clustered values, may represent BOS (balance of system) vs cell-only
+# - CIGS/Gallium 124: 2 identical occurrences at 18x median - could be different CIGS formulations
+# - Onshore wind/Copper 14233-15350: 3 clustered high values, not isolated single points
+# - CdTe/Cadmium 244-244.26: 2 near-identical values, not isolated
+
+# ════════════════════════════════════════════════════════════════════════════════
+# KNOWN SINGLE-POINT OUTLIER REMOVALS
+# ════════════════════════════════════════════════════════════════════════════════
+# These are single isolated extreme values with no supporting cluster.
+# Each entry: (technology, material, value, reason)
+
+KNOWN_REMOVALS = [
+    # CIGS/Cadmium 265: 204x median in a 3-point group [1.3, 1.3, 265]
+    ('CIGS', 'Cadmium', 265.0, 'Single point 204x median; other values are 1.3'),
+
+    # CdTe/Tellurium 500: z=5.22, isolated jump from next-highest 260 (1.92x gap)
+    ('CdTe', 'Tellurium', 500.0, 'Single point z=5.22; 1.92x gap above next-highest (260)'),
+
+    # Onshore wind/Aluminum 13200: z=4.93, 2.49x gap above next-highest 5300
+    ('onshore wind', 'Aluminum', 13200.0, 'Single point z=4.93; 2.49x gap above next-highest (5300)'),
+
+    # Solar Lead 336: 4.67x gap above next-highest 72; 14.8x median in 6-point groups
+    ('Solar Distributed', 'Lead', 336.0, 'Single point 14.8x median; 4.67x gap above next-highest (72)'),
+    ('utility-scale solar pv', 'Lead', 336.0, 'Single point 14.8x median; 4.67x gap above next-highest (72)'),
+
+    # Offshore wind/Nickel 376.57: 3.4x in 4-point group [111, 111, 111, 376.57]
+    ('offshore wind', 'Nickel', 376.57, 'Single point 3.4x median; other 3 values are all 111'),
+]
 
 # ════════════════════════════════════════════════════════════════════════════════
 # OUTLIER DETECTION THRESHOLDS

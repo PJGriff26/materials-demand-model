@@ -56,6 +56,11 @@ outputs/*.pdf
 !outputs/.gitkeep
 !data/.gitkeep
 
+# Include key output files for reproducibility
+!outputs/material_demand_by_scenario.csv
+!outputs/material_demand_summary.csv
+!outputs/simulation_report.txt
+
 # Documentation builds
 docs/_build/
 docs/_static/
@@ -87,11 +92,15 @@ docs/visualization_inventory.csv
 # Paper_Draft output directory
 ../../../Paper_Draft/
 
-# Old proposal figures
-proposal_figures/
+# Old proposal figures (now tracked)
+# proposal_figures/
 
-# Archive figures
+# Archive figures (except figure_validation and prototype)
 outputs/figures/archive/
+!outputs/figures/archive/figure_validation/
+!outputs/figures/archive/figure_validation/**
+!outputs/figures/archive/prototype/
+!outputs/figures/archive/prototype/**
 
 # Claude Code logs (private)
 CHANGELOG_CLAUDE_CODE.md

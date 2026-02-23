@@ -1,170 +1,170 @@
 technology,material,target_material,spearman_rho,p_value,abs_rho,significant,direction,interpretation
-CIGS,Gadium,Gadium,1.0,0.0,1.0,True,positive,strong positive
+onshore wind,Yttrium,Yttrium,1.0,0.0,1.0,True,positive,strong positive
 CIGS,Selenium,Selenium,1.0,0.0,1.0,True,positive,strong positive
 CIGS,Gallium,Gallium,1.0,0.0,1.0,True,positive,strong positive
-onshore wind,Yttrium,Yttrium,1.0,0.0,1.0,True,positive,strong positive
+CIGS,Gadium,Gadium,1.0,0.0,1.0,True,positive,strong positive
 CdTe,Tellurium,Tellurium,1.0,0.0,1.0,True,positive,strong positive
-CIGS,Indium,Indium,0.999998331998332,0.0,0.999998331998332,True,positive,strong positive
-CdTe,Cadmium,Cadmium,0.999995475995476,0.0,0.999995475995476,True,positive,strong positive
-offshore wind,Vanadium,Vanadium,0.9999869679869682,0.0,0.9999869679869682,True,positive,strong positive
-onshore wind,Zinc,Zinc,0.9999852999853,0.0,0.9999852999853,True,positive,strong positive
-onshore wind,Terbium,Terbium,0.9999619839619839,0.0,0.9999619839619839,True,positive,strong positive
-onshore wind,Chromium,Chromium,0.9999369039369039,0.0,0.9999369039369039,True,positive,strong positive
-onshore wind,Praseodymium,Praseodymium,0.9993691713691714,0.0,0.9993691713691714,True,positive,strong positive
-onshore wind,Nickel,Nickel,0.9993249753249753,0.0,0.9993249753249753,True,positive,strong positive
-onshore wind,Neodymium,Neodymium,0.9986731226731227,0.0,0.9986731226731227,True,positive,strong positive
-onshore wind,Niobium,Niobium,0.9966052926052926,0.0,0.9966052926052926,True,positive,strong positive
-utility-scale solar pv,Magnesium,Magnesium,0.992903456903457,0.0,0.992903456903457,True,positive,strong positive
-utility-scale solar pv,Silver,Silver,0.9926017166017166,0.0,0.9926017166017166,True,positive,strong positive
-utility-scale solar pv,Tin,Tin,0.9925543165543167,0.0,0.9925543165543167,True,positive,strong positive
-utility-scale solar pv,Silicon,Silicon,0.9923403443403445,0.0,0.9923403443403445,True,positive,strong positive
-onshore wind,Fiberglass,Fiberglass,0.9814994614994615,0.0,0.9814994614994615,True,positive,strong positive
-onshore wind,Boron,Boron,0.9796644796644797,0.0,0.9796644796644797,True,positive,strong positive
-onshore wind,Lead,Lead,0.976033192033192,0.0,0.976033192033192,True,positive,strong positive
-onshore wind,Dysprosium,Dysprosium,0.9757293757293757,0.0,0.9757293757293757,True,positive,strong positive
-utility-scale solar pv,Glass,Glass,0.9735361815361816,0.0,0.9735361815361816,True,positive,strong positive
-onshore wind,Cement,Cement,0.933029085029085,0.0,0.933029085029085,True,positive,strong positive
-utility-scale solar pv,Aluminum,Aluminum,0.9235285915285916,0.0,0.9235285915285916,True,positive,strong positive
-onshore wind,Steel,Steel,0.8851429651429652,0.0,0.8851429651429652,True,positive,strong positive
-onshore wind,Manganese,Manganese,0.8696720336720337,3.0025679925775617e-308,0.8696720336720337,True,positive,strong positive
-onshore wind,Molybdenum,Molybdenum,0.8557455877455877,7.34321607238563e-288,0.8557455877455877,True,positive,strong positive
-onshore wind,Copper,Copper,0.795947415947416,9.014732500269297e-220,0.795947415947416,True,positive,strong positive
-utility-scale solar pv,Copper,Copper,0.4131541251541252,1.667818159931479e-42,0.4131541251541252,True,positive,moderate positive
-Nuclear New,Manganese,Manganese,0.4017564777564777,4.444398014094131e-40,0.4017564777564777,True,positive,moderate positive
-offshore wind,Steel,Steel,0.39928904728904735,1.4475643422622115e-39,0.39928904728904735,True,positive,weak positive
-CdTe,Molybdenum,Molybdenum,0.37119668319668325,5.031063752994961e-34,0.37119668319668325,True,positive,weak positive
-CIGS,Molybdenum,Molybdenum,0.3452911412911413,2.2300502784940454e-29,0.3452911412911413,True,positive,weak positive
-Geothermal,Cement,Cement,0.2200843600843601,1.9580993946158095e-12,0.2200843600843601,True,positive,weak positive
-onshore wind,Aluminum,Aluminum,0.21558266358266362,5.580414426547195e-12,0.21558266358266362,True,positive,weak positive
-offshore wind,Fiberglass,Fiberglass,0.20523457323457325,5.683404393650911e-11,0.20523457323457325,True,positive,weak positive
-CIGS,Glass,Glass,0.19649824049824052,3.674890933065088e-10,0.19649824049824052,True,positive,negligible
-offshore wind,Copper,Copper,0.18339811539811543,5.1601965844165635e-09,0.18339811539811543,True,positive,negligible
-offshore wind,Boron,Boron,0.18251655851655854,6.12316449015413e-09,0.18251655851655854,True,positive,negligible
-offshore wind,Lead,Lead,0.15742947742947744,5.633921484967738e-07,0.15742947742947744,True,positive,negligible
-Solar Distributed,Silver,Silver,0.13715336915336918,1.346989872793698e-05,0.13715336915336918,True,positive,negligible
-CdTe,Copper,Copper,0.13277044877044877,2.531429736991686e-05,0.13277044877044877,True,positive,negligible
-offshore wind,Dysprosium,Dysprosium,0.13255884055884057,2.6084426095229222e-05,0.13255884055884057,True,positive,negligible
-utility-scale solar pv,Cement,Cement,0.11728835728835729,0.0002014578977317269,0.11728835728835729,True,positive,negligible
-Solar Distributed,Silicon,Silicon,0.11012724212724213,0.00048521203764240927,0.11012724212724213,True,positive,negligible
-Solar Distributed,Tin,Tin,0.10932966132966133,0.0005334544789404944,0.10932966132966133,True,positive,negligible
-Solar Distributed,Aluminum,Aluminum,0.09530818730818731,0.002552812713381776,0.09530818730818731,True,positive,negligible
-Solar Distributed,Magnesium,Magnesium,0.09284746484746485,0.003295148792243258,0.09284746484746485,True,positive,negligible
-CIGS,Copper,Copper,0.09125397125397126,0.0038754894638931003,0.09125397125397126,True,positive,negligible
-CSP,Manganese,Manganese,0.08794274794274795,0.005387391917533809,0.08794274794274795,True,positive,negligible
-Solar Distributed,Glass,Glass,0.08225329025329027,0.009261844080236288,0.08225329025329027,True,positive,negligible
-NGCC,Manganese,Manganese,0.07882403738476523,0.012652703262532433,0.07882403738476523,True,positive,negligible
-Hydro,Cement,Cement,0.07810505410505411,0.01348924624887432,0.07810505410505411,True,positive,negligible
-utility-scale solar pv,Lead,Lead,0.07565090765090766,0.016723582888873198,0.07565090765090766,True,positive,negligible
-NGGT,Manganese,Manganese,0.07501857231336256,0.017659915867199432,0.07501857231336256,True,positive,negligible
-Geothermal,Steel,Steel,0.07113364713364714,0.024481970791140405,0.07113364713364714,True,positive,negligible
-Solar Distributed,Copper,Copper,0.06874436074436076,0.029724624646090842,0.06874436074436076,True,positive,negligible
-ASIGE,Cement,Cement,0.06553256953256953,0.03826941356999975,0.06553256953256953,True,positive,negligible
-Coal CCS,Manganese,Manganese,0.06524840606115216,0.03911702621528113,0.06524840606115216,True,positive,negligible
-offshore wind,Aluminum,Aluminum,0.06472681672681672,0.04071429398890738,0.06472681672681672,True,positive,negligible
-offshore wind,Niobium,Niobium,0.06275999075999077,0.047242562589650865,0.06275999075999077,True,positive,negligible
-Geothermal,Copper,Copper,0.06100614100614101,0.05378461256664592,0.06100614100614101,False,positive,not significant
-CIGS,Cadmium,Cadmium,0.055294483294483304,0.08051333221990731,0.055294483294483304,False,positive,not significant
-CDTE,Steel,Steel,-0.053731961731961736,0.08945953790626013,0.053731961731961736,False,negative,not significant
-Gas CCS,Nickel,Nickel,0.05350858150858151,0.09080142909689405,0.05350858150858151,False,positive,not significant
-a-Si,Silicon,Silicon,-0.05301895701895703,0.09379925719789695,0.05301895701895703,False,negative,not significant
-CSP,Copper,Copper,-0.052986988986988996,0.09399771241365477,0.052986988986988996,False,negative,not significant
-CIGS,Zinc,Zinc,0.05204584004584006,0.09999241957549682,0.05204584004584006,False,positive,not significant
-offshore wind,Neodymium,Neodymium,0.05065581865581866,0.10939863182001489,0.05065581865581866,False,positive,not significant
-Nuclear New,Cement,Cement,0.049035301035301036,0.12123150104795478,0.049035301035301036,False,positive,not significant
-offshore wind,Molybdenum,Molybdenum,0.04816989616989617,0.12794785626325675,0.04816989616989617,False,positive,not significant
-Gas,Steel,Steel,0.046651366651366655,0.14042686175253194,0.046651366651366655,False,positive,not significant
-NGGT,Steel,Steel,0.045899805899805905,0.1469390960638715,0.045899805899805905,False,positive,not significant
-NGCC,Cement,Cement,0.04485765285765286,0.15634763486761774,0.04485765285765286,False,positive,not significant
-a-Si,Tellurium,Tellurium,0.04463434463434464,0.1584217554067683,0.04463434463434464,False,positive,not significant
-Coal CCS,Steel,Steel,0.044475284475284475,0.15991176862249054,0.044475284475284475,False,positive,not significant
-Bio CCS,Copper,Copper,-0.042888966888966894,0.1753552772645556,0.042888966888966894,False,negative,not significant
-Bio CCS,Nickel,Nickel,0.04252078252078252,0.1790935849199938,0.04252078252078252,False,positive,not significant
-CSP,Nickel,Nickel,0.04058214458214458,0.19975732810079624,0.04058214458214458,False,positive,not significant
-CSP,Silver,Silver,0.04055773655773656,0.20002813425146912,0.04055773655773656,False,positive,not significant
-Solar Distributed,Nickel,Nickel,-0.04012934812934813,0.20482474092525313,0.04012934812934813,False,negative,not significant
-Coal,Cement,Cement,-0.039742827742827745,0.2092237440011935,0.039742827742827745,False,negative,not significant
-Gas,Cement,Cement,-0.03875219075219075,0.22080925482781466,0.03875219075219075,False,negative,not significant
-CdTe,Nickel,Nickel,-0.03824664224664225,0.22689557004113808,0.03824664224664225,False,negative,not significant
-Solar Distributed,Cement,Cement,0.0380999540999541,0.22868370579016953,0.0380999540999541,False,positive,not significant
-Bio CCS,Steel,Steel,0.036822756822756826,0.24467699204836008,0.036822756822756826,False,positive,not significant
-Coal,Aluminum,Aluminum,-0.03619050019050019,0.2528778284381087,0.03619050019050019,False,negative,not significant
-a-Si,Chromium,Chromium,0.03452683052683053,0.27536358348735007,0.03452683052683053,False,positive,not significant
-CDTE,Cement,Cement,0.034466218466218466,0.27620775081482696,0.034466218466218466,False,positive,not significant
-offshore wind,Nickel,Nickel,-0.03306389706389707,0.2962309484442771,0.03306389706389707,False,negative,not significant
-Nuclear New,Silver,Silver,0.033043173043173044,0.29653395298334057,0.033043173043173044,False,positive,not significant
-CdTe,Lead,Lead,-0.03292247692247693,0.29830275591972993,0.03292247692247693,False,negative,not significant
-Gas CCS,Copper,Copper,0.03229289629289629,0.3076431514579879,0.03229289629289629,False,positive,not significant
-Solar Distributed,Lead,Lead,0.0316008796008796,0.31813050105343144,0.0316008796008796,False,positive,not significant
-NGCC,Steel,Steel,-0.03135516735516735,0.321909823345808,0.03135516735516735,False,negative,not significant
-a-Si,Indium,Indium,-0.030973062973062973,0.32784489721263954,0.030973062973062973,False,negative,not significant
-onshore wind,Vanadium,Vanadium,0.030863658863658865,0.3295572008389033,0.030863658863658865,False,positive,not significant
-Biomass,Steel,Steel,-0.030061554061554058,0.34228734733269073,0.030061554061554058,False,negative,not significant
-Nuclear New,Aluminum,Aluminum,-0.029470973470973473,0.35185841853095046,0.029470973470973473,False,negative,not significant
-CdTe,Chromium,Chromium,0.029120261120261125,0.35762143766784327,0.029120261120261125,False,positive,not significant
-Coal CCS,Cement,Cement,0.028618300618300622,0.3659723874532622,0.028618300618300622,False,positive,not significant
-a-Si,Cadmium,Cadmium,0.02847394047394047,0.3683963760181097,0.02847394047394047,False,positive,not significant
-Gas CCS,Cement,Cement,0.027867075867075864,0.3786951359522781,0.027867075867075864,False,positive,not significant
-Gas,Aluminum,Aluminum,-0.02732894732894733,0.38797389392176995,0.02732894732894733,False,negative,not significant
-Gas,Manganese,Manganese,-0.026351012241210534,0.40518630630482466,0.026351012241210534,False,negative,not significant
-CIGS,Aluminum,Aluminum,0.025934425934425936,0.4126548535450263,0.025934425934425936,False,positive,not significant
-CDTE,Glass,Glass,0.02571906171906172,0.41654762880115603,0.02571906171906172,False,positive,not significant
-NGGT,Nickel,Nickel,-0.02418825618825619,0.44483450798133883,0.02418825618825619,False,negative,not significant
-Coal CCS,Copper,Copper,0.02357989157989158,0.4563729309095481,0.02357989157989158,False,positive,not significant
-a-Si,Nickel,Nickel,-0.023134211134211137,0.4649313799098127,0.023134211134211137,False,negative,not significant
-Bio CCS,Manganese,Manganese,-0.02295095282008068,0.46847619842462573,0.02295095282008068,False,negative,not significant
-CDTE,Aluminum,Aluminum,0.02247002247002247,0.47784963162599925,0.02247002247002247,False,positive,not significant
-offshore wind,Terbium,Terbium,0.02220825420825421,0.4829942705147132,0.02220825420825421,False,positive,not significant
-NGGT,Copper,Copper,-0.02195474195474196,0.4880051426481473,0.02195474195474196,False,negative,not significant
-NGCC,Copper,Copper,0.021534465534465537,0.4963735562494147,0.021534465534465537,False,positive,not significant
-Gas,Copper,Copper,-0.021349821349821354,0.5000741508389159,0.021349821349821354,False,negative,not significant
-Bio CCS,Cement,Cement,0.019673539673539672,0.534327277028288,0.019673539673539672,False,positive,not significant
-a-Si,Copper,Copper,0.01835791835791836,0.5620150098851613,0.01835791835791836,False,positive,not significant
-Coal,Manganese,Manganese,-0.01799784152382601,0.569711845964804,0.01799784152382601,False,negative,not significant
-utility-scale solar pv,Nickel,Nickel,-0.017435537435537437,0.5818308638449299,0.017435537435537437,False,negative,not significant
-Nuclear New,Nickel,Nickel,-0.01583993183993184,0.6168585567311538,0.01583993183993184,False,negative,not significant
-Solar Distributed,Steel,Steel,-0.015089835089835092,0.6336378682845116,0.015089835089835092,False,negative,not significant
-CSP,Cement,Cement,-0.014832542832542834,0.6394375706802654,0.014832542832542834,False,negative,not significant
-Hydro,Steel,Steel,-0.01463742130432346,0.6438506093977538,0.01463742130432346,False,negative,not significant
-Biomass,Copper,Copper,0.014634230634230633,0.6439228772239817,0.014634230634230633,False,positive,not significant
-offshore wind,Cement,Cement,0.014276894276894278,0.6520375853368048,0.014276894276894278,False,positive,not significant
-Coal,Copper,Copper,0.014060918060918063,0.6569622627570552,0.014060918060918063,False,positive,not significant
-Coal,Nickel,Nickel,0.01358944958944959,0.6677642441899054,0.01358944958944959,False,positive,not significant
-CSP,Glass,Glass,-0.01356804156804157,0.6682563873183327,0.01356804156804157,False,negative,not significant
-Gas CCS,Manganese,Manganese,-0.013239090471416843,0.6758363509065944,0.013239090471416843,False,negative,not significant
-Gas CCS,Steel,Steel,0.013220653220653222,0.6762621789302405,0.013220653220653222,False,positive,not significant
-CIGS,Cement,Cement,0.013203121203121204,0.6766671955468606,0.013203121203121204,False,positive,not significant
-ASIGE,Glass,Glass,-0.012742776742776742,0.6873349763200842,0.012742776742776742,False,negative,not significant
-Hydro,Copper,Copper,0.01127740727740728,0.7216996117242563,0.01127740727740728,False,positive,not significant
-CDTE,Copper,Copper,-0.01116807516807517,0.7242872411716739,0.01116807516807517,False,negative,not significant
-offshore wind,Praseodymium,Praseodymium,0.011004983004983006,0.7281530869643312,0.011004983004983006,False,positive,not significant
-Biomass,Manganese,Manganese,0.010768386437510323,0.7337735131197571,0.010768386437510323,False,positive,not significant
-NGCC,Aluminum,Aluminum,-0.010513882513882515,0.7398352706277019,0.010513882513882515,False,negative,not significant
-ASIGE,Steel,Steel,-0.00976052176052176,0.7578722492769315,0.00976052176052176,False,negative,not significant
-offshore wind,Chromium,Chromium,-0.009447417447417446,0.7654081355910538,0.009447417447417446,False,negative,not significant
-Hydro,Aluminum,Aluminum,0.009428865428865429,0.7658553554354756,0.009428865428865429,False,positive,not significant
-NGCC,Nickel,Nickel,0.008828456828456828,0.7803702439429385,0.008828456828456828,False,positive,not significant
-Nuclear New,Steel,Steel,-0.00788991188991189,0.8032116919283141,0.00788991188991189,False,negative,not significant
-Biomass,Nickel,Nickel,-0.007853791853791856,0.8040942480778315,0.007853791853791856,False,negative,not significant
-NGGT,Aluminum,Aluminum,0.007495987495987497,0.8128501312060461,0.007495987495987497,False,positive,not significant
-Biomass,Cement,Cement,-0.007220563220563221,0.8196060886876857,0.007220563220563221,False,negative,not significant
-Geothermal,Aluminum,Aluminum,0.006935190935190935,0.8266201877994155,0.006935190935190935,False,positive,not significant
-Coal CCS,Nickel,Nickel,0.006129834129834129,0.8464877265112242,0.006129834129834129,False,positive,not significant
-CIGS,Steel,Steel,-0.005909345909345909,0.8519446013075667,0.005909345909345909,False,negative,not significant
-CdTe,Indium,Indium,-0.005814164426455778,0.8543024576986005,0.005814164426455778,False,negative,not significant
-NGGT,Cement,Cement,0.005083061083061084,0.8724553202513848,0.005083061083061084,False,positive,not significant
-Gas CCS,Aluminum,Aluminum,0.004851508851508851,0.8782191090823341,0.004851508851508851,False,positive,not significant
-CSP,Steel,Steel,-0.004335880335880336,0.8910768541211869,0.004335880335880336,False,negative,not significant
-Gas,Nickel,Nickel,-0.004235128235128235,0.893592667135269,0.004235128235128235,False,negative,not significant
-Coal,Steel,Steel,0.004138264138264139,0.896012404055646,0.004138264138264139,False,positive,not significant
-Bio CCS,Aluminum,Aluminum,0.003909051909051909,0.9017421036481443,0.003909051909051909,False,positive,not significant
-CdTe,Tin,Tin,-0.003091179091179091,0.9222263882772896,0.003091179091179091,False,negative,not significant
-Biomass,Aluminum,Aluminum,0.0026674706674706676,0.9328596710186774,0.0026674706674706676,False,positive,not significant
-utility-scale solar pv,Steel,Steel,0.0018913698913698917,0.952366205718364,0.0018913698913698917,False,positive,not significant
-a-Si,Molybdenum,Molybdenum,0.0015195255195255197,0.9617229812304349,0.0015195255195255197,False,positive,not significant
-Nuclear New,Copper,Copper,0.0014162534162534162,0.9643226220953708,0.0014162534162534162,False,positive,not significant
-CSP,Aluminum,Aluminum,-0.001334857334857335,0.966371852007602,0.001334857334857335,False,negative,not significant
-a-Si,Tin,Tin,-0.0007649887649887651,0.9807243332120537,0.0007649887649887651,False,negative,not significant
-Coal CCS,Aluminum,Aluminum,0.0006614766614766615,0.9833321523064973,0.0006614766614766615,False,positive,not significant
-ASIGE,Aluminum,Aluminum,0.0006183126183126184,0.9844196543130616,0.0006183126183126184,False,positive,not significant
-ASIGE,Copper,Copper,-0.00047874047874047875,0.9879363100229344,0.00047874047874047875,False,negative,not significant
+CIGS,Indium,Indium,0.9999978039978039,0.0,0.9999978039978039,True,positive,strong positive
+CdTe,Cadmium,Cadmium,0.999994323994324,0.0,0.999994323994324,True,positive,strong positive
+offshore wind,Vanadium,Vanadium,0.9999879999880003,0.0,0.9999879999880003,True,positive,strong positive
+onshore wind,Zinc,Zinc,0.9999832719832721,0.0,0.9999832719832721,True,positive,strong positive
+onshore wind,Chromium,Chromium,0.999936303936304,0.0,0.999936303936304,True,positive,strong positive
+onshore wind,Terbium,Terbium,0.9999172479172481,0.0,0.9999172479172481,True,positive,strong positive
+onshore wind,Nickel,Nickel,0.9995496515496517,0.0,0.9995496515496517,True,positive,strong positive
+onshore wind,Praseodymium,Praseodymium,0.9994791994791996,0.0,0.9994791994791996,True,positive,strong positive
+onshore wind,Neodymium,Neodymium,0.9986117306117307,0.0,0.9986117306117307,True,positive,strong positive
+onshore wind,Niobium,Niobium,0.9965862245862246,0.0,0.9965862245862246,True,positive,strong positive
+utility-scale solar pv,Magnesium,Magnesium,0.9928525768525769,0.0,0.9928525768525769,True,positive,strong positive
+utility-scale solar pv,Tin,Tin,0.9928118368118369,0.0,0.9928118368118369,True,positive,strong positive
+utility-scale solar pv,Silver,Silver,0.9925818085818087,0.0,0.9925818085818087,True,positive,strong positive
+utility-scale solar pv,Silicon,Silicon,0.9922079242079243,0.0,0.9922079242079243,True,positive,strong positive
+onshore wind,Lead,Lead,0.9842766242766244,0.0,0.9842766242766244,True,positive,strong positive
+onshore wind,Fiberglass,Fiberglass,0.9822096702096703,0.0,0.9822096702096703,True,positive,strong positive
+onshore wind,Boron,Boron,0.9791512271512272,0.0,0.9791512271512272,True,positive,strong positive
+onshore wind,Dysprosium,Dysprosium,0.9762998322998325,0.0,0.9762998322998325,True,positive,strong positive
+utility-scale solar pv,Glass,Glass,0.969927081927082,0.0,0.969927081927082,True,positive,strong positive
+onshore wind,Cement,Cement,0.9356512556512557,0.0,0.9356512556512557,True,positive,strong positive
+utility-scale solar pv,Aluminum,Aluminum,0.9154501594501595,0.0,0.9154501594501595,True,positive,strong positive
+onshore wind,Steel,Steel,0.8741467541467541,2.641725224e-315,0.8741467541467541,True,positive,strong positive
+onshore wind,Manganese,Manganese,0.8717845397845398,1.5123393611633e-311,0.8717845397845398,True,positive,strong positive
+onshore wind,Molybdenum,Molybdenum,0.8603844203844204,2.094948754167254e-294,0.8603844203844204,True,positive,strong positive
+onshore wind,Copper,Copper,0.7927386607386608,8.922497646614156e-217,0.7927386607386608,True,positive,strong positive
+utility-scale solar pv,Copper,Copper,0.4256337776337777,2.8610531222495247e-45,0.4256337776337777,True,positive,moderate positive
+Nuclear New,Manganese,Manganese,0.4159170919170919,4.167310348789457e-43,0.4159170919170919,True,positive,moderate positive
+offshore wind,Steel,Steel,0.40130336930336935,5.524723966643773e-40,0.40130336930336935,True,positive,moderate positive
+CdTe,Molybdenum,Molybdenum,0.35289146889146894,1.0701020420495666e-30,0.35289146889146894,True,positive,weak positive
+CIGS,Molybdenum,Molybdenum,0.3509174549174549,2.3739123792453683e-30,0.3509174549174549,True,positive,weak positive
+onshore wind,Aluminum,Aluminum,0.32006477606477607,2.962316667862662e-25,0.32006477606477607,True,positive,weak positive
+CIGS,Glass,Glass,0.25883920283920286,9.01263490121598e-17,0.25883920283920286,True,positive,weak positive
+Geothermal,Cement,Cement,0.2260417660417661,4.726366398448205e-13,0.2260417660417661,True,positive,weak positive
+CdTe,Copper,Copper,0.2197821157821158,2.1022523109386954e-12,0.2197821157821158,True,positive,weak positive
+offshore wind,Lead,Lead,0.18603072603072604,3.080236293771786e-09,0.18603072603072604,True,positive,negligible
+offshore wind,Dysprosium,Dysprosium,0.17896817896817896,1.2089464650167041e-08,0.17896817896817896,True,positive,negligible
+offshore wind,Fiberglass,Fiberglass,0.1740503220503221,3.0350469435735345e-08,0.1740503220503221,True,positive,negligible
+Solar Distributed,Silver,Silver,0.1583716823716824,4.811313227893008e-07,0.1583716823716824,True,positive,negligible
+offshore wind,Copper,Copper,0.13548175548175548,1.717365670070524e-05,0.13548175548175548,True,positive,negligible
+CSP,Manganese,Manganese,0.12761554361554364,5.1863139128763226e-05,0.12761554361554364,True,positive,negligible
+offshore wind,Boron,Boron,0.11443896643896645,0.00028754358861233863,0.11443896643896645,True,positive,negligible
+Solar Distributed,Silicon,Silicon,0.11258534858534859,0.00036087762919878737,0.11258534858534859,True,positive,negligible
+utility-scale solar pv,Cement,Cement,0.11173194373194374,0.00040021076388613904,0.11173194373194374,True,positive,negligible
+Hydro,Cement,Cement,0.10956878556878558,0.0005185417187559664,0.10956878556878558,True,positive,negligible
+Solar Distributed,Magnesium,Magnesium,0.1094908574908575,0.0005233584744133719,0.1094908574908575,True,positive,negligible
+Biomass,Aluminum,Aluminum,-0.10435906435906436,0.0009496828221197661,0.10435906435906436,True,negative,negligible
+offshore wind,Neodymium,Neodymium,0.10420917220917221,0.0009659843282316989,0.10420917220917221,True,positive,negligible
+Gas,Aluminum,Aluminum,-0.10332553932553934,0.0010674603693180274,0.10332553932553934,True,negative,negligible
+Solar Distributed,Aluminum,Aluminum,0.10268656268656269,0.001146879056208888,0.10268656268656269,True,positive,negligible
+Solar Distributed,Glass,Glass,0.10222762222762224,0.0012072479578968216,0.10222762222762224,True,positive,negligible
+Solar Distributed,Tin,Tin,0.09506348306348307,0.0026191193363798936,0.09506348306348307,True,positive,negligible
+CSP,Aluminum,Aluminum,0.09345552945552947,0.0030953858292153322,0.09345552945552947,True,positive,negligible
+Nuclear New,Steel,Steel,0.09270594870594871,0.0033432908675223388,0.09270594870594871,True,positive,negligible
+CIGS,Copper,Copper,0.09238371238371239,0.0034553066468393932,0.09238371238371239,True,positive,negligible
+Gas CCS,Manganese,Manganese,0.09217794798347578,0.003528607738467358,0.09217794798347578,True,positive,negligible
+Bio CCS,Aluminum,Aluminum,-0.08967691767691768,0.004539632979218451,0.08967691767691768,True,negative,negligible
+Solar Distributed,Nickel,Nickel,-0.08797926397926398,0.005368161209584692,0.08797926397926398,True,negative,negligible
+Geothermal,Steel,Steel,0.08785297585297584,0.0054349335581979664,0.08785297585297584,True,positive,negligible
+offshore wind,Aluminum,Aluminum,0.07626872826872827,0.015851067690808306,0.07626872826872827,True,positive,negligible
+Hydro,Steel,Steel,-0.07436980394384315,0.01866795144868864,0.07436980394384315,True,negative,negligible
+CdTe,Tin,Tin,-0.07267180867180868,0.021547597012825468,0.07267180867180868,True,negative,negligible
+NGCC,Steel,Steel,-0.07067171867171868,0.025428144065513376,0.07067171867171868,True,negative,negligible
+offshore wind,Cement,Cement,-0.06778013578013578,0.032098620449580444,0.06778013578013578,True,negative,negligible
+offshore wind,Nickel,Nickel,0.0676026676026676,0.03255279795921602,0.0676026676026676,True,positive,negligible
+Coal,Copper,Copper,0.06320735120735121,0.04568518639046938,0.06320735120735121,True,positive,negligible
+CIGS,Steel,Steel,0.05823917823917825,0.06562979503369697,0.05823917823917825,False,positive,not significant
+offshore wind,Praseodymium,Praseodymium,0.058084486084486076,0.06635089991977261,0.058084486084486076,False,positive,not significant
+NGGT,Steel,Steel,0.05730474930474931,0.07008554371792962,0.05730474930474931,False,positive,not significant
+CIGS,Aluminum,Aluminum,0.05714032514032514,0.07089466649658857,0.05714032514032514,False,positive,not significant
+utility-scale solar pv,Nickel,Nickel,-0.05498605898605899,0.08221926772231372,0.05498605898605899,False,negative,not significant
+NGGT,Manganese,Manganese,0.05282760923249471,0.09499215162462864,0.05282760923249471,False,positive,not significant
+NGCC,Copper,Copper,0.05066028266028267,0.10936734328243014,0.05066028266028267,False,positive,not significant
+NGCC,Manganese,Manganese,0.05064168856306863,0.10949771727073158,0.05064168856306863,False,positive,not significant
+offshore wind,Niobium,Niobium,0.04738455538455539,0.13428966619777857,0.04738455538455539,False,positive,not significant
+a-Si,Silicon,Silicon,-0.04727186327186327,0.13521925643365124,0.04727186327186327,False,negative,not significant
+Biomass,Manganese,Manganese,0.04707911725148287,0.1368207028684487,0.04707911725148287,False,positive,not significant
+CSP,Nickel,Nickel,-0.04616648216648217,0.1446024619759346,0.04616648216648217,False,negative,not significant
+offshore wind,Molybdenum,Molybdenum,0.0458014298014298,0.1478083158891939,0.0458014298014298,False,positive,not significant
+Nuclear New,Nickel,Nickel,0.0432949992949993,0.17130043015778576,0.0432949992949993,False,positive,not significant
+Solar Distributed,Cement,Cement,0.04240746640746641,0.18025594927702163,0.04240746640746641,False,positive,not significant
+CDTE,Steel,Steel,0.04122618522618522,0.19270804493048205,0.04122618522618522,False,positive,not significant
+Coal,Steel,Steel,0.03986913986913987,0.2077787271819734,0.03986913986913987,False,positive,not significant
+Coal,Aluminum,Aluminum,-0.03884027084027085,0.2197609252456493,0.03884027084027085,False,negative,not significant
+Bio CCS,Steel,Steel,0.03778591378591379,0.23254550147418315,0.03778591378591379,False,positive,not significant
+a-Si,Indium,Indium,0.03719397719397719,0.23994976126253686,0.03719397719397719,False,positive,not significant
+CDTE,Cement,Cement,-0.03717768128921434,0.24015591963989705,0.03717768128921434,False,negative,not significant
+Hydro,Copper,Copper,-0.035280959280959284,0.26500750754211666,0.035280959280959284,False,negative,not significant
+Biomass,Nickel,Nickel,0.03474697074697075,0.27231240497322434,0.03474697074697075,False,positive,not significant
+a-Si,Chromium,Chromium,-0.03432023832023832,0.2782480986723945,0.03432023832023832,False,negative,not significant
+NGCC,Aluminum,Aluminum,-0.03355180555180556,0.2891570336301963,0.03355180555180556,False,negative,not significant
+a-Si,Tellurium,Tellurium,0.033348249348249356,0.2920943475326466,0.033348249348249356,False,positive,not significant
+NGGT,Cement,Cement,0.031731655731655733,0.31613090507207037,0.031731655731655733,False,positive,not significant
+ASIGE,Cement,Cement,0.03077074277074277,0.33101598174166924,0.03077074277074277,False,positive,not significant
+Bio CCS,Nickel,Nickel,-0.03049079449079449,0.33543633370598114,0.03049079449079449,False,negative,not significant
+Coal CCS,Nickel,Nickel,0.03012856212856213,0.3412120004569411,0.03012856212856213,False,positive,not significant
+a-Si,Nickel,Nickel,0.02948183348183349,0.35168090576069755,0.02948183348183349,False,positive,not significant
+Gas,Nickel,Nickel,-0.0287006207006207,0.36459458906421516,0.0287006207006207,False,negative,not significant
+Coal,Manganese,Manganese,0.028555237799802666,0.36703006674963445,0.028555237799802666,False,positive,not significant
+NGCC,Nickel,Nickel,0.028504852504852504,0.3678764863834735,0.028504852504852504,False,positive,not significant
+a-Si,Copper,Copper,-0.02768109968109968,0.38188632114935284,0.02768109968109968,False,negative,not significant
+Gas CCS,Steel,Steel,-0.02732085932085932,0.3881143994046493,0.02732085932085932,False,negative,not significant
+Gas,Cement,Cement,-0.026875742875742875,0.3958946500346333,0.026875742875742875,False,negative,not significant
+NGCC,Cement,Cement,0.026846042846042847,0.39641710686932985,0.026846042846042847,False,positive,not significant
+Bio CCS,Copper,Copper,-0.02675681075681076,0.39798929754916346,0.02675681075681076,False,negative,not significant
+ASIGE,Glass,Glass,0.026142362142362145,0.4089168458693776,0.026142362142362145,False,positive,not significant
+CDTE,Glass,Glass,0.0256988536988537,0.4169140018843236,0.0256988536988537,False,positive,not significant
+offshore wind,Chromium,Chromium,-0.025330261330261332,0.4236298421240905,0.025330261330261332,False,negative,not significant
+Bio CCS,Manganese,Manganese,-0.025256661668006403,0.4249783757842759,0.025256661668006403,False,negative,not significant
+ASIGE,Copper,Copper,0.025213093213093212,0.42577783953851644,0.025213093213093212,False,positive,not significant
+Gas,Manganese,Manganese,0.025194089053359195,0.42612683261753526,0.025194089053359195,False,positive,not significant
+Coal CCS,Manganese,Manganese,-0.02511324413782255,0.42761333255652445,0.02511324413782255,False,negative,not significant
+NGGT,Aluminum,Aluminum,-0.024912588912588914,0.4313157938017853,0.024912588912588914,False,negative,not significant
+a-Si,Tin,Tin,0.024778728778728783,0.43379604787273685,0.024778728778728783,False,positive,not significant
+utility-scale solar pv,Steel,Steel,0.023974187974187978,0.4488755267683797,0.023974187974187978,False,positive,not significant
+offshore wind,Terbium,Terbium,-0.023464799464799468,0.4585745478016523,0.023464799464799468,False,negative,not significant
+Coal,Nickel,Nickel,0.023203511203511207,0.4635947799151796,0.023203511203511207,False,positive,not significant
+Solar Distributed,Steel,Steel,-0.02251057051057051,0.47705540933188995,0.02251057051057051,False,negative,not significant
+Nuclear New,Copper,Copper,0.02226833826833827,0.48181076445755444,0.02226833826833827,False,positive,not significant
+Coal CCS,Cement,Cement,0.021743997743997746,0.4921918902573925,0.021743997743997746,False,positive,not significant
+a-Si,Molybdenum,Molybdenum,-0.021654333654333655,0.49397901719736426,0.021654333654333655,False,negative,not significant
+CSP,Silver,Silver,-0.021107577107577106,0.5049512301476958,0.021107577107577106,False,negative,not significant
+Biomass,Copper,Copper,-0.02044001644001644,0.5185195902129927,0.02044001644001644,False,negative,not significant
+CDTE,Aluminum,Aluminum,0.019563307563307566,0.5366205018071157,0.019563307563307566,False,positive,not significant
+NGGT,Nickel,Nickel,0.019524607524607527,0.5374267727169275,0.019524607524607527,False,positive,not significant
+CDTE,Copper,Copper,-0.019520551520551523,0.5375113100778608,0.019520551520551523,False,negative,not significant
+a-Si,Cadmium,Cadmium,-0.01925897525897526,0.5429772650976009,0.01925897525897526,False,negative,not significant
+Bio CCS,Cement,Cement,-0.01917580317580318,0.5447210216067329,0.01917580317580318,False,negative,not significant
+CdTe,Indium,Indium,-0.018427437411021926,0.5605348013026176,0.018427437411021926,False,negative,not significant
+Nuclear New,Aluminum,Aluminum,0.017460329460329462,0.5812940092012351,0.017460329460329462,False,positive,not significant
+onshore wind,Vanadium,Vanadium,-0.01737680937680938,0.5831035028133932,0.01737680937680938,False,negative,not significant
+ASIGE,Aluminum,Aluminum,0.014609786609786611,0.6444766393429548,0.014609786609786611,False,positive,not significant
+Gas CCS,Aluminum,Aluminum,-0.013754737754737756,0.6639692948281979,0.013754737754737756,False,negative,not significant
+CSP,Steel,Steel,-0.013641049641049641,0.6665786112372591,0.013641049641049641,False,negative,not significant
+Gas CCS,Copper,Copper,0.013418821418821421,0.6716907144443449,0.013418821418821421,False,positive,not significant
+Solar Distributed,Copper,Copper,0.013145221145221146,0.6780054391337382,0.013145221145221146,False,positive,not significant
+CdTe,Chromium,Chromium,-0.012082656082656082,0.7027408878443916,0.012082656082656082,False,negative,not significant
+Nuclear New,Cement,Cement,0.01175905175905176,0.7103384173145628,0.01175905175905176,False,positive,not significant
+Gas CCS,Cement,Cement,0.01160848760848761,0.7138832149671258,0.01160848760848761,False,positive,not significant
+CIGS,Cadmium,Cadmium,0.011483471483471485,0.7168312210682938,0.011483471483471485,False,positive,not significant
+CIGS,Zinc,Zinc,-0.011415551415551416,0.7184346158627275,0.011415551415551416,False,negative,not significant
+Hydro,Aluminum,Aluminum,-0.010763026763026763,0.733901000357388,0.010763026763026763,False,negative,not significant
+Gas,Copper,Copper,-0.01070978270978271,0.7351678808353789,0.01070978270978271,False,negative,not significant
+Coal CCS,Aluminum,Aluminum,-0.010586866586866587,0.7380952710302379,0.010586866586866587,False,negative,not significant
+Gas CCS,Nickel,Nickel,0.009989145989145989,0.7523840853279453,0.009989145989145989,False,positive,not significant
+NGGT,Copper,Copper,-0.009891417891417892,0.7547285541060487,0.009891417891417892,False,negative,not significant
+Geothermal,Copper,Copper,0.008332220332220332,0.7924249779094357,0.008332220332220332,False,positive,not significant
+Coal CCS,Copper,Copper,-0.007707151707151708,0.8076798005140893,0.007707151707151708,False,negative,not significant
+CSP,Glass,Glass,-0.007486339486339486,0.813086558114866,0.007486339486339486,False,negative,not significant
+ASIGE,Steel,Steel,0.006575850575850577,0.8354719506417304,0.006575850575850577,False,positive,not significant
+Biomass,Steel,Steel,0.00646930246930247,0.8381006476183033,0.00646930246930247,False,positive,not significant
+Coal CCS,Steel,Steel,-0.006461358461358461,0.8382967105378246,0.006461358461358461,False,negative,not significant
+CdTe,Nickel,Nickel,-0.005940521940521941,0.8511725879939661,0.005940521940521941,False,negative,not significant
+utility-scale solar pv,Lead,Lead,-0.005531645531645531,0.8613086537800341,0.005531645531645531,False,negative,not significant
+Gas,Steel,Steel,0.004811032811032811,0.8792273081145934,0.004811032811032811,False,positive,not significant
+Geothermal,Aluminum,Aluminum,0.004662832662832663,0.8829204140210518,0.004662832662832663,False,positive,not significant
+CIGS,Cement,Cement,-0.0043420363420363425,0.8909231718519846,0.0043420363420363425,False,negative,not significant
+Biomass,Cement,Cement,0.004189648189648189,0.8947286706257794,0.004189648189648189,False,positive,not significant
+CdTe,Lead,Lead,0.003947175947175948,0.9007887408788123,0.003947175947175948,False,positive,not significant
+CSP,Cement,Cement,0.0034852834852834857,0.9123484449359436,0.0034852834852834857,False,positive,not significant
+Coal,Cement,Cement,-0.003100623100623101,0.9219895346735246,0.003100623100623101,False,negative,not significant
+Solar Distributed,Lead,Lead,-0.0029714189714189713,0.9252305351512818,0.0029714189714189713,False,negative,not significant
+Nuclear New,Silver,Silver,-0.0009063369063369063,0.9771636343252146,0.0009063369063369063,False,negative,not significant
+CSP,Copper,Copper,-0.00038684438684438683,0.9902518533950656,0.00038684438684438683,False,negative,not significant
 a-Si,Germanium,Germanium,0.0,1.0,0.0,False,none,not significant

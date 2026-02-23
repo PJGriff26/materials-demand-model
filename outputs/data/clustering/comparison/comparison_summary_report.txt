@@ -39,25 +39,25 @@ Factor Analysis       0.538  0.558       0.550            1.000
   Method                 k   Silhouette    Stability   Features
   ─────────────────────────────────────────────────────────
   VIF-Pruned             6        0.373        0.590         10
-  PCA                    7        0.436        0.723          6
-  Sparse PCA             6        0.519        0.707          5
+  PCA                    7        0.426        0.757          6
+  Sparse PCA             6        0.519        0.698          5
   Factor Analysis        7        0.478        0.727          5
 
   Best silhouette: Sparse PCA (0.519)
-  Best stability:  Factor Analysis (0.727)
+  Best stability:  PCA (0.757)
 
   Pairwise ARI between methods:
                  VIF-Pruned    PCA  Sparse PCA  Factor Analysis
-VIF-Pruned            1.000  0.734       0.713            0.466
-PCA                   0.734  1.000       0.813            0.525
-Sparse PCA            0.713  0.813       1.000            0.545
-Factor Analysis       0.466  0.525       0.545            1.000
+VIF-Pruned            1.000  0.813       0.713            0.466
+PCA                   0.813  1.000       0.883            0.583
+Sparse PCA            0.713  0.883       1.000            0.545
+Factor Analysis       0.466  0.583       0.545            1.000
 
   Mean pairwise ARI (agreement with other methods):
-    Sparse PCA           0.690
-    PCA                  0.690
-    VIF-Pruned           0.638
-    Factor Analysis      0.512
+    PCA                  0.760
+    Sparse PCA           0.714
+    VIF-Pruned           0.664
+    Factor Analysis      0.531
 
 
 ======================================================================
@@ -65,7 +65,7 @@ RECOMMENDATION
 ======================================================================
 
 Sparse PCA is recommended as the primary clustering input because:
-  1. Sparsity is ideal for HDLSS data (31 materials, 24 features)
+  1. Sparsity is ideal for HDLSS data (31 materials, 23 features)
   2. Components are directly interpretable (named: Demand Scale, etc.)
   3. L1 regularization handles multicollinearity without VIF's order-dependence
   4. See empirical metrics above to confirm or challenge this recommendation

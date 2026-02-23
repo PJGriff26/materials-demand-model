@@ -6,6 +6,6 @@ Scenario clustering (Sparse PCA-based): k=3
 
 Material clustering (Sparse PCA-based): k=6
   Silhouette: 0.519
-  Stability ARI: 0.707
+  Stability ARI: 0.698
   Input features: ['Demand Scale', 'Geopolitical Risk', 'Reserve Geography', 'Import Concentration', 'Capacity Stress']
   Method: K-means on 5 Sparse PCA components (alpha=2.0)
