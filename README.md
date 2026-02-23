@@ -25,10 +25,15 @@ materials_demand_model/
 ├── run_pipeline.py                   # Full reproducibility pipeline (Steps 1–10)
 ├── requirements.txt                  # Pinned Python dependencies
 ├── setup.py                          # Package installation
+├── CHANGELOG.md                      # Version history
+├── CONTRIBUTING.md                   # Contribution guidelines
+├── PIPELINE_DOCUMENTATION.md         # Pipeline step-by-step documentation
+├── QUICKSTART.md                     # Quick start guide
 │
 ├── src/                              # Core simulation engine
 │   ├── __init__.py
 │   ├── data_ingestion.py             # Data loading and validation
+│   ├── data_quality.py               # Data quality checks and reporting
 │   ├── distribution_fitting.py       # Statistical distribution fitting
 │   ├── technology_mapping.py         # Technology-material mappings
 │   ├── stock_flow_simulation.py      # Monte Carlo simulation engine
@@ -56,48 +61,75 @@ materials_demand_model/
 │   ├── manuscript_figures.py         # Fig. 2, SI capacity/intensity figures
 │   ├── manuscript_fig1.py            # Fig. 1 demand curves
 │   ├── risk_ranking_chart.py         # Supply chain risk charts
-│   └── feature_scatterplots.py       # EDA scatterplots & correlations
+│   ├── feature_scatterplots.py       # EDA scatterplots & correlations
+│   ├── compare_figures.py            # Before/after figure comparison
+│   └── examples/                     # Example workflows & diagnostics
+│       ├── run_simulation.py         # Complete simulation example
+│       ├── sensitivity_analysis.py   # Sensitivity analysis example
+│       ├── supply_chain_risk_analysis.py  # Risk analysis example
+│       └── diagnostics/              # Debugging & inspection scripts
+│
+├── paper/                            # Manuscript generation scripts
+│   ├── generate_manuscript.py        # Main manuscript generator
+│   ├── generate_si.py               # Supplementary information generator
+│   ├── extract_results.py            # Results extraction for manuscript
+│   └── organize_figures.py           # Figure organization for submission
+│
+├── proposal_figures/                 # Original proposal visualizations
+│   ├── figure1_scenario_spaghetti.*  # Scenario ensemble plots
+│   ├── figure2_material_correlations.*
+│   ├── figure3_material_boxplots.*
+│   ├── figure4_risk_scatter.*
+│   ├── figure_capacity_additions.*
+│   ├── figure_technology_blocks.*
+│   └── figure_technology_correlation_blocks.*
 │
 ├── data/                             # Input data (see data/README.md)
 │   ├── intensity_data.csv            # Material intensity (t/GW)
 │   ├── StdScen24_annual_national.csv # NREL Standard Scenarios 2024
+│   ├── input_usgs.csv                # USGS mineral commodity data
 │   └── supply_chain/
 │       └── risk_charts_inputs.xlsx   # USGS/trade risk data
-│
-├── examples/                         # Example workflows
-│   ├── run_simulation.py             # Complete simulation example
-│   └── supply_chain_risk_analysis.py # Risk analysis example
 │
 ├── tests/                            # Testing and validation
 │   ├── conftest.py                   # Pytest configuration
 │   ├── test_pipeline.py              # Regression tests
 │   └── validate_units.py             # Unit conversion validation
 │
-├── outputs/                          # Generated results (gitignored CSVs)
+├── outputs/                          # Generated results
+│   ├── material_demand_by_scenario.csv  # Full MC results by scenario
+│   ├── material_demand_summary.csv      # Aggregated summary statistics
+│   ├── simulation_report.txt            # Comprehensive text report
 │   ├── data/
 │   │   ├── clustering/               # Cluster results, features, scores
 │   │   │   └── comparison/           # 4-method comparison metrics
-│   │   └── sensitivity/              # Variance decomposition, Spearman
+│   │   ├── sensitivity/              # Variance decomposition, Spearman
+│   │   └── supply_chain/             # CRC allocation, risk scores
 │   ├── figures/
+│   │   ├── manuscript/               # Publication figures (Fig. 1–4, SI)
 │   │   ├── clustering/               # Organized by analysis type
 │   │   │   ├── kmeans/               # Elbow, silhouette, biplot, profiles
 │   │   │   ├── pca_analysis/         # Scree, loadings, feature importance
 │   │   │   ├── dimensionality_reduction/  # SPCA, NMF, method comparison
 │   │   │   ├── spca_story/           # Named components, quadrant plots
-│   │   │   ├── supply_chain/         # CRC sourcing, reserve adequacy
 │   │   │   ├── factor_analysis/      # FA loadings & communalities
 │   │   │   └── comparison/           # 4-method clustering comparison
-│   │   ├── exploratory/              # EDA figures
-│   │   ├── manuscript/               # Publication figures
-│   │   ├── sensitivity/              # Sensitivity figures
-│   │   └── supply_chain/             # Risk visualizations
+│   │   ├── sensitivity/              # Spearman, variance decomposition
+│   │   ├── exploratory/              # EDA scatterplots & correlations
+│   │   ├── supply_chain_risk/        # Risk ranking, heatmaps
+│   │   └── archive/                  # Historical figures
+│   │       ├── figure_validation/    # Before/after comparison PNGs
+│   │       └── prototype/            # Early prototype visualizations
 │   └── reports/                      # Text reports
 │
 └── docs/                             # Documentation
     ├── variable_reference.csv        # Master variable documentation
-    ├── visualization_inventory.csv   # All 72 visualizations documented
+    ├── visualization_inventory.csv   # All visualizations documented
     ├── SI_methodology.md             # Supplementary methods
     ├── README_supply_chain_risk.md   # Risk methodology
+    ├── README_VISUALIZATION_TOOLS.md # Visualization tooling guide
+    ├── REPOSITORY_ORGANIZATION.md    # Repo organization reference
+    ├── manuscript_figure_map.csv     # Figure-to-code mapping
     └── archive/                      # Superseded diagnostic documents
 ```
 
@@ -135,7 +167,7 @@ python run_pipeline.py --from 3           # Resume from Step 3
 ### Run Simulation Only
 
 ```bash
-python examples/run_simulation.py
+python visualizations/examples/run_simulation.py
 ```
 
 This will:
