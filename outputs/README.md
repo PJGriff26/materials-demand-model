@@ -133,6 +133,8 @@ python compare_figures.py         # Before/after figure comparison
 
 ## Documentation
 
-For detailed documentation of variables and visualizations, see:
-- `docs/variable_reference.csv` - Master list of all variables, calculations, and data sources
+For detailed documentation, see:
+- `docs/variable_reference.csv` - Pipeline variables, parameters, features, and calculations
+- `docs/data_sources.csv` - Input data files and their structure
+- `docs/output_files.csv` - Output files and directories (this directory)
 - `docs/visualization_inventory.csv` - Inventory of all visualizations with their input variables

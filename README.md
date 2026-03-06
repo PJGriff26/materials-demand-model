@@ -121,10 +121,17 @@ materials_demand_model/
 │   └── reports/                      # Text reports
 │
 └── docs/                             # Documentation
-    ├── variable_reference.csv        # Master variable documentation
-    ├── README_supply_chain_risk.md   # Risk methodology
-    ├── README_VISUALIZATION_TOOLS.md # Visualization tooling guide
+    ├── README.md                     # Documentation directory guide (START HERE)
+    ├── variable_reference.csv        # Pipeline variables & calculations (133 entries)
+    ├── data_sources.csv              # Input data files documentation (9 entries)
+    ├── output_files.csv              # Output files & directories (36 entries)
+    ├── visualization_inventory.csv   # All figures documented (50+ entries)
+    ├── PIPELINE_DOCUMENTATION.md     # Complete pipeline technical reference
     ├── REPOSITORY_ORGANIZATION.md    # Repo organization reference
+    ├── README_VISUALIZATION_TOOLS.md # Visualization tooling guide
+    ├── README_supply_chain_risk.md   # Risk methodology
+    ├── SI_methodology.md             # Supplementary methods
+    ├── AI_DISCLOSURE.md              # AI tool usage transparency
     └── archive/                      # Superseded diagnostic documents
 ```
 

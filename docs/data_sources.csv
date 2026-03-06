@@ -1,0 +1,10 @@
+File Name,Type,Format,Description,Sheets/Components,Source,Location
+intensity_data.csv,Raw Input,CSV,Material intensity values by technology from literature review,Columns: technology Material value (t/GW),Literature compilation,data/intensity_data.csv
+StdScen24_annual_national.csv,Raw Input,CSV,NREL Standard Scenarios 2024 capacity projections by technology and scenario,Columns: scenario t (year) *_MW columns for each technology,NREL Standard Scenarios 2024,data/StdScen24_annual_national.csv
+risk_charts_inputs.xlsx,Raw Input,Excel (multi-sheet),Multi-sheet workbook with supply chain risk data for all materials,"Sheets: aggregate, import_dependency, import_shares, reserves, crc",USGS + trade data compilation,data/risk_charts_inputs.xlsx
+aggregate (sheet),Raw Input Sheet,Excel sheet,Annual production/import/export/consumption by material,Columns: material year production import export consumption net_import,USGS Mineral Commodity Summaries,risk_charts_inputs.xlsx
+import_dependency (sheet),Raw Input Sheet,Excel sheet,Net import reliance percentage by material and year,Columns: material year1 year2... (values in % or E for exporter),USGS Mineral Commodity Summaries,risk_charts_inputs.xlsx
+import_shares (sheet),Raw Input Sheet,Excel sheet,Import shares by source country for each material,Columns: material country share,USGS + trade statistics,risk_charts_inputs.xlsx
+reserves (sheet),Raw Input Sheet,Excel sheet,Economic reserves by country in kilotonnes (kt),"Rows: countries + Global/Other; Columns: materials",USGS Mineral Commodity Summaries,risk_charts_inputs.xlsx
+crc (sheet),Raw Input Sheet,Excel sheet,Country Risk Classification ratings,Columns: country crc (OECD or 1-7),External risk classification,risk_charts_inputs.xlsx
+mcs2023-*_salient.csv,Raw Input,CSV (multiple files),USGS 2023 individual material CSVs for thin-film materials,"Contains: USprod_* NIR columns for Cd, Ga, Ge, In, Se, Te",USGS Mineral Commodity Summaries 2023,data/mcs2023-*_salient.csv

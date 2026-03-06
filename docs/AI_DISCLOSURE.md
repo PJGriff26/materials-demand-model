@@ -33,7 +33,9 @@ Claude Code served as an interactive programming assistant throughout the develo
 Claude Code assisted in writing and maintaining:
 
 - `PIPELINE_DOCUMENTATION.md` — Technical reference for the 10-step pipeline
-- `docs/variable_reference.csv` — Master variable inventory (100+ entries)
+- `docs/variable_reference.csv` — Pipeline variables and calculations (133 entries)
+- `docs/data_sources.csv` — Input data files documentation (9 entries)
+- `docs/output_files.csv` — Output files and directories (36 entries)
 - `docs/visualization_inventory.csv` — Visualization catalog (50+ figures)
 - `CHANGELOG_CLAUDE_CODE.md` — Detailed record of AI-assisted changes
 - Inline code comments and docstrings
