@@ -9,5 +9,3 @@
 | 6-10 | 13 | 7.1 | 0.582 | 0.904 | 1.085 | 1.20× |
 | 11-20 | 14 | 14.8 | 0.651 | 1.570 | 1.801 | 1.14× |
 | >20 | 14 | 48.8 | 0.774 | 0.904 | 0.964 | 1.04× |
-
-**Key insight**: Before inflation, low-N pairs show artificially narrow distributions (median CV 0.13-0.16 for n=2-3). After inflation, they appropriately reflect epistemic uncertainty (median CV 0.27-0.41 for n=2-3).
