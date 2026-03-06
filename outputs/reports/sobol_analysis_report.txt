@@ -1,0 +1,106 @@
+================================================================================
+SOBOL SENSITIVITY ANALYSIS REPORT
+================================================================================
+
+1. PER-MATERIAL SOBOL INDICES (Individual Technologies)
+------------------------------------------------------------
+   Materials analyzed: 31
+   Total (material, technology) pairs: 167
+   Analytical (D=1, S1=1.0): 5
+
+   Top 20 most influential intensity parameters:
+   Material        Technology                      S1       ST        Coeff
+   ----------------------------------------------------------------------
+   Tellurium       CdTe                        1.0001   1.0001    3248339.1
+   Vanadium        offshore wind               1.0001   1.0001    3300259.1
+   Cadmium         CdTe                        1.0000   1.0000    3248339.1
+   Gadium          CIGS                        1.0000   1.0000    1392145.3
+   Gallium         CIGS                        1.0000   1.0000    1392145.3
+   Germanium       a-Si                        1.0000   1.0000          0.0
+   Selenium        CIGS                        1.0000   1.0000    1392145.3
+   Yttrium         onshore wind                1.0000   1.0000   39276367.8
+   Indium          CIGS                        1.0000   1.0000    1392145.3
+   Zinc            onshore wind                0.9998   0.9998   39276367.8
+   Terbium         onshore wind                0.9998   0.9998   39276367.8
+   Praseodymium    onshore wind                0.9998   0.9998   39276367.8
+   Chromium        onshore wind                0.9995   0.9995   39276367.8
+   Boron           onshore wind                0.9993   0.9993   39276367.8
+   Dysprosium      onshore wind                0.9989   0.9989   39276367.8
+   Neodymium       onshore wind                0.9973   0.9973   39276367.8
+   Nickel          onshore wind                0.9960   0.9960   39276367.8
+   Niobium         onshore wind                0.9928   0.9928   39276367.8
+   Silver          utility-scale solar pv      0.9909   0.9909   41764359.3
+   Tin             utility-scale solar pv      0.9909   0.9909   41764359.3
+
+   Linearity validation: R²(S1, ST) = 0.999994
+   → Model is effectively linear (S1 ≈ ST), confirming
+     Spearman and elasticity methods are valid.
+
+   Sensitivity concentration (max S1 per material):
+   Concentrated (max S1 > 0.8): 28 materials
+     Tellurium: S1=1.000 (CdTe)
+     Vanadium: S1=1.000 (offshore wind)
+     Cadmium: S1=1.000 (CdTe)
+     Germanium: S1=1.000 (a-Si)
+     Gallium: S1=1.000 (CIGS)
+     Yttrium: S1=1.000 (onshore wind)
+     Selenium: S1=1.000 (CIGS)
+     Gadium: S1=1.000 (CIGS)
+     Indium: S1=1.000 (CIGS)
+     Zinc: S1=1.000 (onshore wind)
+     Terbium: S1=1.000 (onshore wind)
+     Praseodymium: S1=1.000 (onshore wind)
+     Chromium: S1=0.999 (onshore wind)
+     Boron: S1=0.999 (onshore wind)
+     Dysprosium: S1=0.999 (onshore wind)
+     Neodymium: S1=0.997 (onshore wind)
+     Nickel: S1=0.996 (onshore wind)
+     Niobium: S1=0.993 (onshore wind)
+     Silver: S1=0.991 (utility-scale solar pv)
+     Tin: S1=0.991 (utility-scale solar pv)
+     Silicon: S1=0.991 (utility-scale solar pv)
+     Magnesium: S1=0.991 (utility-scale solar pv)
+     Glass: S1=0.984 (utility-scale solar pv)
+     Aluminum: S1=0.969 (utility-scale solar pv)
+     Lead: S1=0.963 (onshore wind)
+     Fiberglass: S1=0.963 (onshore wind)
+     Molybdenum: S1=0.952 (onshore wind)
+     Copper: S1=0.805 (onshore wind)
+   Diversified (max S1 < 0.4): 0 materials
+
+2. GROUPED SOBOL INDICES (Technology Sectors)
+------------------------------------------------------------
+   Sector contributions to material demand variance:
+
+   Aluminum        → Fossil (S1=0.979)
+   Cement          → Wind (S1=0.565)
+   Chromium        → Wind (S1=1.000)
+   Copper          → Wind (S1=0.815)
+   Lead            → Wind (S1=0.996)
+   Manganese       → Wind (S1=0.537)
+   Molybdenum      → Wind (S1=0.953)
+   Nickel          → Wind (S1=0.996)
+   Silver          → Nuclear (S1=1.000)
+   Steel           → Wind (S1=0.992)
+   Zinc            → Wind (S1=1.000)
+
+3. GLOBAL SOBOL ANALYSIS (Aggregate Critical Material Demand)
+------------------------------------------------------------
+   Aggregate across 15 critical materials
+   Parameters: 77
+   Evaluations: 10,240
+
+   Sector                S1   ±     conf       ST
+   ---------------------------------------------
+   Fossil            0.7383 ±   0.0648   0.7380
+   Biomass           0.2619 ±   0.0466   0.2621
+   Other             0.0001 ±   0.0005   0.0000
+   Wind              0.0000 ±   0.0004   0.0000
+   Solar             0.0000 ±   0.0001   0.0000
+   Geothermal        0.0000 ±   0.0000   0.0000
+   Nuclear           0.0000 ±   0.0000   0.0000
+   Hydro             0.0000 ±   0.0001   0.0000
+
+   → Fossil sector intensity uncertainty dominates aggregate critical material demand variance (S1=0.738)
+
+================================================================================

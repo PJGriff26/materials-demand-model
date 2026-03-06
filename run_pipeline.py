@@ -102,13 +102,15 @@ def main():
          "Manuscript Figure 1 (demand curves + cumulative demand)"),
         (10, ROOT / "visualizations" / "feature_scatterplots.py",
           "Exploratory figures (scatterplots, correlation heatmaps)"),
+        (11, ROOT / "analysis" / "sobol_analysis.py",
+         "Sobol sensitivity analysis (per-material + grouped + global)"),
     ]
 
     # Filter steps
     if args.step is not None:
         steps = [(n, p, d) for n, p, d in steps if n == args.step]
         if not steps:
-            print(f"Error: no step {args.step}. Valid range: 1–10.")
+            print(f"Error: no step {args.step}. Valid range: 1–11.")
             sys.exit(1)
     else:
         steps = [(n, p, d) for n, p, d in steps if n >= args.from_step]

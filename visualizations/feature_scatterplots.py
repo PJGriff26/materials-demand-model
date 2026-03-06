@@ -152,7 +152,6 @@ def shorten_column_names(df, max_len=15):
         "solar_fraction_2035": "solar_frac",
         "wind_fraction_2035": "wind_frac",
         "storage_fraction_2035": "storage_frac",
-        "n_active_materials": "n_materials",
         "supply_chain_stress": "sc_stress",
         "peak_supply_chain_stress": "peak_sc_stress",
         "mean_n_exceeding_production": "mean_exceed",
@@ -176,7 +175,6 @@ def shorten_column_names(df, max_len=15):
         "import_hhi": "imp_hhi",
         "scenario_cv": "scenario_cv",
         "demand_volatility": "volatility",
-        "n_active_scenarios": "n_scenarios",
     }
 
     renamed = {}

@@ -582,6 +582,7 @@ def run_full_simulation(
     convergence_rtol: float = 0.01,
     convergence_check_every: int = 500,
     convergence_min_iterations: int = 1000,
+    output_dir: Optional[Union[str, Path]] = None,
 ) -> Tuple[MaterialsStockFlowSimulation, SimulationResult]:
     """
     Run complete simulation pipeline from data files to results.
@@ -605,6 +606,9 @@ def run_full_simulation(
         Check convergence every this many iterations (default 500).
     convergence_min_iterations : int
         Minimum iterations before convergence checks begin (default 1,000).
+    output_dir : str or Path, optional
+        If provided, save fitted distribution CSVs to this directory.
+        Creates ``fitted_distributions.csv`` and ``fit_summary.csv``.
 
     Returns
     -------
@@ -628,6 +632,13 @@ def run_full_simulation(
     logger.info("\nStep 2: Fitting distributions...")
     fitter = DistributionFitter()
     fitted_dists = fitter.fit_all(data['intensity'])
+
+    # Step 2b: Export fit data (if output_dir provided)
+    if output_dir is not None:
+        out = Path(output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        fitter.export_to_csv(out / 'fitted_distributions.csv')
+        fitter.export_fit_summary(out / 'fit_summary.csv')
 
     # Step 3: Validate technology mapping
     logger.info("\nStep 3: Validating technology mapping...")

@@ -1,0 +1,170 @@
+Technology,Material,n,Distribution,Mean,CV (observed),CV (fitted),CV (inflated),Inflation factor,Low-N (<5)
+Bio CCS,Aluminum,1,single value,1300.0,0.0,0.0,0.0,5.0,Yes
+Bio CCS,Steel,1,single value,79560.0,0.0,0.0,0.0,5.0,Yes
+Biomass,Aluminum,1,single value,1300.0,0.0,0.0,0.0,5.0,Yes
+Biomass,Steel,1,single value,52000.0,0.0,0.0,0.0,5.0,Yes
+CIGS,Zinc,1,single value,121.0,0.0,0.0,0.0,5.0,Yes
+CdTe,Chromium,1,single value,61.0,0.0,0.0,0.0,5.0,Yes
+CdTe,Nickel,1,single value,16.0,0.0,0.0,0.0,5.0,Yes
+CdTe,Tin,1,single value,6.6,0.0,0.0,0.0,5.0,Yes
+Hydro,Aluminum,1,single value,52.0,0.0,0.0,0.0,5.0,Yes
+Solar Distributed,Magnesium,1,single value,53.5,0.0,0.0,0.0,5.0,Yes
+Solar Distributed,Tin,1,single value,577.0,0.0,0.0,0.0,5.0,Yes
+a-Si,Cadmium,1,single value,6.6,0.0,0.0,0.0,5.0,Yes
+a-Si,Chromium,1,single value,634.0,0.0,0.0,0.0,5.0,Yes
+a-Si,Molybdenum,1,single value,10.6,0.0,0.0,0.0,5.0,Yes
+a-Si,Nickel,1,single value,334.0,0.0,0.0,0.0,5.0,Yes
+a-Si,Silicon,1,single value,150.0,0.0,0.0,0.0,5.0,Yes
+a-Si,Tellurium,1,single value,7.8,0.0,0.0,0.0,5.0,Yes
+offshore wind,Boron,1,single value,7.0,0.0,0.0,0.0,5.0,Yes
+offshore wind,Molybdenum,1,single value,75.3,0.0,0.0,0.0,5.0,Yes
+offshore wind,Niobium,1,single value,37.7,0.0,0.0,0.0,5.0,Yes
+onshore wind,Niobium,1,single value,37.7,0.0,0.0,0.0,5.0,Yes
+utility-scale solar pv,Magnesium,1,single value,53.5,0.0,0.0,0.0,5.0,Yes
+utility-scale solar pv,Tin,1,single value,577.0,0.0,0.0,0.0,5.0,Yes
+ASIGE,Steel,2,lognormal,55950.0,0.001,0.001,0.002,2.5,Yes
+Bio CCS,Cement,2,lognormal,32005.0,0.306,0.222,0.556,2.5,Yes
+Biomass,Cement,2,lognormal,20918.5,0.306,0.222,0.556,2.5,Yes
+CDTE,Steel,2,lognormal,55950.0,0.001,0.001,0.002,2.5,Yes
+CIGS,Molybdenum,2,lognormal,55.0,1.389,15.628,39.069,2.5,Yes
+CIGS,Steel,2,lognormal,55950.0,0.001,0.001,0.002,2.5,Yes
+CSP,Aluminum,2,normal,5500.0,1.414,1.414,3.536,2.5,Yes
+CSP,Cement,2,lognormal,161000.0,0.782,0.688,1.72,2.5,Yes
+CSP,Copper,2,lognormal,2300.0,0.553,0.432,1.079,2.5,Yes
+CSP,Glass,2,lognormal,120000.0,0.118,0.084,0.209,2.5,Yes
+CSP,Manganese,2,lognormal,3850.0,0.68,0.562,1.404,2.5,Yes
+CSP,Nickel,2,lognormal,1420.0,0.478,0.363,0.908,2.5,Yes
+CSP,Silver,2,lognormal,14.5,0.146,0.104,0.26,2.5,Yes
+CSP,Steel,2,lognormal,320000.0,0.354,0.26,0.649,2.5,Yes
+CdTe,Lead,2,lognormal,7.9,0.018,0.013,0.032,2.5,Yes
+Gas,Aluminum,2,lognormal,217.0,0.085,0.06,0.15,2.5,Yes
+Gas,Steel,2,lognormal,41080.0,0.346,0.254,0.634,2.5,Yes
+Gas CCS,Aluminum,2,lognormal,217.0,0.085,0.06,0.15,2.5,Yes
+Gas CCS,Steel,2,lognormal,62852.5,0.346,0.254,0.634,2.5,Yes
+NGCC,Aluminum,2,lognormal,217.0,0.085,0.06,0.15,2.5,Yes
+NGCC,Steel,2,lognormal,41080.0,0.346,0.254,0.634,2.5,Yes
+NGGT,Aluminum,2,lognormal,217.0,0.085,0.06,0.15,2.5,Yes
+NGGT,Steel,2,lognormal,41080.0,0.346,0.254,0.634,2.5,Yes
+Solar Distributed,Steel,2,lognormal,55950.0,0.001,0.001,0.002,2.5,Yes
+a-Si,Copper,2,lognormal,552.8,1.157,1.663,4.156,2.5,Yes
+a-Si,Tin,2,lognormal,72.0,1.4,33.528,83.819,2.5,Yes
+offshore wind,Vanadium,2,lognormal,7000.0,0.0,0.0,0.0,2.5,Yes
+onshore wind,Lead,2,lognormal,6720.0,0.0,0.0,0.0,2.5,Yes
+onshore wind,Vanadium,2,lognormal,90.2,0.003,0.002,0.006,2.5,Yes
+onshore wind,Yttrium,2,lognormal,1.2,0.895,0.863,2.157,2.5,Yes
+onshore wind,Zinc,2,lognormal,5500.0,0.0,0.0,0.0,2.5,Yes
+utility-scale solar pv,Steel,2,lognormal,55950.0,0.001,0.001,0.002,2.5,Yes
+ASIGE,Aluminum,3,lognormal,20693.3,0.444,0.344,0.688,2.0,Yes
+ASIGE,Copper,3,lognormal,7176.7,0.043,0.034,0.069,2.0,Yes
+ASIGE,Glass,3,lognormal,63366.7,0.139,0.118,0.237,2.0,Yes
+Bio CCS,Copper,3,lognormal,596.7,0.084,0.069,0.138,2.0,Yes
+Bio CCS,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Bio CCS,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Biomass,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Biomass,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+CDTE,Aluminum,3,lognormal,20693.3,0.444,0.344,0.688,2.0,Yes
+CDTE,Copper,3,lognormal,7176.7,0.043,0.034,0.069,2.0,Yes
+CDTE,Glass,3,lognormal,63366.7,0.139,0.118,0.237,2.0,Yes
+CIGS,Aluminum,3,lognormal,20693.3,0.444,0.344,0.688,2.0,Yes
+CIGS,Cadmium,3,lognormal,89.2,1.707,23.119,46.238,2.0,Yes
+CIGS,Gadium,3,lognormal,7.8,0.609,0.807,1.614,2.0,Yes
+CIGS,Glass,3,lognormal,63366.7,0.139,0.118,0.237,2.0,Yes
+CdTe,Indium,3,lognormal,15.6,0.015,0.012,0.024,2.0,Yes
+CdTe,Molybdenum,3,lognormal,70.0,0.862,23.872,47.744,2.0,Yes
+Coal,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Coal,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Coal,Steel,3,lognormal,52655.0,0.17,0.139,0.277,2.0,Yes
+Coal CCS,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Coal CCS,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Gas,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Gas,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Gas CCS,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+Gas CCS,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Geothermal,Copper,3,lognormal,7333.3,1.37,2.538,5.076,2.0,Yes
+Hydro,Copper,3,lognormal,1840.7,0.545,0.452,0.904,2.0,Yes
+NGCC,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+NGCC,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+NGGT,Manganese,3,lognormal,145.0,0.325,0.254,0.509,2.0,Yes
+NGGT,Nickel,3,lognormal,9.7,0.158,0.134,0.268,2.0,Yes
+Nuclear New,Silver,3,lognormal,1.0,0.0,0.0,0.0,2.0,Yes
+Solar Distributed,Glass,3,lognormal,63366.7,0.139,0.118,0.237,2.0,Yes
+offshore wind,Lead,3,lognormal,5743.3,0.295,0.275,0.55,2.0,Yes
+offshore wind,Terbium,3,lognormal,6.4,0.084,0.067,0.135,2.0,Yes
+onshore wind,Boron,3,lognormal,2.7,1.083,1.02,2.041,2.0,Yes
+onshore wind,Fiberglass,3,lognormal,8653.3,0.13,0.11,0.22,2.0,Yes
+onshore wind,Manganese,3,lognormal,790.0,0.013,0.01,0.021,2.0,Yes
+utility-scale solar pv,Glass,3,lognormal,63366.7,0.139,0.118,0.237,2.0,Yes
+ASIGE,Cement,4,lognormal,7413.5,0.317,0.282,0.422,1.5,Yes
+Biomass,Copper,4,lognormal,490.8,0.075,0.064,0.097,1.5,Yes
+CDTE,Cement,4,lognormal,7413.5,0.317,0.282,0.422,1.5,Yes
+CIGS,Cement,4,lognormal,7413.5,0.317,0.282,0.422,1.5,Yes
+Coal,Aluminum,4,lognormal,394.8,0.428,0.366,0.549,1.5,Yes
+Coal,Copper,4,lognormal,490.8,0.075,0.064,0.097,1.5,Yes
+Coal CCS,Aluminum,4,lognormal,394.8,0.428,0.366,0.549,1.5,Yes
+Coal CCS,Copper,4,lognormal,588.8,0.074,0.064,0.096,1.5,Yes
+Coal CCS,Steel,4,lognormal,75764.8,0.194,0.165,0.248,1.5,Yes
+Gas,Cement,4,lognormal,11118.2,0.311,0.276,0.413,1.5,Yes
+Gas,Copper,4,lognormal,490.8,0.075,0.064,0.097,1.5,Yes
+Gas CCS,Cement,4,lognormal,16216.5,0.403,0.412,0.618,1.5,Yes
+Gas CCS,Copper,4,lognormal,588.8,0.074,0.064,0.096,1.5,Yes
+Hydro,Steel,4,lognormal,83575.0,0.789,0.804,1.207,1.5,Yes
+NGCC,Cement,4,lognormal,11118.2,0.311,0.276,0.413,1.5,Yes
+NGCC,Copper,4,lognormal,490.8,0.075,0.064,0.097,1.5,Yes
+NGGT,Cement,4,lognormal,11118.2,0.311,0.276,0.413,1.5,Yes
+NGGT,Copper,4,lognormal,490.8,0.075,0.064,0.097,1.5,Yes
+Nuclear New,Aluminum,4,lognormal,37.5,0.416,0.436,0.654,1.5,Yes
+Nuclear New,Manganese,4,lognormal,343.0,0.332,0.315,0.472,1.5,Yes
+Solar Distributed,Aluminum,4,lognormal,21863.2,0.536,0.469,0.704,1.5,Yes
+a-Si,Indium,4,lognormal,7.0,0.615,0.481,0.722,1.5,Yes
+offshore wind,Cement,4,lognormal,181.0,0.249,0.222,0.332,1.5,Yes
+offshore wind,Chromium,4,lognormal,352.4,0.212,0.18,0.27,1.5,Yes
+offshore wind,Nickel,4,lognormal,177.4,0.749,0.568,0.852,1.5,Yes
+offshore wind,Praseodymium,4,lognormal,32.4,0.061,0.052,0.078,1.5,Yes
+onshore wind,Molybdenum,4,lognormal,100.6,0.186,0.173,0.26,1.5,Yes
+utility-scale solar pv,Aluminum,4,lognormal,21863.2,0.536,0.469,0.704,1.5,Yes
+Nuclear New,Copper,5,lognormal,1291.8,0.389,0.372,0.558,1.5,No
+Nuclear New,Nickel,5,lognormal,201.4,0.927,1.055,1.583,1.5,No
+Solar Distributed,Nickel,5,lognormal,1.1,0.133,0.119,0.178,1.5,No
+offshore wind,Fiberglass,5,lognormal,8809.8,0.309,0.309,0.464,1.5,No
+utility-scale solar pv,Nickel,5,lognormal,1.1,0.133,0.119,0.178,1.5,No
+CdTe,Copper,6,lognormal,2502.3,0.928,3.995,4.794,1.2,No
+Nuclear New,Steel,6,lognormal,31983.7,0.582,0.904,1.085,1.2,No
+Solar Distributed,Cement,6,lognormal,7705.2,0.285,0.27,0.324,1.2,No
+Solar Distributed,Lead,6,lognormal,77.5,1.67,3.127,3.752,1.2,No
+onshore wind,Cement,6,lognormal,54093.8,0.254,0.237,0.285,1.2,No
+utility-scale solar pv,Cement,6,lognormal,7705.2,0.285,0.27,0.324,1.2,No
+utility-scale solar pv,Lead,6,lognormal,77.5,1.67,3.127,3.752,1.2,No
+Geothermal,Aluminum,7,lognormal,16165.9,1.195,2.286,2.743,1.2,No
+Geothermal,Cement,8,lognormal,393824.6,0.953,1.105,1.326,1.2,No
+Geothermal,Steel,8,lognormal,544709.0,0.868,1.128,1.353,1.2,No
+Hydro,Cement,8,lognormal,1007209.8,0.345,0.32,0.385,1.2,No
+Nuclear New,Cement,9,lognormal,36852.9,0.428,0.425,0.51,1.2,No
+onshore wind,Chromium,10,lognormal,526.5,0.404,0.41,0.491,1.2,No
+Solar Distributed,Copper,11,lognormal,2614.2,1.15,1.804,2.133,1.18,No
+utility-scale solar pv,Copper,11,lognormal,2614.2,1.15,1.804,2.133,1.18,No
+Coal,Cement,12,lognormal,14525.0,0.499,0.55,0.642,1.17,No
+Coal CCS,Cement,12,lognormal,20696.5,0.553,0.576,0.672,1.17,No
+CIGS,Copper,13,lognormal,1805.2,1.7,12.592,14.529,1.15,No
+onshore wind,Nickel,13,lognormal,249.8,0.567,0.665,0.768,1.15,No
+Solar Distributed,Silicon,15,lognormal,4633.5,0.554,5.411,6.133,1.13,No
+onshore wind,Praseodymium,15,lognormal,18.4,1.315,2.604,2.951,1.13,No
+utility-scale solar pv,Silicon,15,lognormal,4633.5,0.554,5.411,6.133,1.13,No
+a-Si,Germanium,16,lognormal,43.5,0.581,1.205,1.356,1.12,No
+onshore wind,Terbium,16,lognormal,7.2,1.173,2.041,2.296,1.12,No
+offshore wind,Dysprosium,18,lognormal,17.6,0.447,0.642,0.713,1.11,No
+offshore wind,Aluminum,20,lognormal,1973.4,1.129,1.336,1.47,1.1,No
+offshore wind,Steel,20,lognormal,302454.8,0.722,0.617,0.679,1.1,No
+Solar Distributed,Silver,30,lognormal,33.6,0.686,0.904,0.964,1.07,No
+utility-scale solar pv,Silver,30,lognormal,33.6,0.686,0.904,0.964,1.07,No
+CIGS,Selenium,36,lognormal,62.6,0.765,0.881,0.93,1.06,No
+onshore wind,Aluminum,38,lognormal,2005.1,1.147,1.43,1.506,1.05,No
+CdTe,Cadmium,40,lognormal,81.6,0.635,0.839,0.881,1.05,No
+CIGS,Gallium,41,lognormal,12.5,2.083,1.518,1.592,1.05,No
+offshore wind,Neodymium,41,lognormal,148.9,0.341,0.527,0.553,1.05,No
+onshore wind,Dysprosium,47,lognormal,13.4,0.801,1.415,1.476,1.04,No
+onshore wind,Steel,48,lognormal,122338.7,0.214,0.222,0.232,1.04,No
+offshore wind,Copper,49,lognormal,5442.9,0.893,1.03,1.072,1.04,No
+onshore wind,Neodymium,50,lognormal,122.9,0.656,1.349,1.403,1.04,No
+CdTe,Tellurium,55,lognormal,98.9,0.785,0.77,0.798,1.04,No
+CIGS,Indium,76,lognormal,1188.9,5.981,2.354,2.416,1.03,No
+onshore wind,Copper,102,lognormal,3500.3,0.783,0.665,0.678,1.02,No

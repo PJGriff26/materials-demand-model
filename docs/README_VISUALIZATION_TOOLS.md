@@ -8,9 +8,9 @@ Shows comprehensive analysis of the SELECTED distribution.
 
 **Usage:**
 ```bash
-python inspect_distributions.py --material Cement --technology Gas
-python inspect_distributions.py --material Aluminum --technology ASIGE
-python inspect_distributions.py --show_all  # Find all problematic distributions
+python diagnostics/inspect_distributions.py --material Cement --technology Gas
+python diagnostics/inspect_distributions.py --material Aluminum --technology ASIGE
+python diagnostics/inspect_distributions.py --show_all  # Find all problematic distributions
 ```
 
 **Panels:**
@@ -30,8 +30,8 @@ python inspect_distributions.py --show_all  # Find all problematic distributions
 
 **Usage:**
 ```bash
-python inspect_distributions_all_candidates.py --material Cement --technology Gas
-python inspect_distributions_all_candidates.py --material Indium --technology CdTe
+python diagnostics/inspect_distributions_all_candidates.py --material Cement --technology Gas
+python diagnostics/inspect_distributions_all_candidates.py --material Indium --technology CdTe
 ```
 
 **Layout:**

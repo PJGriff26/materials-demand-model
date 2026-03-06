@@ -191,7 +191,6 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
             "solar_fraction_2035": "Solar\nfrac.",
             "wind_fraction_2035": "Wind\nfrac.",
             "storage_fraction_2035": "Storage\nfrac.",
-            "n_active_materials": "Active\nmats.",
         }
         col_headers = [col_short.get(c, c) for c in medians.columns]
 
@@ -204,7 +203,7 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
                 row_labels.append(f"Cluster {cl}")
 
         # Columns that should display as plain integers (e.g., years)
-        int_cols = {"year_of_peak", "n_active_materials"}
+        int_cols = {"year_of_peak"}
 
         # Format values
         def _fmt(v, col_name):

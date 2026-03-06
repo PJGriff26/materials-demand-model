@@ -214,9 +214,9 @@ Edit `src/technology_mapping.py`:
 ```python
 TECHNOLOGY_MAPPING = {
     'upv': {
-        'utility-scale solar pv': 0.80,  # Changed from 0.70
-        'CIGS': 0.10,                     # Changed from 0.15
-        'CdTe': 0.10                      # Changed from 0.15
+        'utility-scale solar pv': 0.85,  # Changed from 0.90
+        'CdTe': 0.10,                     # Changed from 0.07
+        'CIGS': 0.05,                      # Changed from 0.03
     },
     # ... your modifications
 }

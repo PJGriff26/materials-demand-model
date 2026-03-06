@@ -1,0 +1,13 @@
+# Material Intensity Distribution Summary by Sample Size
+
+| Sample Size | Pairs | Mean n | CV (obs) | CV (fitted) | CV (inflated) | Inflation Factor |
+|-------------|-------|--------|----------|-------------|---------------|------------------|
+| 1 (single value) | 23 | 1.0 | 0.000 | 0.000 | 0.000 | 5.00× |
+| 2 | 32 | 2.0 | 0.226 | 0.163 | 0.408 | 2.50× |
+| 3 | 40 | 3.0 | 0.158 | 0.134 | 0.268 | 2.00× |
+| 4-5 | 33 | 4.2 | 0.311 | 0.276 | 0.413 | 1.50× |
+| 6-10 | 13 | 7.1 | 0.582 | 0.904 | 1.085 | 1.20× |
+| 11-20 | 14 | 14.8 | 0.651 | 1.570 | 1.801 | 1.14× |
+| >20 | 14 | 48.8 | 0.774 | 0.904 | 0.964 | 1.04× |
+
+**Key insight**: Before inflation, low-N pairs show artificially narrow distributions (median CV 0.13-0.16 for n=2-3). After inflation, they appropriately reflect epistemic uncertainty (median CV 0.27-0.41 for n=2-3).

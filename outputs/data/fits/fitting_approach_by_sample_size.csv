@@ -1,0 +1,7 @@
+Sample Size,Count,Percentage,Fitting Approach
+n = 1,23,13.8%,Uniform +/-10% of observed value
+n = 2,32,19.2%,Full 4-distribution MLE + AIC
+n = 3,38,22.8%,Full 4-distribution MLE + AIC
+n = 4,27,16.2%,Full 4-distribution MLE + AIC
+n = 5-9,18,10.8%,Full 4-distribution MLE + AIC
+n >= 10,29,17.4%,Full 4-distribution MLE + AIC

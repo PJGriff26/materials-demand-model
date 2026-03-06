@@ -512,15 +512,7 @@ def engineer_scenario_features(demand, nrel, risk_data=None, thin_film_data=None
     feats["wind_fraction_2035"] = nrel_2035[wind_cols].sum(axis=1) / (total_cap + 1)
     feats["storage_fraction_2035"] = nrel_2035[storage_cols].sum(axis=1) / (total_cap + 1)
 
-    # 12. Number of materials with demand > 0
-    n_active = (
-        demand[demand["mean"] > 0]
-        .groupby("scenario")["material"]
-        .nunique()
-    )
-    feats["n_active_materials"] = n_active
-
-    # ── Supply-chain stress features (13–17) ─────────────────────────────
+    # ── Supply-chain stress features (12–16) ─────────────────────────────
     # Quantify how much each scenario stresses production capacity and
     # supply-chain risk, using material-level risk data.
 

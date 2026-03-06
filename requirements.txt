@@ -20,3 +20,6 @@ seaborn==0.13.2
 
 # Excel file support (risk_charts_inputs.xlsx)
 openpyxl==3.1.5
+
+# Sensitivity analysis (Sobol indices)
+SALib>=1.4.0

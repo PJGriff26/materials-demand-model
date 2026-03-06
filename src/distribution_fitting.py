@@ -109,7 +109,18 @@ class MaterialIntensityDistribution:
     def get_best_distribution(self) -> Optional[DistributionFit]:
         """Get the best fitted distribution"""
         return self.best_fit
-    
+
+    def get_frozen_distribution(self):
+        """
+        Get a frozen scipy distribution object for the best fit.
+
+        Returns a frozen scipy.stats distribution supporting .rvs(), .pdf(),
+        .cdf(), .ppf(), etc.  Returns None if no parametric fit is available.
+        """
+        if self.best_fit is not None:
+            return self._get_scipy_distribution(self.best_fit)
+        return None
+
     def sample(self, n: int = 1, random_state: Optional[int] = None) -> np.ndarray:
         """
         Sample from the distribution.
@@ -855,6 +866,166 @@ class DistributionFitter:
         df = pd.DataFrame(rows)
         df.to_csv(output_path, index=False)
         logger.info(f"Exported raw data to: {output_path}")
+
+    def export_fit_summary(self, output_path: Union[str, Path]):
+        """
+        Export a summary table of distribution fitting results.
+
+        Includes distribution type breakdown, sample size statistics,
+        goodness-of-fit pass rates, and per-distribution-type details.
+
+        Parameters
+        ----------
+        output_path : str or Path
+            Path to output CSV file
+        """
+        if not self.results:
+            logger.warning("No results to summarize")
+            return
+
+        n_total = len(self.results)
+
+        # --- Collect per-pair info ---
+        dist_types = []
+        sample_sizes = []
+        ks_pass = 0
+        ks_total = 0
+        parametric_count = 0
+
+        for dist_info in self.results.values():
+            sample_sizes.append(dist_info.n_samples)
+            if dist_info.use_parametric:
+                parametric_count += 1
+
+            if dist_info.best_fit is not None:
+                dist_types.append(dist_info.best_fit.distribution_name)
+                ks_total += 1
+                if dist_info.best_fit.passes_ks_test():
+                    ks_pass += 1
+            else:
+                dist_types.append('empirical')
+
+        sample_sizes = np.array(sample_sizes)
+
+        # --- Distribution type counts ---
+        from collections import Counter
+        type_counts = Counter(dist_types)
+
+        rows = []
+
+        # Section 1: Overall summary
+        rows.append({
+            'section': 'overall',
+            'metric': 'total_pairs',
+            'value': n_total
+        })
+        rows.append({
+            'section': 'overall',
+            'metric': 'parametric_fits',
+            'value': parametric_count
+        })
+        rows.append({
+            'section': 'overall',
+            'metric': 'empirical_fallback',
+            'value': n_total - parametric_count
+        })
+        rows.append({
+            'section': 'overall',
+            'metric': 'ks_pass_rate',
+            'value': round(ks_pass / ks_total, 4) if ks_total > 0 else np.nan
+        })
+
+        # Section 2: Distribution type breakdown
+        for dist_name in sorted(type_counts.keys()):
+            count = type_counts[dist_name]
+            rows.append({
+                'section': 'distribution_type',
+                'metric': dist_name,
+                'value': count,
+                'percentage': round(100 * count / n_total, 1)
+            })
+
+        # Section 3: Sample size statistics
+        for label, val in [
+            ('min', int(np.min(sample_sizes))),
+            ('q25', int(np.percentile(sample_sizes, 25))),
+            ('median', int(np.median(sample_sizes))),
+            ('q75', int(np.percentile(sample_sizes, 75))),
+            ('max', int(np.max(sample_sizes))),
+            ('mean', round(float(np.mean(sample_sizes)), 1)),
+        ]:
+            rows.append({
+                'section': 'sample_size',
+                'metric': label,
+                'value': val
+            })
+
+        # Section 4: Sample size bins
+        bins = [(1, 1), (2, 2), (3, 3), (4, 5), (6, 10), (11, 20), (21, None)]
+        bin_labels = ['n=1', 'n=2', 'n=3', 'n=4-5', 'n=6-10', 'n=11-20', 'n>20']
+        for (lo, hi), label in zip(bins, bin_labels):
+            if hi is None:
+                count = int(np.sum(sample_sizes >= lo))
+            else:
+                count = int(np.sum((sample_sizes >= lo) & (sample_sizes <= hi)))
+            rows.append({
+                'section': 'sample_size_bins',
+                'metric': label,
+                'value': count,
+                'percentage': round(100 * count / n_total, 1)
+            })
+
+        # Section 5: GoF statistics by distribution type
+        for dist_name in sorted(type_counts.keys()):
+            if dist_name == 'empirical':
+                continue
+            ks_stats = []
+            aic_vals = []
+            for dist_info in self.results.values():
+                if dist_info.best_fit is not None and \
+                   dist_info.best_fit.distribution_name == dist_name:
+                    ks_stats.append(dist_info.best_fit.ks_statistic)
+                    if not np.isnan(dist_info.best_fit.aic):
+                        aic_vals.append(dist_info.best_fit.aic)
+            if ks_stats:
+                rows.append({
+                    'section': f'gof_{dist_name}',
+                    'metric': 'median_ks_statistic',
+                    'value': round(float(np.median(ks_stats)), 4)
+                })
+                rows.append({
+                    'section': f'gof_{dist_name}',
+                    'metric': 'median_aic',
+                    'value': round(float(np.median(aic_vals)), 2) if aic_vals else np.nan
+                })
+                rows.append({
+                    'section': f'gof_{dist_name}',
+                    'metric': 'count',
+                    'value': len(ks_stats)
+                })
+
+        df = pd.DataFrame(rows)
+        df.to_csv(output_path, index=False)
+        logger.info(f"Exported fit summary to: {output_path}")
+
+        # Also print a readable summary to the log
+        logger.info(f"\n{'='*60}")
+        logger.info("DISTRIBUTION FITTING SUMMARY")
+        logger.info(f"{'='*60}")
+        logger.info(f"Total pairs: {n_total}")
+        logger.info(f"Parametric: {parametric_count} | Empirical: {n_total - parametric_count}")
+        logger.info(f"K-S pass rate: {ks_pass}/{ks_total} "
+                     f"({100*ks_pass/ks_total:.0f}%)" if ks_total > 0 else "N/A")
+        logger.info(f"\nDistribution types:")
+        for dist_name in sorted(type_counts.keys(), key=lambda x: -type_counts[x]):
+            count = type_counts[dist_name]
+            logger.info(f"  {dist_name:20s}: {count:4d} ({100*count/n_total:5.1f}%)")
+        logger.info(f"\nSample sizes: min={int(np.min(sample_sizes))}, "
+                     f"median={int(np.median(sample_sizes))}, "
+                     f"max={int(np.max(sample_sizes))}")
+        pct_low_n = 100 * np.sum(sample_sizes < 5) / n_total
+        logger.info(f"Pairs with n<5: {int(np.sum(sample_sizes < 5))} ({pct_low_n:.0f}%)")
+        logger.info(f"{'='*60}")
 
 
 def create_distribution_report(

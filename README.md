@@ -57,24 +57,31 @@ materials_demand_model/
 │   ├── clustering_comparison.py      # 4-method comparison (VIF/PCA/SPCA/FA)
 │   └── supply_chain_analysis.py      # CRC sourcing, reserve adequacy
 │
-├── visualizations/                   # Analysis & figure generation
+├── visualizations/                   # Figure generation modules
+│   ├── generate_manuscript_figures.py # Unified script for all 30 paper figures
+│   ├── manuscript_fig1.py            # Fig. 1: demand curves + uncertainty bands
+│   ├── manuscript_figures.py         # Fig. 2–5, SI capacity/additions/intensity
 │   ├── risk_ranking_chart.py         # Supply chain risk charts
 │   ├── feature_scatterplots.py       # EDA scatterplots & correlations
-│   ├── compare_figures.py            # Before/after figure comparison
-│   └── examples/                     # Example workflows & diagnostics
-│       ├── run_simulation.py         # Complete simulation example
-│       ├── sensitivity_analysis.py   # Sensitivity analysis example
-│       ├── supply_chain_risk_analysis.py  # Risk analysis example
-│       └── diagnostics/              # Debugging & inspection scripts
+│   └── compare_figures.py            # Before/after figure comparison
 │
-├── proposal_figures/                 # Original proposal visualizations
-│   ├── figure1_scenario_spaghetti.*  # Scenario ensemble plots
-│   ├── figure2_material_correlations.*
-│   ├── figure3_material_boxplots.*
-│   ├── figure4_risk_scatter.*
-│   ├── figure_capacity_additions.*
-│   ├── figure_technology_blocks.*
-│   └── figure_technology_correlation_blocks.*
+├── examples/                         # Runner scripts
+│   ├── run_simulation.py             # Monte Carlo simulation (Step 1)
+│   ├── sensitivity_analysis.py       # Sensitivity analysis demo
+│   ├── supply_chain_risk_analysis.py # Risk analysis demo
+│   ├── generate_eda_figures.py       # EDA figures for proposal
+│   ├── figure_capacity_additions.py  # Capacity additions figure
+│   └── visualize_monte_carlo_outputs.py  # MC output visualization
+│
+├── diagnostics/                      # Debugging & inspection tools
+│   ├── inspect_distributions.py      # Distribution fitting inspector
+│   ├── inspect_distributions_all_candidates.py  # All candidates view
+│   ├── hand_calculation.py           # Hand calculation verification
+│   ├── trace_calculation.py          # Calculation tracing
+│   ├── diagnose_units.py             # Unit conversion diagnostic
+│   ├── check_cement_distributions.py # Cement-specific checks
+│   ├── check_distribution_fitting.py # Distribution fitting checks
+│   └── compare_outputs.py            # Old vs new output comparison
 │
 ├── data/                             # Input data (see data/README.md)
 │   ├── intensity_data.csv            # Material intensity (t/GW)
@@ -155,7 +162,7 @@ python run_pipeline.py --from 3           # Resume from Step 3
 ### Run Simulation Only
 
 ```bash
-python visualizations/examples/run_simulation.py
+python examples/run_simulation.py
 ```
 
 This will:
@@ -299,9 +306,9 @@ Edit `src/technology_mapping.py` to customize how capacity technologies map to m
 ```python
 TECHNOLOGY_MAPPING = {
     'upv': {
-        'utility-scale solar pv': 0.70,  # 70% crystalline Si
-        'CIGS': 0.15,                     # 15% thin film CIGS
-        'CdTe': 0.15                      # 15% thin film CdTe
+        'utility-scale solar pv': 0.90,  # 90% crystalline Si
+        'CdTe': 0.07,                     # 7% thin film CdTe
+        'CIGS': 0.03,                     # 3% thin film CIGS
     },
     # ... add your mappings
 }

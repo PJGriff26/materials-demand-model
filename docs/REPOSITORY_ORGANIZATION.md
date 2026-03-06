@@ -85,9 +85,10 @@ materials_demand_model/
 │
 ├── src/                          # Core source code
 │   ├── __init__.py              # Package initialization
-│   ├── data_ingestion.py        # Data loading and validation
+│   ├── data_ingestion.py        # Data loading, validation, and preprocessing
+│   ├── data_quality.py          # Outlier detection and known corrections
 │   ├── distribution_fitting.py  # Statistical distribution fitting
-│   ├── technology_mapping.py    # Technology-material mappings
+│   ├── technology_mapping.py    # Technology mappings, consolidation, and lifetimes
 │   ├── stock_flow_simulation.py # Monte Carlo simulation engine
 │   └── materials_visualizations.py  # Publication-quality viz
 │
@@ -110,12 +111,28 @@ materials_demand_model/
 │   ├── clustering_comparison.py # 4-method clustering comparison (NEW Feb 2026)
 │   └── supply_chain_analysis.py # Supply chain risk analysis (CRC sourcing)
 │
-├── visualizations/               # Visualization scripts
-│   ├── manuscript_figures.py    # Publication figures
-│   ├── manuscript_fig1.py       # Demand curves figure
+├── visualizations/               # Figure generation modules
+│   ├── generate_manuscript_figures.py  # Unified script for all 30 paper figures
+│   ├── manuscript_fig1.py       # Fig. 1: demand curves + uncertainty bands
+│   ├── manuscript_figures.py    # Fig. 2-5, SI capacity/additions/intensity
 │   ├── risk_ranking_chart.py    # Supply chain risk charts
 │   ├── feature_scatterplots.py  # EDA scatterplots
 │   └── compare_figures.py       # Figure validation
+│
+├── examples/                     # Runner scripts
+│   ├── run_simulation.py        # Monte Carlo simulation (Step 1)
+│   ├── sensitivity_analysis.py  # Sensitivity analysis demo
+│   ├── supply_chain_risk_analysis.py  # Risk analysis demo
+│   ├── generate_eda_figures.py  # EDA figures
+│   ├── figure_capacity_additions.py  # Capacity additions figure
+│   └── visualize_monte_carlo_outputs.py  # MC output viz
+│
+├── diagnostics/                  # Debugging & inspection tools
+│   ├── inspect_distributions.py # Distribution fitting inspector
+│   ├── hand_calculation.py      # Hand calculation verification
+│   ├── trace_calculation.py     # Calculation tracing
+│   ├── diagnose_units.py        # Unit conversion diagnostic
+│   └── [other check scripts]
 │
 ├── data/                         # Input data
 │   ├── intensity_data.csv       # Material intensity data
@@ -123,12 +140,9 @@ materials_demand_model/
 │   └── supply_chain/            # Supply chain risk data
 │       └── risk_charts_inputs.xlsx  # USGS/trade data
 │
-├── examples/                     # Example workflows
-│   ├── run_simulation.py        # Main simulation example
-│   ├── supply_chain_risk_analysis.py  # Risk analysis example
-│   └── diagnostics/             # Debugging utilities
-│
 ├── tests/                        # Testing and validation
+│   ├── test_pipeline.py         # Integration tests
+│   ├── conftest.py              # Pytest fixtures
 │   └── validate_units.py        # Unit conversion validation
 │
 ├── outputs/                      # Generated results

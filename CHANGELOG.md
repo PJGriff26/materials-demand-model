@@ -33,6 +33,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - No material recycling/recovery modeled
 - Simplified retirement model (baseline stock assumed new)
 
+## [2.1.0] - 2026-03-05
+
+### Added
+- **Technology consolidation preprocessing** (`src/data_ingestion.py`, Step 1c):
+  - CDTE (BOS materials) merged into CdTe during data loading
+  - ASIGE (BOS materials) merged into a-Si during data loading
+  - Consolidation mapping defined in `TECHNOLOGY_CONSOLIDATION` dict (`src/technology_mapping.py`)
+  - CdTe now has 13 materials (was 9), including structural BOS materials (Aluminum, Cement, Copper, Glass, Steel)
+  - a-Si now has 14 materials (was 10), including the same BOS materials
+  - Raw data (`intensity_data.csv`) unchanged; consolidation applied at preprocessing
+- **Data quality module** (`src/data_quality.py`):
+  - Known corrections and removals for intensity data outliers
+  - IQR-based statistical outlier detection
+
+### Changed
+- **UPV sub-technology weights** updated from 70/15/15 to 90/7/3 (c-Si/CdTe/CIGS):
+  - Based on peer-reviewed market share data (Fraunhofer ISE 2024, IEA-PVPS 2024, US EIA)
+  - c-Si: 90% (was 70%) — reflects ~95-98% global production share
+  - CdTe: 7% (was 15%) — reflects ~2-5% global, ~22% US utility-scale
+  - CIGS: 3% (was 15%) — reflects <1% global market share
+- Post-consolidation, pipeline processes 19 technologies (was 21 in raw data)
+
+### Fixed
+- **Missing BOS materials for CdTe**: The CdTe fraction of UPV was previously missing balance-of-system materials (Aluminum, Cement, Copper, Glass, Steel), causing ~15% underestimate of structural material demand from solar PV
+
 ## [2.0.0] - 2026-02-08
 
 ### Added

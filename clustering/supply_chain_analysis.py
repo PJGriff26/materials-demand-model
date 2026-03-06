@@ -553,6 +553,399 @@ def figSI_production_shares_crc(risk):
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
+# Fig. 5A: Global supply risk matrix (scatter: reserve adequacy vs production stress)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Materials whose reserves are NOT separately reported by USGS
+# (reported under parent commodity or effectively unlimited)
+_NO_SEPARATE_RESERVES = {"Aluminum", "Silicon", "Steel", "Yttrium", "Cement"}
+
+# Materials excluded from risk matrix (no US consumption data)
+_EXCLUDED_NO_CONSUMPTION = {"Boron", "Magnesium"}
+
+# Rare earth elements to aggregate
+_REE_ELEMENTS = {"Dysprosium", "Neodymium", "Praseodymium", "Terbium"}
+
+
+def _prepare_risk_matrix_data(demand, risk, use_us_reserves=False):
+    """
+    Compute (reserve_adequacy, production_stress, import_reliance) per material.
+
+    Parameters
+    ----------
+    demand : DataFrame
+        Material demand data.
+    risk : dict
+        Risk data sheets.
+    use_us_reserves : bool
+        If True, use US reserves; otherwise global reserves.
+
+    Returns
+    -------
+    DataFrame with columns: material, reserve_adequacy, production_stress,
+        import_reliance, has_reserves, has_separate_reserves
+    """
+    import_dep = _get_import_dependency(risk)
+    agg_stats = _get_aggregate_stats(risk)
+    reserves_df = risk["reserves"]
+    mat_cols = [c for c in reserves_df.columns if c != "Unnamed: 0"]
+
+    # ── Get reserves ──
+    if use_us_reserves:
+        res_row = reserves_df[reserves_df["Unnamed: 0"] == "United States"]
+    else:
+        res_row = reserves_df[reserves_df["Unnamed: 0"] == "Global"]
+
+    reserves = {}
+    for mc in mat_cols:
+        val = pd.to_numeric(res_row[mc].values[0], errors="coerce") if len(res_row) else 0
+        reserves[mc] = (val * 1000) if pd.notna(val) else 0  # kt → tonnes
+
+    # ── Peak demand and cumulative demand per material ──
+    peak_demand = demand.groupby("material")["mean"].max()
+    demand_2026_2050 = demand[(demand["year"] >= 2026) & (demand["year"] <= 2050)]
+    cum_demand = demand_2026_2050.groupby("material")["mean"].sum()
+    # Use median scenario for cumulative
+    scenario_totals = demand_2026_2050.groupby(["scenario", "material"])["mean"].sum().unstack(fill_value=0)
+    cum_demand_median = scenario_totals.median()
+
+    # ── Aggregate REEs ──
+    ree_peak = sum(peak_demand.get(r, 0) for r in _REE_ELEMENTS)
+    ree_cum = sum(cum_demand_median.get(r, 0) for r in _REE_ELEMENTS)
+
+    # ── Build records ──
+    materials = sorted(set(DEMAND_TO_RISK.keys()) & set(peak_demand.index))
+    # Exclude materials with no consumption data
+    materials = [m for m in materials if m not in _EXCLUDED_NO_CONSUMPTION]
+
+    # De-duplicate REEs: skip individual REEs, add aggregate
+    materials_dedup = [m for m in materials if m not in _REE_ELEMENTS]
+
+    records = []
+
+    for mat in materials_dedup:
+        rn = DEMAND_TO_RISK[mat]
+        pk = peak_demand.get(mat, 0)
+        cum = cum_demand_median.get(mat, 0)
+        if pk == 0 or cum == 0:
+            continue
+
+        # US apparent consumption
+        consumption = agg_stats.loc[rn, "consumption"] if rn in agg_stats.index else np.nan
+        if pd.isna(consumption) or consumption <= 0:
+            continue
+
+        prod_stress = pk / (consumption * 1000)  # consumption is in kt, demand in tonnes
+
+        # Reserves
+        res = reserves.get(rn, 0)
+        has_separate = mat not in _NO_SEPARATE_RESERVES
+        has_reserves = res > 0
+
+        if has_separate and has_reserves:
+            reserve_adequacy = res / cum
+        elif not has_separate:
+            # Place at far right (very high adequacy) for display
+            reserve_adequacy = None  # will handle in plotting
+        else:
+            reserve_adequacy = None
+
+        dep = import_dep.get(rn, 1.0)
+        records.append({
+            "material": mat, "reserve_adequacy": reserve_adequacy,
+            "production_stress": prod_stress, "import_reliance": dep,
+            "has_reserves": has_reserves, "has_separate_reserves": has_separate,
+        })
+
+    # Add aggregated REEs
+    ree_risk_name = "Rare Earths"
+    ree_consumption = agg_stats.loc[ree_risk_name, "consumption"] if ree_risk_name in agg_stats.index else np.nan
+    ree_dep = import_dep.get(ree_risk_name, 1.0)
+    ree_res = reserves.get(ree_risk_name, 0)
+    if pd.notna(ree_consumption) and ree_consumption > 0 and ree_peak > 0:
+        ree_prod_stress = ree_peak / (ree_consumption * 1000)  # kt → tonnes
+        ree_adequacy = (ree_res / ree_cum) if ree_res > 0 else None
+        records.append({
+            "material": "REEs\n(Dy+Nd+Pr+Tb)",
+            "reserve_adequacy": ree_adequacy,
+            "production_stress": ree_prod_stress,
+            "import_reliance": ree_dep,
+            "has_reserves": ree_res > 0,
+            "has_separate_reserves": True,
+        })
+
+    return pd.DataFrame(records)
+
+
+def fig3_supply_risk_matrix(demand, risk):
+    """
+    Fig 5A (manuscript): Global supply risk matrix scatter plot.
+    X = reserve adequacy (global reserves / cumulative demand 2026-2050)
+    Y = production stress (peak demand / current US consumption)
+    Color = net import reliance
+    Markers: circles = reserves reported, diamonds = reserves not separately reported
+    """
+    import matplotlib.colors as mcolors
+    from matplotlib.ticker import FuncFormatter
+
+    df = _prepare_risk_matrix_data(demand, risk, use_us_reserves=False)
+    if df.empty:
+        print("  No data for risk matrix.")
+        return
+
+    fig, ax = plt.subplots(figsize=(12, 9))
+
+    # Colormap: green (0% import) → yellow → red (100% import)
+    cmap = mcolors.LinearSegmentedColormap.from_list(
+        "import_risk", ["#2ca02c", "#c0ca33", "#fdd835", "#ff7f0e", "#d62728", "#880e4f"]
+    )
+    norm = mcolors.Normalize(vmin=0, vmax=1)
+
+    # Stagger "no separate reserves" materials in the right margin
+    _no_res_x = {
+        "Silicon": 1500, "Aluminum": 3000, "Cement": 3000,
+        "Steel": 2000, "Yttrium": 4000,
+    }
+    x_no_reserves_default = 5000
+
+    # Short labels for materials
+    label_map = {
+        "Chromium": "Cr", "Molybdenum": "Mo", "Niobium": "Nb",
+        "Aluminum": "Al", "Silicon": "Si", "Vanadium": "V",
+        "Manganese": "Mn", "Yttrium": "Y",
+    }
+
+    for _, row in df.iterrows():
+        if pd.notna(row["reserve_adequacy"]):
+            x = row["reserve_adequacy"]
+        else:
+            x = _no_res_x.get(row["material"], x_no_reserves_default)
+        y = row["production_stress"]
+        color = cmap(norm(row["import_reliance"]))
+
+        if not row["has_separate_reserves"]:
+            marker = "D"
+            size = 120
+        else:
+            marker = "o"
+            size = 100
+
+        ax.scatter(x, y, c=[color], s=size, marker=marker, edgecolors="gray",
+                   linewidth=0.5, zorder=5)
+
+        display = label_map.get(row["material"], row["material"])
+        ax.annotate(display, (x, y), textcoords="offset points",
+                    xytext=(8, 4), fontsize=8, ha="left", va="bottom")
+
+    # Horizontal dashed line at 100% production stress
+    ax.axhline(y=1.0, color="gray", linestyle="--", linewidth=1, alpha=0.7)
+    ax.text(4.5, 1.05, "Peak energy demand = current US consumption",
+            fontsize=7, color="gray", va="bottom")
+
+    # Quadrant labels
+    ax.text(0.02, 0.97, "Reserve- and\nproduction-\nconstrained",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="top")
+    ax.text(0.35, 0.97, "Adequate reserves,\nproduction-constrained",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="top")
+    ax.text(0.35, 0.03, "Low risk",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="bottom")
+    ax.text(0.02, 0.03, "Reserve-limited",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="bottom")
+
+    # "Reserves not separately reported" label at top right
+    ax.text(0.88, 0.97, "Reserves not\nseparately reported",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="center", va="top")
+
+    # Excluded note
+    ax.text(0.01, 0.01, "Excluded (no US consumption data): Boron, Magnesium",
+            transform=ax.transAxes, fontsize=7, color="gray", fontstyle="italic")
+
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+
+    # Y-axis as percentage
+    ax.yaxis.set_major_formatter(FuncFormatter(
+        lambda v, _: f"{v * 100:.0f}%" if v < 10 else f"{v * 100:,.0f}%"
+    ))
+
+    ax.set_xlabel("Reserve adequacy\n(global economic reserves \u00f7 cumulative energy "
+                   "transition demand, 2026\u20132050)", fontsize=10)
+    ax.set_ylabel("Production stress\n(peak annual energy demand \u00f7 current US "
+                   "apparent consumption)", fontsize=10)
+    ax.set_title("Material supply risk: geological adequacy vs. production capacity",
+                 fontsize=13, fontweight="bold")
+
+    ax.grid(True, alpha=0.15, which="both")
+    ax.set_axisbelow(True)
+
+    # Legend: marker shapes
+    legend_elements = [
+        plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="gray",
+                   markersize=9, markeredgecolor="gray", label="Both axes reported"),
+        plt.Line2D([0], [0], marker="D", color="w", markerfacecolor="gray",
+                   markersize=9, markeredgecolor="gray", label="Reserves not reported"),
+    ]
+    ax.legend(handles=legend_elements, loc="upper right", fontsize=8, framealpha=0.9)
+
+    # Colorbar
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])
+    cbar = plt.colorbar(sm, ax=ax, shrink=0.6, pad=0.02)
+    cbar.set_label("Net import reliance", fontsize=9)
+    cbar.set_ticks([0, 0.25, 0.5, 0.75, 1.0])
+    cbar.set_ticklabels(["0%", "25%", "50%", "75%", "100%"])
+
+    fig.tight_layout()
+    for fmt in FIGURE_FORMAT:
+        fig.savefig(FIGURES_MANUSCRIPT_DIR / f"fig3_supply_risk_matrix.{fmt}",
+                    dpi=FIGURE_DPI, bbox_inches="tight")
+    plt.close(fig)
+    print("  Saved fig3_supply_risk_matrix")
+
+
+def fig3b_us_supply_risk_matrix(demand, risk):
+    """
+    Fig 5B (manuscript): US domestic supply risk matrix scatter plot.
+    Same as fig3 but X = US reserves / cumulative demand.
+    Materials with zero US reserves shown as squares at left margin.
+    """
+    import matplotlib.colors as mcolors
+    from matplotlib.ticker import FuncFormatter
+
+    df = _prepare_risk_matrix_data(demand, risk, use_us_reserves=True)
+    if df.empty:
+        print("  No data for US risk matrix.")
+        return
+
+    fig, ax = plt.subplots(figsize=(12, 9))
+
+    cmap = mcolors.LinearSegmentedColormap.from_list(
+        "import_risk", ["#2ca02c", "#c0ca33", "#fdd835", "#ff7f0e", "#d62728", "#880e4f"]
+    )
+    norm = mcolors.Normalize(vmin=0, vmax=1)
+
+    _no_res_x_us = {
+        "Silicon": 1500, "Aluminum": 3000, "Cement": 3000,
+        "Steel": 2000, "Yttrium": 4000,
+    }
+    x_no_reserves_default = 5000
+    x_zero_us = 0.03               # left margin for zero US reserves
+
+    # Short labels for materials
+    label_map = {
+        "Chromium": "Cr", "Molybdenum": "Mo", "Niobium": "Nb",
+        "Aluminum": "Al", "Silicon": "Si", "Vanadium": "V",
+        "Manganese": "Mn", "Yttrium": "Y",
+    }
+
+    # Shaded region for zero US reserves
+    ax.axvspan(0.015, 0.06, color="#f8d7da", alpha=0.4, zorder=0)
+    ax.text(0.025, 0.98, "Zero US\nreserves", transform=ax.transAxes,
+            fontsize=7, color="#999", fontstyle="italic", ha="left", va="top")
+
+    # Vertical dashed line at adequacy = 1
+    ax.axvline(x=1, color="green", linestyle="--", linewidth=1, alpha=0.6)
+    ax.text(1.1, 0.02, "US reserves =\ncum. demand", fontsize=7, color="green",
+            alpha=0.7, va="bottom", transform=ax.get_xaxis_transform())
+
+    for _, row in df.iterrows():
+        y = row["production_stress"]
+        color = cmap(norm(row["import_reliance"]))
+
+        if not row["has_separate_reserves"]:
+            x = _no_res_x_us.get(row["material"], x_no_reserves_default)
+            marker = "D"
+            size = 120
+        elif pd.isna(row["reserve_adequacy"]) or not row["has_reserves"]:
+            x = x_zero_us
+            marker = "s"
+            size = 110
+        else:
+            x = row["reserve_adequacy"]
+            marker = "o"
+            size = 100
+
+        ax.scatter(x, y, c=[color], s=size, marker=marker, edgecolors="gray",
+                   linewidth=0.5, zorder=5)
+
+        display = label_map.get(row["material"], row["material"])
+        ax.annotate(display, (x, y), textcoords="offset points",
+                    xytext=(8, 4), fontsize=8, ha="left", va="bottom")
+
+    # Horizontal dashed line at 100% production stress
+    ax.axhline(y=1.0, color="gray", linestyle="--", linewidth=1, alpha=0.7)
+    ax.text(0.5, 1.05, "Peak energy demand = current US consumption",
+            fontsize=7, color="gray", va="bottom",
+            transform=ax.get_yaxis_transform())
+
+    # Quadrant labels
+    ax.text(0.12, 0.97, "Reserve- and\nproduction-\nconstrained",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="top")
+    ax.text(0.45, 0.97, "Adequate reserves,\nproduction-constrained",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="top")
+    ax.text(0.45, 0.03, "Low risk",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="left", va="bottom")
+
+    # "Reserves not separately reported" label
+    ax.text(0.88, 0.97, "Reserves not\nseparately reported",
+            transform=ax.transAxes, fontsize=7, color="#999",
+            fontstyle="italic", ha="center", va="top")
+
+    ax.text(0.01, 0.01, "Excluded (no US consumption data): Boron, Magnesium",
+            transform=ax.transAxes, fontsize=7, color="gray", fontstyle="italic")
+
+    ax.set_xscale("log")
+    ax.set_yscale("log")
+
+    # Y-axis as percentage
+    ax.yaxis.set_major_formatter(FuncFormatter(
+        lambda v, _: f"{v * 100:.0f}%" if v < 10 else f"{v * 100:,.0f}%"
+    ))
+
+    ax.set_xlabel("US reserve adequacy\n(US economic reserves \u00f7 cumulative energy "
+                   "transition demand, 2026\u20132050)", fontsize=10)
+    ax.set_ylabel("Production stress\n(peak annual energy demand \u00f7 current US "
+                   "apparent consumption)", fontsize=10)
+    ax.set_title("US domestic supply risk: reserve adequacy vs. production capacity",
+                 fontsize=13, fontweight="bold")
+
+    ax.grid(True, alpha=0.15, which="both")
+    ax.set_axisbelow(True)
+
+    legend_elements = [
+        plt.Line2D([0], [0], marker="o", color="w", markerfacecolor="gray",
+                   markersize=9, markeredgecolor="gray", label="US reserves reported"),
+        plt.Line2D([0], [0], marker="s", color="w", markerfacecolor="gray",
+                   markersize=9, markeredgecolor="gray", label="Zero US reserves"),
+        plt.Line2D([0], [0], marker="D", color="w", markerfacecolor="gray",
+                   markersize=9, markeredgecolor="gray", label="Reserves not reported"),
+    ]
+    ax.legend(handles=legend_elements, loc="upper right", fontsize=8, framealpha=0.9)
+
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])
+    cbar = plt.colorbar(sm, ax=ax, shrink=0.6, pad=0.02)
+    cbar.set_label("Net import reliance", fontsize=9)
+    cbar.set_ticks([0, 0.25, 0.5, 0.75, 1.0])
+    cbar.set_ticklabels(["0%", "25%", "50%", "75%", "100%"])
+
+    fig.tight_layout()
+    for fmt in FIGURE_FORMAT:
+        fig.savefig(FIGURES_MANUSCRIPT_DIR / f"fig3b_us_supply_risk_matrix.{fmt}",
+                    dpi=FIGURE_DPI, bbox_inches="tight")
+    plt.close(fig)
+    print("  Saved fig3b_us_supply_risk_matrix")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
 # Main
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -573,5 +966,11 @@ if __name__ == "__main__":
 
     print("\nGenerating Fig. SI: Production shares by CRC category...")
     figSI_production_shares_crc(risk)
+
+    print("\nGenerating Fig. 5A: Global supply risk matrix...")
+    fig3_supply_risk_matrix(demand, risk)
+
+    print("\nGenerating Fig. 5B: US domestic supply risk matrix...")
+    fig3b_us_supply_risk_matrix(demand, risk)
 
     print("\nDone.")

@@ -24,16 +24,57 @@ Example:
     }
 """
 
+
+# ============================================================================
+# INTENSITY DATA TECHNOLOGY CONSOLIDATION
+# ============================================================================
+# The raw intensity_data.csv splits some technologies into separate cell-specific
+# and balance-of-system (BOS) entries. This mapping consolidates them during
+# preprocessing so that each technology has complete material coverage.
+#
+# Background:
+#   - 'CDTE' (15 rows): BOS materials (Aluminum, Cement, Copper, Glass, Steel)
+#     for CdTe thin-film panels. Separate from 'CdTe' (112 rows) which has
+#     cell-specific materials (Tellurium, Cadmium, etc.).
+#   - 'ASIGE' (15 rows): BOS materials for a-Si/Germanium panels.
+#     Identical values to CDTE — same generic thin-film BOS source.
+#   - 'CIGS' already includes both cell and BOS materials (no consolidation needed).
+#   - 'utility-scale solar pv' already includes both (no consolidation needed).
+#
+# Without consolidation, the CdTe fraction of UPV is missing BOS material demand
+# (~15% underestimate of structural materials from solar PV).
+
+TECHNOLOGY_CONSOLIDATION = {
+    'CDTE': 'CdTe',     # BOS materials → merge into CdTe
+    'ASIGE': 'a-Si',    # BOS materials → merge into a-Si
+}
+
+
 TECHNOLOGY_MAPPING = {
     # ============================================================================
     # SOLAR TECHNOLOGIES
     # ============================================================================
-    
+
     'upv': {
         # Utility-scale PV: mix of crystalline Si and thin film
-        'utility-scale solar pv': 0.70,  # Dominant technology
-        'CIGS': 0.15,                     # Thin film
-        'CdTe': 0.15                      # Thin film
+        #
+        # Market share sources (2024):
+        #   - Fraunhofer ISE Photovoltaics Report: c-Si ~95-98% of global production
+        #   - IEA-PVPS: CdTe ~2-5% global, ~22% of US utility-scale (First Solar)
+        #   - CIGS: <1% global (last major manufacturer ceased production 2021)
+        #   - a-Si: negligible (<0.1%)
+        #
+        # US utility-scale context (DOE/EIA, through 2023):
+        #   - Thin film accounted for ~24% of US utility-scale deployments
+        #   - CdTe (First Solar) represents ~97% of US thin-film capacity
+        #
+        # Weights below reflect a blended estimate acknowledging:
+        #   1. Global market heavily favors c-Si (~95%)
+        #   2. US utility-scale has higher thin-film penetration (~24%)
+        #   3. CdTe dominates thin film; CIGS is marginal
+        'utility-scale solar pv': 0.90,  # Crystalline Si (mono/poly)
+        'CdTe': 0.07,                    # Thin film — First Solar
+        'CIGS': 0.03,                     # Thin film — marginal market share
     },
     
     'distpv': {

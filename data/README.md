@@ -23,6 +23,8 @@ All datasets used in this project are derived from publicly available sources.
 
 **Important note:** This file contains multiple measurements per technology-material pair, representing different values reported across the published literature. These multiple observations are used for statistical distribution fitting (parametric) in the Monte Carlo simulation, enabling the model to capture uncertainty in material intensity values rather than relying on single point estimates. Values are in tonnes per GW of installed capacity (converted to t/MW during model execution).
 
+**Technology consolidation note:** The raw data contains some technologies split into cell-specific and balance-of-system (BOS) entries. Specifically, `CDTE` (15 rows) contains BOS materials for CdTe thin-film panels, and `ASIGE` (15 rows) contains BOS materials for a-Si panels. During preprocessing (see `src/data_ingestion.py`), these are consolidated into their parent technologies (`CdTe` and `a-Si` respectively) so that each technology has complete material coverage. The raw CSV is not modified; consolidation occurs at load time. After consolidation, 19 unique technologies are available for analysis (reduced from 21 in the raw file).
+
 **Citation:**
 
 > Material intensity values compiled from published literature. Individual sources span multiple peer-reviewed studies on material requirements for energy technologies. See project documentation for the full list of source publications.

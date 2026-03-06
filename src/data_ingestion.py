@@ -29,6 +29,9 @@ from src.data_quality import (
     detect_outliers,
 )
 
+# Import technology consolidation mapping
+from src.technology_mapping import TECHNOLOGY_CONSOLIDATION
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -271,6 +274,26 @@ class MaterialIntensityLoader:
                     logger.info(f"Outlier removal: {tech}/{mat} = {bad_val} ({reason})")
             if removals_applied > 0:
                 logger.info(f"Removed {removals_applied} known single-point outliers")
+
+        # ════════════════════════════════════════════════════════════════════════
+        # STEP 1c: Consolidate split technology entries
+        # ════════════════════════════════════════════════════════════════════════
+        # Some technologies in intensity_data.csv are split into cell-specific
+        # and BOS (balance-of-system) entries. For example, 'CDTE' contains BOS
+        # materials (Aluminum, Cement, Copper, Glass, Steel) that belong with 'CdTe'.
+        # See TECHNOLOGY_CONSOLIDATION in technology_mapping.py for details.
+        consolidated = 0
+        for old_name, new_name in TECHNOLOGY_CONSOLIDATION.items():
+            mask = df['technology'] == old_name
+            n_matches = mask.sum()
+            if n_matches > 0:
+                df.loc[mask, 'technology'] = new_name
+                consolidated += n_matches
+                logger.info(
+                    f"Technology consolidation: {old_name} → {new_name} ({n_matches} rows)"
+                )
+        if consolidated > 0:
+            logger.info(f"Consolidated {consolidated} rows across {len(TECHNOLOGY_CONSOLIDATION)} technology aliases")
 
         # ════════════════════════════════════════════════════════════════════════
         # STEP 2: Filter statistical outliers (>100x median within tech-material group)

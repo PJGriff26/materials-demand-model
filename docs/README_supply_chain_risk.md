@@ -9,7 +9,7 @@ The `supply_chain_risk_analysis.py` script analyzes supply chain risk by compari
 ### Basic Usage
 
 ```bash
-python supply_chain_risk_analysis.py \
+python examples/supply_chain_risk_analysis.py \
   --demand_csv outputs/material_demand_by_scenario.csv \
   --risk_xlsx data/risk_charts_inputs.xlsx
 ```
@@ -24,7 +24,7 @@ This will:
 
 **1. Focus on specific scenarios with log scale**
 ```bash
-python supply_chain_risk_analysis.py \
+python examples/supply_chain_risk_analysis.py \
   --demand_csv outputs/material_demand_by_scenario.csv \
   --risk_xlsx data/risk_charts_inputs.xlsx \
   --scenarios Mid_Case,Mid_Case_100by2035 \
@@ -34,7 +34,7 @@ python supply_chain_risk_analysis.py \
 
 **2. Analyze specific materials**
 ```bash
-python supply_chain_risk_analysis.py \
+python examples/supply_chain_risk_analysis.py \
   --demand_csv outputs/material_demand_by_scenario.csv \
   --risk_xlsx data/risk_charts_inputs.xlsx \
   --materials Copper,Nickel,Aluminum \
@@ -43,7 +43,7 @@ python supply_chain_risk_analysis.py \
 
 **3. Keep rare earths separate**
 ```bash
-python supply_chain_risk_analysis.py \
+python examples/supply_chain_risk_analysis.py \
   --demand_csv outputs/material_demand_by_scenario.csv \
   --risk_xlsx data/risk_charts_inputs.xlsx \
   --no_aggregate_rare_earths
@@ -51,7 +51,7 @@ python supply_chain_risk_analysis.py \
 
 **4. Custom comparison year and unit scale**
 ```bash
-python supply_chain_risk_analysis.py \
+python examples/supply_chain_risk_analysis.py \
   --demand_csv outputs/material_demand_by_scenario.csv \
   --risk_xlsx data/risk_charts_inputs.xlsx \
   --target_year 2040 \
