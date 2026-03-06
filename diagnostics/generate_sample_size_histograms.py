@@ -156,7 +156,7 @@ def generate_material_histogram():
 
 def save_technology_histogram(hist_df, bin_order):
     """Save technology histogram as markdown table."""
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'table9_sample_size_histogram_by_technology.md'
 
     with open(outfile, 'w') as f:
@@ -192,7 +192,7 @@ def save_technology_histogram(hist_df, bin_order):
 
 def save_material_histogram(hist_df, bin_order):
     """Save material histogram as markdown table."""
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'table10_sample_size_histogram_by_material.md'
 
     with open(outfile, 'w') as f:

@@ -68,13 +68,16 @@ def plot_technology_distribution():
 
     # Create pivot table for stacking
     pivot_data = []
-    technologies = sorted(pair_counts['Technology'].unique())
+
+    # Get technologies sorted by total count (ascending)
+    tech_counts = pair_counts.groupby('Technology').size().sort_values(ascending=True)
+    technologies = tech_counts.index
 
     for tech in technologies:
         tech_data = pair_counts[pair_counts['Technology'] == tech]
         bin_counts = tech_data['bin'].value_counts()
 
-        row = {'Technology': tech}
+        row = {'Technology': tech, 'Total': len(tech_data)}
         for bin_name in bin_order:
             row[bin_name] = bin_counts.get(bin_name, 0)
 
@@ -99,6 +102,10 @@ def plot_technology_distribution():
     ax.set_ylabel('Technology', fontsize=12, fontweight='bold')
     ax.set_title('Sample Size Distribution by Technology', fontsize=14, fontweight='bold', pad=20)
 
+    # Set x-axis ticks to even numbers from 0 to 20
+    ax.set_xticks(np.arange(0, 21, 2))
+    ax.set_xlim(0, 20)
+
     # Legend
     ax.legend(title='Sample Size Bin', loc='lower right', frameon=True, fontsize=10)
 
@@ -110,7 +117,7 @@ def plot_technology_distribution():
     plt.tight_layout()
 
     # Save
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'fig1_sample_size_distribution_by_technology.png'
     plt.savefig(outfile, dpi=300, bbox_inches='tight')
     plt.close()
@@ -135,9 +142,14 @@ def plot_material_distribution():
 
     # Create pivot table for stacking
     pivot_data = []
-    materials = pair_counts.groupby('Material').size().sort_values(ascending=False).index
 
-    for material in materials:
+    # Get materials sorted by total count
+    mat_counts = pair_counts.groupby('Material').size().sort_values(ascending=False)
+
+    # Keep top 20 materials, then reverse to show smallest-to-largest
+    top_20_materials = mat_counts.head(20).sort_values(ascending=True).index
+
+    for material in top_20_materials:
         mat_data = pair_counts[pair_counts['Material'] == material]
         bin_counts = mat_data['bin'].value_counts()
 
@@ -148,9 +160,6 @@ def plot_material_distribution():
         pivot_data.append(row)
 
     pivot_df = pd.DataFrame(pivot_data)
-
-    # Keep top 20 materials by total observations
-    pivot_df = pivot_df.head(20)
 
     # Create plot
     fig, ax = plt.subplots(figsize=(14, 10))
@@ -169,6 +178,10 @@ def plot_material_distribution():
     ax.set_ylabel('Material', fontsize=12, fontweight='bold')
     ax.set_title('Sample Size Distribution by Material (Top 20)', fontsize=14, fontweight='bold', pad=20)
 
+    # Set x-axis ticks to even numbers from 0 to 20
+    ax.set_xticks(np.arange(0, 21, 2))
+    ax.set_xlim(0, 20)
+
     # Legend
     ax.legend(title='Sample Size Bin', loc='lower right', frameon=True, fontsize=10)
 
@@ -180,7 +193,7 @@ def plot_material_distribution():
     plt.tight_layout()
 
     # Save
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'fig2_sample_size_distribution_by_material.png'
     plt.savefig(outfile, dpi=300, bbox_inches='tight')
     plt.close()
@@ -249,7 +262,7 @@ def plot_overall_distribution():
     plt.tight_layout()
 
     # Save
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'fig3_overall_sample_size_distribution.png'
     plt.savefig(outfile, dpi=300, bbox_inches='tight')
     plt.close()

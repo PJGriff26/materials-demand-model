@@ -148,7 +148,7 @@ def main():
     print()
 
     # Save as markdown
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outfile = outdir / 'table1_technology_landscape.md'
 
     with open(outfile, 'w') as f:

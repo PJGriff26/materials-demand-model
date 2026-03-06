@@ -421,7 +421,7 @@ def main():
     # SAVE OUTPUTS
     # ========================================================================
 
-    outdir = ROOT / 'outputs' / 'uncertainty_decision_support'
+    outdir = ROOT / 'outputs' / 'fitting_sample_size_diagnostics'
     outdir.mkdir(parents=True, exist_ok=True)
 
     # Save Table 1 (markdown)
