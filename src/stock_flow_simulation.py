@@ -33,6 +33,7 @@ import warnings
 # Import our modules
 from .data_ingestion import load_all_data, CapacityProjectionLoader
 from .distribution_fitting import DistributionFitter
+from .cv_borrowing import apply_cv_borrowing, create_cv_borrowing_report
 from .technology_mapping import (
     TECHNOLOGY_MAPPING,
     TECHNOLOGY_LIFETIMES,
@@ -633,12 +634,26 @@ def run_full_simulation(
     fitter = DistributionFitter()
     fitted_dists = fitter.fit_all(data['intensity'])
 
-    # Step 2b: Export fit data (if output_dir provided)
+    # Step 2b: Apply CV borrowing for low-sample-size pairs
+    logger.info("\nStep 2b: Applying CV borrowing for low-sample-size pairs...")
+    fitted_dists = apply_cv_borrowing(
+        fitted_distributions=fitted_dists,
+        threshold_n=5,  # Pairs with n < 5 get borrowed CV
+        reference_n=5   # Median CV from all n > 5
+    )
+
+    # Step 2c: Export fit data (if output_dir provided)
     if output_dir is not None:
         out = Path(output_dir)
         out.mkdir(parents=True, exist_ok=True)
         fitter.export_to_csv(out / 'fitted_distributions.csv')
         fitter.export_fit_summary(out / 'fit_summary.csv')
+        create_cv_borrowing_report(
+            fitted_distributions=fitted_dists,
+            output_path=str(out / 'cv_borrowing_report.csv'),
+            threshold_n=5,
+            reference_n=5
+        )
 
     # Step 3: Validate technology mapping
     logger.info("\nStep 3: Validating technology mapping...")

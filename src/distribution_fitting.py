@@ -43,6 +43,17 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+# ============================================================================
+# CONFIGURATION: Distribution Fitting Behavior
+# ============================================================================
+
+# Force lognormal distribution for all fits (overrides AIC-based selection)
+# Set to False to use AIC-based selection (lognormal, gamma, truncated_normal, uniform)
+FORCE_LOGNORMAL = True
+
+# ============================================================================
+
+
 @dataclass
 class DistributionFit:
     """Container for fitted distribution information"""
@@ -315,19 +326,29 @@ class DistributionFitter:
         
         # Attempt to fit parametric distributions
         fitted_dists = []
-        
-        for dist_name in self.DISTRIBUTIONS.keys():
+
+        # Check if we should force lognormal distribution
+        if FORCE_LOGNORMAL:
+            # Only fit lognormal distribution
             try:
-                fit_result = self._fit_distribution(data, dist_name)
+                fit_result = self._fit_distribution(data, 'lognormal')
                 fitted_dists.append(fit_result)
             except Exception as e:
-                logger.debug(f"Failed to fit {dist_name} to {technology}-{material}: {e}")
-                continue
-        
+                logger.debug(f"Failed to fit lognormal to {technology}-{material}: {e}")
+        else:
+            # Fit all distributions and select by AIC
+            for dist_name in self.DISTRIBUTIONS.keys():
+                try:
+                    fit_result = self._fit_distribution(data, dist_name)
+                    fitted_dists.append(fit_result)
+                except Exception as e:
+                    logger.debug(f"Failed to fit {dist_name} to {technology}-{material}: {e}")
+                    continue
+
         # Sort by AIC (lower is better)
         fitted_dists.sort(key=lambda x: x.aic)
         result.fitted_distributions = fitted_dists
-        
+
         # Select best distribution and make recommendation
         # ALWAYS use parametric (user requirement)
         if fitted_dists:
@@ -349,7 +370,13 @@ class DistributionFitter:
                 result.best_fit = selected_dist
                 result.use_parametric = True
 
-                if selected_dist != fitted_dists[0]:
+                # Build recommendation message
+                if FORCE_LOGNORMAL:
+                    result.recommendation = (
+                        f"Forced lognormal distribution "
+                        f"(n={n}, KS p={selected_dist.ks_pvalue:.4f}, AIC={selected_dist.aic:.2f})"
+                    )
+                elif selected_dist != fitted_dists[0]:
                     # Not the best AIC, but best valid distribution
                     result.recommendation = (
                         f"Using {selected_dist.distribution_name} distribution "
@@ -756,12 +783,18 @@ class DistributionFitter:
         logger.info("\n" + "="*80)
         logger.info("FITTING SUMMARY")
         logger.info("="*80)
-        
+
+        # Log configuration
+        if FORCE_LOGNORMAL:
+            logger.info("Configuration: FORCE_LOGNORMAL = True (all fits forced to lognormal)")
+        else:
+            logger.info("Configuration: FORCE_LOGNORMAL = False (AIC-based selection)")
+
         n_total = len(self.results)
         n_parametric = sum(1 for r in self.results.values() if r.use_parametric)
         n_empirical = n_total - n_parametric
-        
-        logger.info(f"Total combinations: {n_total}")
+
+        logger.info(f"\nTotal combinations: {n_total}")
         logger.info(f"  Using parametric distributions: {n_parametric} ({100*n_parametric/n_total:.1f}%)")
         logger.info(f"  Using empirical distributions: {n_empirical} ({100*n_empirical/n_total:.1f}%)")
         

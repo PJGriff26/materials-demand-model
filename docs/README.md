@@ -8,7 +8,7 @@ This directory contains comprehensive documentation for the Materials Demand Mod
 
 These CSV files provide structured, machine-readable documentation of the pipeline:
 
-#### **`variable_reference.csv`** (133 entries)
+#### **`variable_reference.csv`** (135 entries)
 **Purpose:** Documents all pipeline variables, parameters, features, and calculations
 
 **When to use:** Look up variable definitions, calculation formulas, or units for any quantity used in the simulation, feature engineering, clustering, or sensitivity analysis.
@@ -58,7 +58,7 @@ These CSV files provide structured, machine-readable documentation of the pipeli
 
 ---
 
-#### **`visualization_inventory.csv`** (50+ entries)
+#### **`visualization_inventory.csv`** (80 entries)
 **Purpose:** Tracks all visualizations with their input variables and data sources
 
 **When to use:** Find which figures are available, what data they use, and how to regenerate them.
@@ -70,7 +70,7 @@ These CSV files provide structured, machine-readable documentation of the pipeli
 ### Pipeline Documentation (Markdown Format)
 
 #### **`PIPELINE_DOCUMENTATION.md`**
-Complete technical reference for all 10 pipeline steps. Includes:
+Complete technical reference for all 11 pipeline steps. Includes:
 - Data sources and loading procedures
 - Material intensity and capacity processing
 - Technology mapping and consolidation

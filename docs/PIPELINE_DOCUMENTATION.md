@@ -3,6 +3,15 @@
 > **Purpose:** Complete technical reference for all data processing and modeling steps.
 > Intended for writing the Data Sources and Methods sections of the thesis proposal.
 
+### Companion Documentation
+
+| File | Purpose |
+|------|---------|
+| `docs/variable_reference.csv` | Master reference for all variables, parameters, and features (169 entries) |
+| `docs/visualization_inventory.csv` | Catalog of all visualizations with axes, data sources, and scripts (76 entries) |
+| `docs/data_sources.csv` | Input data file inventory with formats, descriptions, and locations |
+| `docs/manuscript_figure_map.csv` | Maps manuscript figures to output files and generation scripts |
+
 ---
 
 ## Table of Contents
@@ -29,7 +38,7 @@
 
 ## 1. Pipeline Overview
 
-**Master orchestration:** `run_pipeline.py` runs all 10 steps end-to-end (~15–25 min). Supports `--step N`, `--from N`, and `--skip-simulation` flags.
+**Master orchestration:** `run_pipeline.py` runs all 11 steps end-to-end (~15–25 min). Supports `--step N`, `--from N`, and `--skip-simulation` flags.
 
 The pipeline has two major stages:
 
@@ -37,7 +46,7 @@ The pipeline has two major stages:
 Load material intensity data → apply data quality corrections → consolidate technologies → fit parametric distributions to intensity values → build a stock-flow model of capacity additions → run up to 10,000 Monte Carlo iterations (with convergence-based early stopping) → output demand statistics (mean, std, percentiles) per scenario × year × material.
 
 **Stage B — Analysis and Clustering** (`analysis/`, `clustering/`, `visualizations/`):
-Sensitivity analysis (variance decomposition, Spearman correlations) → dimensionality reduction (PCA, Sparse PCA, NMF) → K-means clustering with silhouette-based k selection → supply chain risk analysis (CRC sourcing, reserve adequacy) → manuscript figure generation.
+Sensitivity analysis (variance decomposition, Spearman correlations, Sobol indices) → dimensionality reduction (PCA, Sparse PCA, NMF) → K-means clustering with silhouette-based k selection → supply chain risk analysis (CRC sourcing, reserve adequacy) → manuscript figure generation.
 
 ### Pipeline Steps (run_pipeline.py)
 
@@ -53,6 +62,7 @@ Sensitivity analysis (variance decomposition, Spearman correlations) → dimensi
 | 8 | `visualizations/manuscript_figures.py` | Manuscript figures (Fig. 2, SI figures) |
 | 9 | `visualizations/manuscript_fig1.py` | Figure 1 (demand curves + cumulative) |
 | 10 | `visualizations/feature_scatterplots.py` | Exploratory figures (scatterplots, heatmaps) |
+| 11 | `analysis/sobol_analysis.py` | Sobol sensitivity analysis (per-material + grouped + global) |
 
 ### Key Dimensions
 
@@ -397,6 +407,50 @@ Identifies key factors driving material demand variability. Run after the Monte 
 - `outputs/data/sensitivity/variance_decomposition.csv` — Intensity vs. capacity variance shares
 - `outputs/data/sensitivity/spearman_correlations.csv` — Intensity-demand rank correlations
 - `outputs/data/sensitivity/intensity_elasticity.csv` — Demand elasticity to each intensity
+
+### 10.1 Sobol Sensitivity Analysis
+
+**Code:** `analysis/sobol_analysis.py` (Step 11 of `run_pipeline.py`)
+
+Variance-based global sensitivity analysis using Sobol indices (SALib). Decomposes output variance into contributions from individual intensity parameters, providing a rigorous complement to the Spearman and elasticity methods above.
+
+#### Key Model Property
+
+For a given scenario and year, `Demand(m) = Σ_i [a_i × I_i]` — the model is **linear** in intensity parameters. This means first-order indices (S1) account for all variance (S1 ≈ ST, negligible interactions), which validates the simpler methods used in Step 2.
+
+#### Three Analysis Levels
+
+1. **Per-material individual Sobol:** For each of the 31 output materials, identifies contributing intensity parameters (D = 1–21 per material) and computes S1 and ST for each. Materials with D = 1 (e.g., Yttrium, Selenium) get S1 = 1.0 analytically since Sobol requires D ≥ 2.
+
+2. **Per-material grouped Sobol:** Groups intensity parameters by technology sector (Solar, Wind, Nuclear, Hydro, Fossil, Biomass, Geothermal) using SALib's `groups` key. Quantifies which sectors drive each material's demand uncertainty.
+
+3. **Global grouped Sobol:** Aggregates demand across 17 critical materials and decomposes total variance by technology sector. Provides a single high-level view of which sectors matter most for overall critical material demand.
+
+#### Method
+
+- **Sampling:** Saltelli quasi-random sampling (N = 1024 base samples, `calc_second_order=False`)
+- **Evaluation:** Precomputed linear coefficients `a_i = Σ(additions_MW × weight)` enable vectorized evaluation `Y = X @ coefficients` (~microseconds per sample)
+- **Analysis:** `SALib.analyze.sobol` for S1, ST, and 95% confidence intervals
+- **Total evaluations:** N × (2D + 2) per material; worst case D = 21 → ~45K evaluations, sub-second runtime
+
+#### Output Files
+
+- `outputs/data/sensitivity/sobol_indices.csv` — Per-material individual Sobol indices (S1, S1_conf, ST, ST_conf, coefficient, n_params)
+- `outputs/data/sensitivity/sobol_grouped_indices.csv` — Per-material grouped indices by technology sector
+- `outputs/data/sensitivity/sobol_global_indices.csv` — Global indices for aggregate critical material demand
+
+#### Visualizations (6 figures)
+
+- `sobol_s1_bar.png` — Multi-panel horizontal bar chart of S1 by technology for top 12 materials
+- `sobol_summary_heatmap.png` — Material × technology heatmap of S1 values
+- `sobol_s1_vs_st.png` — S1 vs ST scatter validating model linearity (points on y = x line)
+- `sobol_vs_spearman.png` — Cross-validation: Sobol S1 vs Spearman ρ²
+- `sobol_grouped_bar.png` — Stacked bars showing sector contributions per material
+- `sobol_global_bar.png` — Aggregate critical material demand variance by sector
+
+#### Report
+
+- `outputs/reports/sobol_analysis_report.txt` — Text summary with top parameters, linearity validation (R²), cross-method comparison
 
 ---
 

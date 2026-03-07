@@ -94,7 +94,8 @@ materials_demand_model/
 │
 ├── analysis/                     # Sensitivity analysis module (NEW Feb 2026)
 │   ├── __init__.py              # Module exports
-│   └── sensitivity_analysis.py  # Variance decomposition, elasticity, Spearman
+│   ├── sensitivity_analysis.py  # Variance decomposition, elasticity, Spearman
+│   └── sobol_analysis.py        # Sobol sensitivity analysis (S1, ST, grouped, global)
 │
 ├── clustering/                   # Clustering analysis module
 │   ├── __init__.py              # Module exports
@@ -189,7 +190,7 @@ materials_demand_model/
 
 The repository documentation uses a **three-document system** to separate variables, data sources, and outputs:
 
-#### 1. **`variable_reference.csv`** (133 entries)
+#### 1. **`variable_reference.csv`** (135 entries)
 **Purpose:** Documents actual pipeline variables, parameters, features, and calculations
 
 **Contents:**
