@@ -315,13 +315,24 @@ class DistributionFitter:
         )
         
         # Always attempt parametric fitting (user requirement)
-        # Special case for n=1: use uniform around single point
+        # Special case for n=1: handle based on FORCE_LOGNORMAL setting
         if n == 1:
             single_val = data[0]
             result.use_parametric = True
-            result.best_fit = self._create_single_point_uniform(single_val, n=1)
-            result.fitted_distributions = [result.best_fit]
-            result.recommendation = f"Single data point - using narrow uniform distribution around {single_val:.3f}"
+
+            if FORCE_LOGNORMAL:
+                # For n=1 with forced lognormal: fit lognormal with borrowed CV
+                # This will be updated later by CV borrowing to use the borrowed sigma
+                # For now, create a placeholder lognormal using the single point as median
+                result.best_fit = self._create_single_point_lognormal(single_val, n=1)
+                result.fitted_distributions = [result.best_fit]
+                result.recommendation = f"Single data point - lognormal with borrowed CV (n=1)"
+            else:
+                # Use narrow uniform distribution around single point (original behavior)
+                result.best_fit = self._create_single_point_uniform(single_val, n=1)
+                result.fitted_distributions = [result.best_fit]
+                result.recommendation = f"Single data point - using narrow uniform distribution around {single_val:.3f}"
+
             return result
         
         # Attempt to fit parametric distributions
@@ -777,7 +788,51 @@ class DistributionFitter:
             n_samples=n,
             fitting_method='single_point'
         )
-    
+
+    def _create_single_point_lognormal(self, value: float, n: int) -> DistributionFit:
+        """
+        Create a lognormal distribution for a single point with default CV.
+
+        Uses the single point as the median of the lognormal distribution.
+        The CV will be updated later by CV borrowing to use the borrowed value.
+
+        For lognormal: median = scale (when loc=0)
+        Initial sigma is set to give CV ≈ 1.0 as a placeholder.
+
+        Parameters
+        ----------
+        value : float
+            Single data point
+        n : int
+            Sample size (1)
+
+        Returns
+        -------
+        DistributionFit
+            Lognormal distribution with median = value, CV to be borrowed
+        """
+        # Use single point as median of lognormal
+        # For lognormal: median = scale (when loc=0)
+        scale = value
+        loc = 0
+
+        # Set initial sigma to give CV ≈ 1.0 (will be updated by CV borrowing)
+        # CV = sqrt(exp(sigma^2) - 1), so for CV=1: sigma ≈ 0.83
+        sigma = 0.83
+
+        return DistributionFit(
+            distribution_name='lognormal',
+            parameters={'s': sigma, 'loc': loc, 'scale': scale},
+            ks_statistic=0.0,  # No test possible with n=1
+            ks_pvalue=1.0,
+            ad_statistic=0.0,
+            ad_critical_value=0.0,
+            aic=0.0,
+            bic=0.0,
+            n_samples=n,
+            fitting_method='single_point_placeholder'
+        )
+
     def _log_summary(self):
         """Log summary statistics of fitting results"""
         logger.info("\n" + "="*80)
