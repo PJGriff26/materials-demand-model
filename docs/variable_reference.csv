@@ -1,131 +1,145 @@
-Variable/Parameter,Category,Units,Description,Calculation Formula,Raw Data Source(s)
-intensity_raw,Input Data,t/GW,Raw material intensity values from literature review,Direct from source file,intensity_data.csv
-intensity_t_per_mw,Input Data,t/MW,Material intensity after unit conversion,intensity_raw / 1000,intensity_data.csv
-technology,Input Data,categorical,Technology name for intensity data (e.g. utility-scale solar pv),Direct from source file,intensity_data.csv
-material,Input Data,categorical,Material name (e.g. Copper Steel Neodymium),Direct from source file,intensity_data.csv
-scenario,Input Data,categorical,NREL Standard Scenario name (61 scenarios),Direct from source file,StdScen24_annual_national.csv
-year,Input Data,year,Projection year (2024-2050),Direct from source file (column t),StdScen24_annual_national.csv
-*_MW,Input Data,MW,Installed capacity by technology (e.g. upv_MW wind_onshore_MW),Direct from source file,StdScen24_annual_national.csv
-TECHNOLOGY_MAPPING,Configuration,dict,Maps capacity technologies to intensity technologies with weights,Manual configuration,N/A - configured
-TECHNOLOGY_LIFETIMES,Configuration,years,Expected operational lifetime by technology,Manual configuration,N/A - configured
-upv_weight,Configuration,dimensionless (0-1),Weight allocation for utility PV: 90% c-Si 7% CdTe 3% CIGS (based on Fraunhofer ISE / IEA-PVPS / EIA market share data),Manual configuration,N/A - configured
-TECHNOLOGY_CONSOLIDATION,Configuration,dict,Maps split intensity technology names to canonical names during preprocessing (e.g. CDTE→CdTe ASIGE→a-Si for BOS material consolidation),Manual configuration,N/A - configured in technology_mapping.py
-lifetime_solar,Configuration,years,Solar PV lifetime = 30 years,Manual configuration,N/A - configured
-lifetime_wind,Configuration,years,Wind lifetime = 25 years,Manual configuration,N/A - configured
-lifetime_nuclear,Configuration,years,Nuclear lifetime = 60 years,Manual configuration,N/A - configured
-lifetime_hydro,Configuration,years,Hydro lifetime = 80 years,Manual configuration,N/A - configured
-stock,Stock-Flow Model,MW,Cumulative installed capacity by technology and year,Tracked from capacity data,StdScen24_annual_national.csv
-additions,Stock-Flow Model,MW,New capacity added each year,Stock(t) - Stock(t-1) + Retirements(t),StdScen24_annual_national.csv
-retirements,Stock-Flow Model,MW,Capacity retired each year based on lifetime,Additions from (year - lifetime),StdScen24_annual_national.csv + TECHNOLOGY_LIFETIMES
-stock_flow_states,Intermediate,dict,Dictionary mapping (scenario technology) to StockFlowState objects,Built from capacity data iteration,StdScen24_annual_national.csv
-intensity_mappings,Intermediate,dict,Technology mapping weights for a capacity technology,get_intensity_technologies(cap_tech),TECHNOLOGY_MAPPING config
-tech_weight,Intermediate,dimensionless (0-1),Weight for intensity technology in capacity mix,From TECHNOLOGY_MAPPING dict values,N/A - configured
-fitted_distribution,Distribution Fitting,scipy.stats distribution,Best-fit probability distribution per (technology material) pair,AIC/BIC selection from candidate distributions,intensity_data.csv
-distribution_params,Distribution Fitting,varies,Parameters of fitted distribution (loc scale shape),Maximum likelihood estimation,intensity_data.csv
-sampled_intensity,Monte Carlo,t/MW,Random draw from fitted distribution for one iteration,dist.rvs(size=1),Fitted distributions
-material_demand,Monte Carlo Output,tonnes,Material demand per scenario/year/material,additions_MW × intensity_t_per_MW × tech_weight,Simulation calculation
-mean,Monte Carlo Output,tonnes,Mean demand across all MC iterations,np.mean(iterations),MC simulation
-std,Monte Carlo Output,tonnes,Standard deviation across MC iterations,np.std(iterations),MC simulation
-p2,Monte Carlo Output,tonnes,2.5th percentile of MC iterations (lower bound of 95% CI),np.percentile(iterations 2.5),MC simulation
-p5,Monte Carlo Output,tonnes,5th percentile of MC iterations,np.percentile(iterations 5),MC simulation
-p25,Monte Carlo Output,tonnes,25th percentile of MC iterations,np.percentile(iterations 25),MC simulation
-p50,Monte Carlo Output,tonnes,Median (50th percentile) of MC iterations,np.percentile(iterations 50),MC simulation
-p75,Monte Carlo Output,tonnes,75th percentile of MC iterations,np.percentile(iterations 75),MC simulation
-p95,Monte Carlo Output,tonnes,95th percentile of MC iterations,np.percentile(iterations 95),MC simulation
-p97,Monte Carlo Output,tonnes,97.5th percentile of MC iterations (upper bound of 95% CI),np.percentile(iterations 97.5),MC simulation
-total_cumulative_demand,Scenario Feature - Demand,tonnes,Sum of aggregate material demand across all years (2026-2050),sum(total_demand_by_year),MC output (material_demand_by_scenario.csv)
-peak_demand,Scenario Feature - Demand,tonnes/year,Maximum aggregate material demand in any single year,max(total_demand_by_year),MC output
-mean_demand_early,Scenario Feature - Demand,tonnes/year,Mean aggregate demand during early build-out period (2029-2035),mean(total_demand) for years 2029-2035,MC output
-year_of_peak,Scenario Feature - Temporal,year,Calendar year when aggregate demand reaches maximum,argmax(total_demand_by_year),MC output
-demand_slope,Scenario Feature - Temporal,tonnes/year²,Linear slope of aggregate demand over projection horizon,polyfit(years total_demand 1)[0],MC output
-temporal_concentration,Scenario Feature - Temporal,dimensionless,Ratio of early-half to late-half cumulative demand,sum(demand_early_half) / (sum(demand_late_half) + 1),MC output
-mean_cv,Scenario Feature - Uncertainty,dimensionless,Mean coefficient of variation across all materials,mean(std/mean) per material,MC output (mean std columns)
-mean_ci_width,Scenario Feature - Uncertainty,dimensionless,Mean relative 95% confidence interval width,(p97 - p2) / mean averaged across materials,MC output (p2 p97 columns)
-solar_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from solar (PV + CSP) in 2035,sum(pv + csp capacity) / sum(total capacity) at t=2035,StdScen24_annual_national.csv
-wind_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from wind in 2035,sum(wind capacity) / sum(total capacity) at t=2035,StdScen24_annual_national.csv
-storage_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from storage (battery + pumped hydro) in 2035,sum(battery + pumped-hydro) / sum(total capacity) at t=2035,StdScen24_annual_national.csv
-supply_chain_stress,Scenario Feature - Supply Chain,dimensionless (0-1),Demand-weighted average of import dependency × CRC risk,mean_year[sum(demand × import_dep × CRC_norm) / sum(demand)],MC output + risk_charts_inputs.xlsx
-peak_supply_chain_stress,Scenario Feature - Supply Chain,dimensionless (0-1),Maximum annual supply chain stress index,max(yearly_stress),MC output + risk_charts_inputs.xlsx
-mean_n_exceeding_production,Scenario Feature - Supply Chain,count,Mean number of materials exceeding US production per year,mean_year(count(materials where demand > US_production)),MC output + risk_charts_inputs.xlsx (aggregate)
-peak_n_exceeding_production,Scenario Feature - Supply Chain,count,Maximum materials exceeding US production in any year,max_year(count(materials where demand > US_production)),MC output + risk_charts_inputs.xlsx (aggregate)
-total_import_exposed_demand,Scenario Feature - Supply Chain,tonnes,Cumulative demand weighted by import dependency,sum(demand × import_dependency) across all years,MC output + risk_charts_inputs.xlsx
-yearly_stress,Intermediate,dimensionless (0-1),Per-year supply chain stress for a scenario (list),sum(demand × import_dep × CRC_norm) / total_demand for each year,Calculated
-yearly_exceedance,Intermediate,count,Per-year count of materials exceeding US production (list),count(materials where demand > US_production) for each year,Calculated
-yearly_import_demand,Intermediate,tonnes,Per-year import-exposed demand (list),sum(demand × import_dependency) for each year,Calculated
-weighted_risk,Intermediate,dimensionless (0-1),Single-year supply chain stress value,sum(demand × risk_weight) / total_demand_year,Calculated
-risk_weight,Intermediate,dimensionless (0-1),Combined risk weight per material,import_dependency × (CRC_risk / 8),Calculated
-dep_vec,Intermediate,dimensionless (0-1),Import dependency vector aligned to all materials,import_dep.reindex(all_materials).fillna(1.0),risk_charts_inputs.xlsx
-crc_norm,Intermediate,dimensionless (0-1),Normalized CRC risk vector (0-8 scale → 0-1),crc_vec / 8.0,risk_charts_inputs.xlsx
-prod_vec,Intermediate,tonnes/year,US production vector aligned to all materials,us_production.reindex(all_materials).fillna(0),risk_charts_inputs.xlsx
-demand_pivot,Intermediate,tonnes,Pivoted demand matrix (scenario×year rows × material columns),demand.pivot_table(index=[scenario year] columns=material values=mean),MC output
-mean_demand,Material Feature - Demand,tonnes/year,Mean demand across all scenarios and years,mean(mean_demand) grouped by material,MC output
-peak_demand (material),Material Feature - Demand,tonnes,Maximum demand across all scenarios and years,max(mean_demand) grouped by material,MC output
-scenario_cv,Material Feature - Demand,dimensionless,Coefficient of variation across scenario totals,std(scenario_total) / mean(scenario_total),MC output
-mean_ci_width (material),Material Feature - Demand,dimensionless,Mean relative 95% confidence interval width,mean((p97 - p2) / mean) grouped by material,MC output (p2 p97 columns)
-demand_volatility,Material Feature - Demand,tonnes,Mean temporal volatility (std across years),mean_scenario(std(demand across years)),MC output
-demand_slope (material),Material Feature - Demand,tonnes/year²,Linear demand growth rate over time,polyfit(years mean_demand 1)[0] per material,MC output
-domestic_production,Material Feature - Supply Chain,tonnes/year,Average annual US production,mean(production) from USGS aggregate data,risk_charts_inputs.xlsx (aggregate) + USGS 2023 CSVs
-import_dependency,Material Feature - Supply Chain,dimensionless (0-1),Net import reliance fraction,(imports - exports) / consumption or NIR% / 100,risk_charts_inputs.xlsx (aggregate import_dependency) + USGS 2023
-crc_weighted_risk,Material Feature - Supply Chain,scale (0-8),CRC-weighted average of import sources,sum(import_share × CRC_weight) / sum(import_share),risk_charts_inputs.xlsx (import_shares crc)
-mean_capacity_ratio,Material Feature - Supply Chain,dimensionless,Mean scenario demand relative to US production,mean(scenario_demand) / US_production,MC output + risk_charts_inputs.xlsx
-max_capacity_ratio,Material Feature - Supply Chain,dimensionless,Maximum scenario demand relative to US production,max(scenario_demand) / US_production,MC output + risk_charts_inputs.xlsx
-exceedance_frequency,Material Feature - Supply Chain,dimensionless (0-1),Fraction of scenarios where demand exceeds production,count(scenarios where demand > production) / n_scenarios,MC output + risk_charts_inputs.xlsx
-cumulative_demand,Material Feature - Reserves,tonnes,Total projected demand from 2026-2050 (median across scenarios),sum(annual_demand 2026-2050) grouped by material (median scenario),MC output (material_demand_by_scenario.csv)
-reserve_consumption_pct,Material Feature - Reserves,percentage,Percentage of global reserves consumed by 2050 energy transition,(cumulative_demand / global_reserves) × 100,MC output + risk_charts_inputs.xlsx (reserves: Global)
-domestic_reserve_coverage,Material Feature - Reserves,dimensionless,Ratio of US reserves to cumulative transition demand,US_reserves / cumulative_demand,risk_charts_inputs.xlsx (reserves: United States) + MC output
-global_reserve_coverage,Material Feature - Reserves,dimensionless,Ratio of global reserves to cumulative transition demand,global_reserves / cumulative_demand,risk_charts_inputs.xlsx (reserves: Global) + MC output
-reserves_high_risk_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in high-risk countries,sum(reserves in CRC 5-7 + China) / global_reserves,risk_charts_inputs.xlsx (reserves crc)
-reserves_oecd_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in OECD + US,sum(reserves in OECD + US) / global_reserves,risk_charts_inputs.xlsx (reserves crc)
-reserves_china_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in China,reserves_China / global_reserves,risk_charts_inputs.xlsx (reserves)
-import_china_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from China,imports_China / total_imports,risk_charts_inputs.xlsx (import_shares)
-import_high_risk_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from high-risk countries,sum(imports from CRC 5-7 + China) / total_imports,risk_charts_inputs.xlsx (import_shares crc)
-import_oecd_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from OECD countries,sum(imports from OECD) / total_imports,risk_charts_inputs.xlsx (import_shares crc)
-import_hhi,Material Feature - Import Sourcing,dimensionless (0-1),Herfindahl-Hirschman Index of import concentration,sum(share_i²) where shares normalized to 1,risk_charts_inputs.xlsx (import_shares)
-Import Dependency (risk component),Risk Component,dimensionless (0-1),Average net import reliance across years,mean(NIR%) / 100; E (exporter) = 0,risk_charts_inputs.xlsx (import_dependency)
-Geopolitical Risk,Risk Component,dimensionless (0-1),CRC-weighted average of import sources normalized to 0-1,[sum(import_share × CRC_weight) / sum(import_share)] / 7,risk_charts_inputs.xlsx (import_shares crc)
-China Exposure,Risk Component,dimensionless (0-1),Chinas share of total imports,imports_China / total_imports,risk_charts_inputs.xlsx (import_shares)
-Source Concentration,Risk Component,dimensionless (0-1),HHI of import source countries,sum(share_i²) where shares normalized,risk_charts_inputs.xlsx (import_shares)
-CRC_weights,CRC Weight,integer (0-8),Country Risk Classification weights for geopolitical risk scoring,US=0 OECD=1 CRC1→2 CRC2→3 ... CRC7→8 China=7 Undefined=5,N/A - configured
-log_transformed,Preprocessing,varies,Features after log10(x+1) transformation,log10(feature.clip(lower=0) + 1),Engineered features
-standardized,Preprocessing,z-score,Features after z-score standardization,(feature - mean) / std,Log-transformed features
-VIF,Preprocessing,dimensionless,Variance Inflation Factor for multicollinearity,statsmodels.variance_inflation_factor(),Standardized features
-RANDOM_SEED,Clustering Config,integer,Random seed for reproducibility,42,N/A - configured
-K_RANGE,Clustering Config,range,Range of cluster numbers to test,range(2 11) = k=2 to k=10,N/A - configured
-N_INIT,Clustering Config,integer,Number of k-means random initializations,20,N/A - configured
-VIF_THRESHOLD,Clustering Config,dimensionless,Maximum allowed VIF before dropping feature (legacy — not used in SPCA pipeline),10.0,N/A - configured
-SPC1-SPC5 (materials),Sparse PCA Scores,z-score,Five sparse principal components for materials: Demand Scale / Geopolitical Risk / Reserve Geography / Import Concentration / Capacity Stress,SparsePCA(n_components=5 alpha=2.0) on standardized material features,material_features_raw.csv → spca_scores_materials.csv
-SPC1-SPC4 (scenarios),Sparse PCA Scores,z-score,Four sparse principal components for scenarios: Demand Scale & Wind / Demand Uncertainty / Supply Chain Stress / Solar & Storage Mix,SparsePCA(n_components=4 alpha=1.0) on standardized scenario features,scenario_features_raw.csv → spca_scores_scenarios.csv
-FA1-FA5 (materials),Factor Analysis Scores,z-score,Five latent factors for materials extracted by FactorAnalysis,FactorAnalysis(n_components=5 max_iter=1000) on standardized material features,material_features_raw.csv → fa_scores_materials.csv
-FA1-FA4 (scenarios),Factor Analysis Scores,z-score,Four latent factors for scenarios extracted by FactorAnalysis,FactorAnalysis(n_components=4 max_iter=1000) on standardized scenario features,scenario_features_raw.csv → fa_scores_scenarios.csv
-communality,Factor Analysis Diagnostic,dimensionless (0-1),Fraction of feature variance explained by latent factors,sum(loading_ij²) across all factors j for feature i,fa_communalities_*.csv
-uniqueness,Factor Analysis Diagnostic,dimensionless (0-1),Feature-specific noise variance not explained by factors,fa.noise_variance_ per feature,fa_communalities_*.csv
-pairwise_ari,Comparison Metric,dimensionless (-1 to 1),Adjusted Rand Index between cluster labels from two methods,adjusted_rand_score(labels_method_i labels_method_j),comparison_pairwise_ari_*.csv
-cluster_balance,Comparison Metric,dimensionless (0-1),Evenness of cluster sizes,1 - (max_size - min_size) / n_entities,comparison_metrics_*.csv
-SILHOUETTE_THRESHOLD,Clustering Config,dimensionless,Minimum silhouette score for valid clustering,0.5,N/A - configured
-ARI_THRESHOLD,Clustering Config,dimensionless,Minimum Adjusted Rand Index for stability,0.8,N/A - configured
-within_var,Sensitivity Analysis - Variance,variance units²,Mean within-scenario variance (intensity uncertainty from MC),mean(std²) across scenarios and years for each material,variance_decomposition.csv
-between_var,Sensitivity Analysis - Variance,variance units²,Between-scenario variance (scenario assumption uncertainty),var(scenario_means) for each material,variance_decomposition.csv
-total_var,Sensitivity Analysis - Variance,variance units²,Total variance (within + between),within_var + between_var,variance_decomposition.csv
-within_pct,Sensitivity Analysis - Variance,percentage,Percentage of variance from intensity uncertainty,100 × within_var / total_var,variance_decomposition.csv
-between_pct,Sensitivity Analysis - Variance,percentage,Percentage of variance from scenario uncertainty,100 × between_var / total_var,variance_decomposition.csv
-elasticity,Sensitivity Analysis - Elasticity,dimensionless (0-1),Elasticity of demand to intensity change for each tech-material pair,pct_contribution_normalized (contribution share sums to 1 per material),intensity_elasticity.csv
-spearman_rho,Spearman Sensitivity,dimensionless (-1 to 1),Spearman rank correlation coefficient between sampled intensity and resulting demand,scipy.stats.spearmanr(intensity_samples demand_samples)[0],spearman_sensitivity.csv
-p_value,Spearman Sensitivity,probability (0-1),P-value for Spearman correlation significance test,scipy.stats.spearmanr(intensity_samples demand_samples)[1],spearman_sensitivity.csv
-abs_rho,Spearman Sensitivity,dimensionless (0-1),Absolute value of Spearman rho for ranking importance,abs(spearman_rho),spearman_sensitivity.csv
-significant,Spearman Sensitivity,boolean,Whether Spearman correlation is statistically significant,p_value < 0.05,spearman_sensitivity.csv
-direction,Spearman Sensitivity,categorical,Direction of correlation: positive negative or none,positive if rho > 0 else negative if rho < 0 else none,spearman_sensitivity.csv
-interpretation,Spearman Sensitivity,categorical,Human-readable interpretation of correlation strength,strong/moderate/weak + positive/negative or not significant,spearman_sensitivity.csv
-technology (Spearman),Spearman Sensitivity,categorical,Intensity technology for which correlation was computed,Technology from fitted_distributions key,spearman_sensitivity.csv
-material (Spearman),Spearman Sensitivity,categorical,Material for which correlation was computed,Material from fitted_distributions key,spearman_sensitivity.csv
-target_material,Spearman Sensitivity,categorical,Material whose demand is being correlated with (same as material in this analysis),Target demand material,spearman_sensitivity.csv
-I_{tech}_{mat},Spearman Iteration Data,t/MW,Sampled intensity value for (technology material) at each iteration,dist.sample(n=1) from fitted distribution,spearman_iteration_data.csv
-D_{mat},Spearman Iteration Data,tonnes,Resulting total demand for material at each iteration,sum(additions × intensity × weight) across all scenarios/years/technologies,spearman_iteration_data.csv
-iteration,Spearman Iteration Data,integer,Monte Carlo iteration number (0-indexed),Iteration counter (0 to n_iterations-1),spearman_iteration_data.csv
-n_iterations (Spearman),Spearman Config,integer,Number of MC iterations for Spearman sensitivity analysis,1000 (lower than main MC for computational efficiency),analysis/sensitivity_analysis.py
-S1,Sobol Sensitivity,dimensionless (0-1),First-order Sobol index — fraction of output variance explained by parameter alone,SALib sobol.analyze() on Saltelli samples,sobol_indices.csv
-S1_conf,Sobol Sensitivity,dimensionless,95% confidence interval width for S1,SALib bootstrap confidence interval,sobol_indices.csv
-ST,Sobol Sensitivity,dimensionless (0-1),Total-order Sobol index — fraction of variance including all interactions,SALib sobol.analyze() on Saltelli samples,sobol_indices.csv
-ST_conf,Sobol Sensitivity,dimensionless,95% confidence interval width for ST,SALib bootstrap confidence interval,sobol_indices.csv
-coefficient (Sobol),Sobol Sensitivity,tonnes per (t/MW),Linear demand coefficient for each intensity parameter,sum(additions_MW × weight) across scenarios/years/cap_techs,stock_flow_states + TECHNOLOGY_MAPPING
-sector (Sobol),Sobol Grouped,categorical,Technology sector grouping (Solar Wind Nuclear Hydro Fossil Biomass Geothermal),INTENSITY_TECH_TO_SECTOR mapping,analysis/sobol_analysis.py
-N_sobol,Sobol Config,integer,Base Saltelli sample size; total evaluations = N×(2D+2) per material,1024 (default),N/A - configured
+Variable/Parameter,Category,Units,Description,Calculation Formula,Raw Data Source(s),Plotting Only
+intensity_raw,Input Data,t/GW,Raw material intensity values from literature review,Direct from source file,intensity_data.csv,No
+intensity_t_per_mw,Input Data,t/MW,Material intensity after unit conversion,intensity_raw / 1000,intensity_data.csv,No
+technology,Input Data,categorical,Technology name for intensity data (e.g. utility-scale solar pv),Direct from source file,intensity_data.csv,No
+material,Input Data,categorical,Material name (e.g. Copper Steel Neodymium),Direct from source file,intensity_data.csv,No
+scenario,Input Data,categorical,NREL Standard Scenario name (61 scenarios),Direct from source file,StdScen24_annual_national.csv,No
+year,Input Data,year,Projection year (2024-2050),Direct from source file (column t),StdScen24_annual_national.csv,No
+*_MW,Input Data,MW,Installed capacity by technology (e.g. upv_MW wind_onshore_MW),Direct from source file,StdScen24_annual_national.csv,No
+TECHNOLOGY_MAPPING,Configuration,dict,Maps capacity technologies to intensity technologies with weights,Manual configuration,N/A - configured,No
+TECHNOLOGY_LIFETIMES,Configuration,years,Expected operational lifetime by technology,Manual configuration,N/A - configured,No
+upv_weight,Configuration,dimensionless (0-1),Weight allocation for utility PV: 90% c-Si 7% CdTe 3% CIGS (based on Fraunhofer ISE / IEA-PVPS / EIA market share data),Manual configuration,N/A - configured,No
+TECHNOLOGY_CONSOLIDATION,Configuration,dict,Maps split intensity technology names to canonical names during preprocessing (e.g. CDTE→CdTe ASIGE→a-Si for BOS material consolidation),Manual configuration,N/A - configured in technology_mapping.py,No
+lifetime_solar,Configuration,years,Solar PV lifetime = 30 years,Manual configuration,N/A - configured,No
+lifetime_wind,Configuration,years,Wind lifetime = 25 years,Manual configuration,N/A - configured,No
+lifetime_nuclear,Configuration,years,Nuclear lifetime = 60 years,Manual configuration,N/A - configured,No
+lifetime_hydro,Configuration,years,Hydro lifetime = 80 years,Manual configuration,N/A - configured,No
+stock,Stock-Flow Model,MW,Cumulative installed capacity by technology and year,Tracked from capacity data,StdScen24_annual_national.csv,No
+additions,Stock-Flow Model,MW,New capacity added each year,Stock(t) - Stock(t-1) + Retirements(t),StdScen24_annual_national.csv,No
+retirements,Stock-Flow Model,MW,Capacity retired each year based on lifetime,Additions from (year - lifetime),StdScen24_annual_national.csv + TECHNOLOGY_LIFETIMES,No
+stock_flow_states,Intermediate,dict,Dictionary mapping (scenario technology) to StockFlowState objects,Built from capacity data iteration,StdScen24_annual_national.csv,No
+intensity_mappings,Intermediate,dict,Technology mapping weights for a capacity technology,get_intensity_technologies(cap_tech),TECHNOLOGY_MAPPING config,No
+tech_weight,Intermediate,dimensionless (0-1),Weight for intensity technology in capacity mix,From TECHNOLOGY_MAPPING dict values,N/A - configured,No
+fitted_distribution,Distribution Fitting,scipy.stats distribution,Best-fit probability distribution per (technology material) pair,AIC/BIC selection from candidate distributions,intensity_data.csv,No
+distribution_params,Distribution Fitting,varies,Parameters of fitted distribution (loc scale shape),Maximum likelihood estimation,intensity_data.csv,No
+sampled_intensity,Monte Carlo,t/MW,Random draw from fitted distribution for one iteration,dist.rvs(size=1),Fitted distributions,No
+material_demand,Monte Carlo Output,tonnes,Material demand per scenario/year/material,additions_MW × intensity_t_per_MW × tech_weight,Simulation calculation,No
+mean,Monte Carlo Output,tonnes,Mean demand across all MC iterations,np.mean(iterations),MC simulation,No
+std,Monte Carlo Output,tonnes,Standard deviation across MC iterations,np.std(iterations),MC simulation,No
+p2,Monte Carlo Output,tonnes,2.5th percentile of MC iterations (lower bound of 95% CI),np.percentile(iterations 2.5),MC simulation,No
+p5,Monte Carlo Output,tonnes,5th percentile of MC iterations,np.percentile(iterations 5),MC simulation,No
+p25,Monte Carlo Output,tonnes,25th percentile of MC iterations,np.percentile(iterations 25),MC simulation,No
+p50,Monte Carlo Output,tonnes,Median (50th percentile) of MC iterations,np.percentile(iterations 50),MC simulation,No
+p75,Monte Carlo Output,tonnes,75th percentile of MC iterations,np.percentile(iterations 75),MC simulation,No
+p95,Monte Carlo Output,tonnes,95th percentile of MC iterations,np.percentile(iterations 95),MC simulation,No
+p97,Monte Carlo Output,tonnes,97.5th percentile of MC iterations (upper bound of 95% CI),np.percentile(iterations 97.5),MC simulation,No
+total_cumulative_demand,Scenario Feature - Demand,tonnes,Sum of aggregate material demand across all years (2026-2050),sum(total_demand_by_year),MC output (material_demand_by_scenario.csv),No
+peak_demand,Scenario Feature - Demand,tonnes/year,Maximum aggregate material demand in any single year,max(total_demand_by_year),MC output,No
+mean_demand_early,Scenario Feature - Demand,tonnes/year,Mean aggregate demand during early build-out period (2029-2035),mean(total_demand) for years 2029-2035,MC output,No
+year_of_peak,Scenario Feature - Temporal,year,Calendar year when aggregate demand reaches maximum,argmax(total_demand_by_year),MC output,No
+demand_slope,Scenario Feature - Temporal,tonnes/year²,Linear slope of aggregate demand over projection horizon,polyfit(years total_demand 1)[0],MC output,No
+temporal_concentration,Scenario Feature - Temporal,dimensionless,Ratio of early-half to late-half cumulative demand,sum(demand_early_half) / (sum(demand_late_half) + 1),MC output,No
+mean_cv,Scenario Feature - Uncertainty,dimensionless,Mean coefficient of variation across all materials,mean(std/mean) per material,MC output (mean std columns),No
+mean_ci_width,Scenario Feature - Uncertainty,dimensionless,Mean relative 95% confidence interval width,(p97 - p2) / mean averaged across materials,MC output (p2 p97 columns),No
+solar_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from solar (PV + CSP) in 2035,sum(pv + csp capacity) / sum(total capacity) at t=2035,StdScen24_annual_national.csv,No
+wind_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from wind in 2035,sum(wind capacity) / sum(total capacity) at t=2035,StdScen24_annual_national.csv,No
+storage_fraction_2035,Scenario Feature - Tech Mix,dimensionless (0-1),Share of total capacity from storage (battery + pumped hydro) in 2035,sum(battery + pumped-hydro) / sum(total capacity) at t=2035,StdScen24_annual_national.csv,No
+supply_chain_stress,Scenario Feature - Supply Chain,dimensionless (0-1),Demand-weighted average of import dependency × CRC risk,mean_year[sum(demand × import_dep × CRC_norm) / sum(demand)],MC output + risk_charts_inputs.xlsx,No
+peak_supply_chain_stress,Scenario Feature - Supply Chain,dimensionless (0-1),Maximum annual supply chain stress index,max(yearly_stress),MC output + risk_charts_inputs.xlsx,No
+mean_n_exceeding_production,Scenario Feature - Supply Chain,count,Mean number of materials exceeding US production per year,mean_year(count(materials where demand > US_production)),MC output + risk_charts_inputs.xlsx (aggregate),No
+peak_n_exceeding_production,Scenario Feature - Supply Chain,count,Maximum materials exceeding US production in any year,max_year(count(materials where demand > US_production)),MC output + risk_charts_inputs.xlsx (aggregate),No
+total_import_exposed_demand,Scenario Feature - Supply Chain,tonnes,Cumulative demand weighted by import dependency,sum(demand × import_dependency) across all years,MC output + risk_charts_inputs.xlsx,No
+yearly_stress,Intermediate,dimensionless (0-1),Per-year supply chain stress for a scenario (list),sum(demand × import_dep × CRC_norm) / total_demand for each year,Calculated,No
+yearly_exceedance,Intermediate,count,Per-year count of materials exceeding US production (list),count(materials where demand > US_production) for each year,Calculated,No
+yearly_import_demand,Intermediate,tonnes,Per-year import-exposed demand (list),sum(demand × import_dependency) for each year,Calculated,No
+weighted_risk,Intermediate,dimensionless (0-1),Single-year supply chain stress value,sum(demand × risk_weight) / total_demand_year,Calculated,No
+risk_weight,Intermediate,dimensionless (0-1),Combined risk weight per material,import_dependency × (CRC_risk / 8),Calculated,No
+dep_vec,Intermediate,dimensionless (0-1),Import dependency vector aligned to all materials,import_dep.reindex(all_materials).fillna(1.0),risk_charts_inputs.xlsx,No
+crc_norm,Intermediate,dimensionless (0-1),Normalized CRC risk vector (0-8 scale → 0-1),crc_vec / 8.0,risk_charts_inputs.xlsx,No
+prod_vec,Intermediate,tonnes/year,US production vector aligned to all materials,us_production.reindex(all_materials).fillna(0),risk_charts_inputs.xlsx,No
+demand_pivot,Intermediate,tonnes,Pivoted demand matrix (scenario×year rows × material columns),demand.pivot_table(index=[scenario year] columns=material values=mean),MC output,No
+mean_demand,Material Feature - Demand,tonnes/year,Mean demand across all scenarios and years,mean(mean_demand) grouped by material,MC output,No
+peak_demand (material),Material Feature - Demand,tonnes,Maximum demand across all scenarios and years,max(mean_demand) grouped by material,MC output,No
+scenario_cv,Material Feature - Demand,dimensionless,Coefficient of variation across scenario totals,std(scenario_total) / mean(scenario_total),MC output,No
+mean_ci_width (material),Material Feature - Demand,dimensionless,Mean relative 95% confidence interval width,mean((p97 - p2) / mean) grouped by material,MC output (p2 p97 columns),No
+demand_volatility,Material Feature - Demand,tonnes,Mean temporal volatility (std across years),mean_scenario(std(demand across years)),MC output,No
+demand_slope (material),Material Feature - Demand,tonnes/year²,Linear demand growth rate over time,polyfit(years mean_demand 1)[0] per material,MC output,No
+domestic_production,Material Feature - Supply Chain,tonnes/year,Average annual US production,mean(production) from USGS aggregate data,risk_charts_inputs.xlsx (aggregate) + USGS 2023 CSVs,No
+import_dependency,Material Feature - Supply Chain,dimensionless (0-1),Net import reliance fraction,(imports - exports) / consumption or NIR% / 100,risk_charts_inputs.xlsx (aggregate import_dependency) + USGS 2023,No
+crc_weighted_risk,Material Feature - Supply Chain,scale (0-8),CRC-weighted average of import sources,sum(import_share × CRC_weight) / sum(import_share),risk_charts_inputs.xlsx (import_shares crc),No
+mean_capacity_ratio,Material Feature - Supply Chain,dimensionless,Mean scenario demand relative to US production,mean(scenario_demand) / US_production,MC output + risk_charts_inputs.xlsx,No
+max_capacity_ratio,Material Feature - Supply Chain,dimensionless,Maximum scenario demand relative to US production,max(scenario_demand) / US_production,MC output + risk_charts_inputs.xlsx,No
+exceedance_frequency,Material Feature - Supply Chain,dimensionless (0-1),Fraction of scenarios where demand exceeds production,count(scenarios where demand > production) / n_scenarios,MC output + risk_charts_inputs.xlsx,No
+cumulative_demand,Material Feature - Reserves,tonnes,Total projected demand from 2026-2050 (median across scenarios),sum(annual_demand 2026-2050) grouped by material (median scenario),MC output (material_demand_by_scenario.csv),No
+reserve_consumption_pct,Material Feature - Reserves,percentage,Percentage of global reserves consumed by 2050 energy transition,(cumulative_demand / global_reserves) × 100,MC output + risk_charts_inputs.xlsx (reserves: Global),No
+domestic_reserve_coverage,Material Feature - Reserves,dimensionless,Ratio of US reserves to cumulative transition demand,US_reserves / cumulative_demand,risk_charts_inputs.xlsx (reserves: United States) + MC output,No
+global_reserve_coverage,Material Feature - Reserves,dimensionless,Ratio of global reserves to cumulative transition demand,global_reserves / cumulative_demand,risk_charts_inputs.xlsx (reserves: Global) + MC output,No
+reserves_high_risk_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in high-risk countries,sum(reserves in CRC 5-7 + China) / global_reserves,risk_charts_inputs.xlsx (reserves crc),No
+reserves_oecd_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in OECD + US,sum(reserves in OECD + US) / global_reserves,risk_charts_inputs.xlsx (reserves crc),No
+reserves_china_frac,Material Feature - Reserves Geography,dimensionless (0-1),Fraction of global reserves in China,reserves_China / global_reserves,risk_charts_inputs.xlsx (reserves),No
+import_china_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from China,imports_China / total_imports,risk_charts_inputs.xlsx (import_shares),No
+import_high_risk_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from high-risk countries,sum(imports from CRC 5-7 + China) / total_imports,risk_charts_inputs.xlsx (import_shares crc),No
+import_oecd_frac,Material Feature - Import Sourcing,dimensionless (0-1),Fraction of imports from OECD countries,sum(imports from OECD) / total_imports,risk_charts_inputs.xlsx (import_shares crc),No
+import_hhi,Material Feature - Import Sourcing,dimensionless (0-1),Herfindahl-Hirschman Index of import concentration,sum(share_i²) where shares normalized to 1,risk_charts_inputs.xlsx (import_shares),No
+Import Dependency (risk component),Risk Component,dimensionless (0-1),Average net import reliance across years,mean(NIR%) / 100; E (exporter) = 0,risk_charts_inputs.xlsx (import_dependency),No
+Geopolitical Risk,Risk Component,dimensionless (0-1),CRC-weighted average of import sources normalized to 0-1,[sum(import_share × CRC_weight) / sum(import_share)] / 7,risk_charts_inputs.xlsx (import_shares crc),No
+China Exposure,Risk Component,dimensionless (0-1),Chinas share of total imports,imports_China / total_imports,risk_charts_inputs.xlsx (import_shares),No
+Source Concentration,Risk Component,dimensionless (0-1),HHI of import source countries,sum(share_i²) where shares normalized,risk_charts_inputs.xlsx (import_shares),No
+CRC_weights,CRC Weight,integer (0-8),Country Risk Classification weights for geopolitical risk scoring,US=0 OECD=1 CRC1→2 CRC2→3 ... CRC7→8 China=7 Undefined=5,N/A - configured,No
+log_transformed,Preprocessing,varies,Features after log10(x+1) transformation,log10(feature.clip(lower=0) + 1),Engineered features,No
+standardized,Preprocessing,z-score,Features after z-score standardization,(feature - mean) / std,Log-transformed features,No
+VIF,Preprocessing,dimensionless,Variance Inflation Factor for multicollinearity,statsmodels.variance_inflation_factor(),Standardized features,No
+RANDOM_SEED,Clustering Config,integer,Random seed for reproducibility,42,N/A - configured,No
+K_RANGE,Clustering Config,range,Range of cluster numbers to test,range(2 11) = k=2 to k=10,N/A - configured,No
+N_INIT,Clustering Config,integer,Number of k-means random initializations,20,N/A - configured,No
+VIF_THRESHOLD,Clustering Config,dimensionless,Maximum allowed VIF before dropping feature (legacy — not used in SPCA pipeline),10.0,N/A - configured,No
+SPC1-SPC5 (materials),Sparse PCA Scores,z-score,Five sparse principal components for materials: Demand Scale / Geopolitical Risk / Reserve Geography / Import Concentration / Capacity Stress,SparsePCA(n_components=5 alpha=2.0) on standardized material features,material_features_raw.csv → spca_scores_materials.csv,No
+SPC1-SPC4 (scenarios),Sparse PCA Scores,z-score,Four sparse principal components for scenarios: Demand Scale & Wind / Demand Uncertainty / Supply Chain Stress / Solar & Storage Mix,SparsePCA(n_components=4 alpha=1.0) on standardized scenario features,scenario_features_raw.csv → spca_scores_scenarios.csv,No
+FA1-FA5 (materials),Factor Analysis Scores,z-score,Five latent factors for materials extracted by FactorAnalysis,FactorAnalysis(n_components=5 max_iter=1000) on standardized material features,material_features_raw.csv → fa_scores_materials.csv,No
+FA1-FA4 (scenarios),Factor Analysis Scores,z-score,Four latent factors for scenarios extracted by FactorAnalysis,FactorAnalysis(n_components=4 max_iter=1000) on standardized scenario features,scenario_features_raw.csv → fa_scores_scenarios.csv,No
+communality,Factor Analysis Diagnostic,dimensionless (0-1),Fraction of feature variance explained by latent factors,sum(loading_ij²) across all factors j for feature i,fa_communalities_*.csv,No
+uniqueness,Factor Analysis Diagnostic,dimensionless (0-1),Feature-specific noise variance not explained by factors,fa.noise_variance_ per feature,fa_communalities_*.csv,No
+pairwise_ari,Comparison Metric,dimensionless (-1 to 1),Adjusted Rand Index between cluster labels from two methods,adjusted_rand_score(labels_method_i labels_method_j),comparison_pairwise_ari_*.csv,No
+cluster_balance,Comparison Metric,dimensionless (0-1),Evenness of cluster sizes,1 - (max_size - min_size) / n_entities,comparison_metrics_*.csv,No
+SILHOUETTE_THRESHOLD,Clustering Config,dimensionless,Minimum silhouette score for valid clustering,0.5,N/A - configured,No
+ARI_THRESHOLD,Clustering Config,dimensionless,Minimum Adjusted Rand Index for stability,0.8,N/A - configured,No
+within_var,Sensitivity Analysis - Variance,variance units²,Mean within-scenario variance (intensity uncertainty from MC),mean(std²) across scenarios and years for each material,variance_decomposition.csv,No
+between_var,Sensitivity Analysis - Variance,variance units²,Between-scenario variance (scenario assumption uncertainty),var(scenario_means) for each material,variance_decomposition.csv,No
+total_var,Sensitivity Analysis - Variance,variance units²,Total variance (within + between),within_var + between_var,variance_decomposition.csv,No
+within_pct,Sensitivity Analysis - Variance,percentage,Percentage of variance from intensity uncertainty,100 × within_var / total_var,variance_decomposition.csv,No
+between_pct,Sensitivity Analysis - Variance,percentage,Percentage of variance from scenario uncertainty,100 × between_var / total_var,variance_decomposition.csv,No
+elasticity,Sensitivity Analysis - Elasticity,dimensionless (0-1),Elasticity of demand to intensity change for each tech-material pair,pct_contribution_normalized (contribution share sums to 1 per material),intensity_elasticity.csv,No
+spearman_rho,Spearman Sensitivity,dimensionless (-1 to 1),Spearman rank correlation coefficient between sampled intensity and resulting demand,scipy.stats.spearmanr(intensity_samples demand_samples)[0],spearman_sensitivity.csv,No
+p_value,Spearman Sensitivity,probability (0-1),P-value for Spearman correlation significance test,scipy.stats.spearmanr(intensity_samples demand_samples)[1],spearman_sensitivity.csv,No
+abs_rho,Spearman Sensitivity,dimensionless (0-1),Absolute value of Spearman rho for ranking importance,abs(spearman_rho),spearman_sensitivity.csv,No
+significant,Spearman Sensitivity,boolean,Whether Spearman correlation is statistically significant,p_value < 0.05,spearman_sensitivity.csv,No
+direction,Spearman Sensitivity,categorical,Direction of correlation: positive negative or none,positive if rho > 0 else negative if rho < 0 else none,spearman_sensitivity.csv,No
+interpretation,Spearman Sensitivity,categorical,Human-readable interpretation of correlation strength,strong/moderate/weak + positive/negative or not significant,spearman_sensitivity.csv,No
+technology (Spearman),Spearman Sensitivity,categorical,Intensity technology for which correlation was computed,Technology from fitted_distributions key,spearman_sensitivity.csv,No
+material (Spearman),Spearman Sensitivity,categorical,Material for which correlation was computed,Material from fitted_distributions key,spearman_sensitivity.csv,No
+target_material,Spearman Sensitivity,categorical,Material whose demand is being correlated with (same as material in this analysis),Target demand material,spearman_sensitivity.csv,No
+I_{tech}_{mat},Spearman Iteration Data,t/MW,Sampled intensity value for (technology material) at each iteration,dist.sample(n=1) from fitted distribution,spearman_iteration_data.csv,No
+D_{mat},Spearman Iteration Data,tonnes,Resulting total demand for material at each iteration,sum(additions × intensity × weight) across all scenarios/years/technologies,spearman_iteration_data.csv,No
+iteration,Spearman Iteration Data,integer,Monte Carlo iteration number (0-indexed),Iteration counter (0 to n_iterations-1),spearman_iteration_data.csv,No
+n_iterations (Spearman),Spearman Config,integer,Number of MC iterations for Spearman sensitivity analysis,1000 (lower than main MC for computational efficiency),analysis/sensitivity_analysis.py,No
+S1,Sobol Sensitivity,dimensionless (0-1),First-order Sobol index — fraction of output variance explained by parameter alone,SALib sobol.analyze() on Saltelli samples,sobol_indices.csv,No
+S1_conf,Sobol Sensitivity,dimensionless,95% confidence interval width for S1,SALib bootstrap confidence interval,sobol_indices.csv,No
+ST,Sobol Sensitivity,dimensionless (0-1),Total-order Sobol index — fraction of variance including all interactions,SALib sobol.analyze() on Saltelli samples,sobol_indices.csv,No
+ST_conf,Sobol Sensitivity,dimensionless,95% confidence interval width for ST,SALib bootstrap confidence interval,sobol_indices.csv,No
+coefficient (Sobol),Sobol Sensitivity,tonnes per (t/MW),Linear demand coefficient for each intensity parameter,sum(additions_MW × weight) across scenarios/years/cap_techs,stock_flow_states + TECHNOLOGY_MAPPING,No
+sector (Sobol),Sobol Grouped,categorical,Technology sector grouping (Solar Wind Nuclear Hydro Fossil Biomass Geothermal),INTENSITY_TECH_TO_SECTOR mapping,analysis/sobol_analysis.py,No
+N_sobol,Sobol Config,integer,Base Saltelli sample size; total evaluations = N×(2D+2) per material,1024 (default),N/A - configured,No
+scenario_median_demand,Visualization - Demand Curves,tonnes,Median of scenario-level p50 values per material and year (central projection line),median(scenario_p50 values) for each material×year,material_demand_by_scenario.csv (p50 column),Yes
+scenario_demand_p2_5,Visualization - Demand Curves,tonnes,2.5th percentile across scenario p50 values (lower bound of 95% scenario band),percentile(scenario_p50 values 2.5) for each material×year,material_demand_by_scenario.csv (p50 column),Yes
+scenario_demand_p97_5,Visualization - Demand Curves,tonnes,97.5th percentile across scenario p50 values (upper bound of 95% scenario band),percentile(scenario_p50 values 97.5) for each material×year,material_demand_by_scenario.csv (p50 column),Yes
+scenario_demand_iqr,Visualization - Demand Curves,tonnes,25th-75th percentile range across scenario p50 values (IQR band),p25 to p75 of scenario_p50 values for each material×year,material_demand_by_scenario.csv (p50 column),Yes
+pct_contribution,Visualization - Technology Breakdown,percentage (0-100),Technology share of total material demand,technology_demand / total_material_demand × 100,technology_contributions.csv,Yes
+expected_demand_tonnes,Visualization - Technology Breakdown,tonnes,Absolute technology contribution to material demand,Direct from sensitivity analysis output,technology_contributions.csv,Yes
+production_stress,Visualization - Supply Risk Matrix,dimensionless,Peak energy-transition demand relative to current US apparent consumption,max(demand across scenarios and years) / (us_apparent_consumption_kt × 1000),material_demand_by_scenario.csv + risk_charts_inputs.xlsx (aggregate),Yes
+reserve_adequacy_global,Visualization - Supply Risk Matrix,dimensionless,Global economic reserves relative to median cumulative demand 2026-2050,global_reserves_kt × 1000 / median_scenario(cumulative_demand_2026_2050),risk_charts_inputs.xlsx (reserves: Global) + material_demand_by_scenario.csv,Yes
+reserve_adequacy_us,Visualization - Supply Risk Matrix,dimensionless,US economic reserves relative to median cumulative demand 2026-2050,us_reserves_kt × 1000 / median_scenario(cumulative_demand_2026_2050),risk_charts_inputs.xlsx (reserves: United States) + material_demand_by_scenario.csv,Yes
+demand_allocated_by_crc,Visualization - CRC Demand Sourcing,tonnes,Material demand allocated to CRC categories via import source shares,peak_demand × (crc_share / total_import_share) × import_dependency per CRC; domestic = peak_demand × (1 - import_dependency),material_demand_by_scenario.csv + risk_charts_inputs.xlsx (import_shares + import_dependency),Yes
+reserve_coverage_by_crc,Visualization - Reserve Adequacy,dimensionless,Reserve adequacy allocated by CRC category based on reserve country locations,(country_reserves_in_crc / cumulative_demand) summed per CRC category,risk_charts_inputs.xlsx (reserves + crc) + material_demand_by_scenario.csv,Yes
+production_share_by_crc,Visualization - Production Shares,percentage (0-100),Share of global production by CRC category per material,(production_in_crc / global_production) × 100,risk_charts_inputs.xlsx (production + crc),Yes
+avg_production_ref,Visualization - Stacked Bars,thousand tonnes,Historical average US production (reference line on CRC stacked bars),mean(annual US production) from aggregate sheet,risk_charts_inputs.xlsx (aggregate),Yes
+avg_consumption_ref,Visualization - Stacked Bars,thousand tonnes,Historical average US apparent consumption (reference line on CRC stacked bars),mean(annual US consumption) from aggregate sheet,risk_charts_inputs.xlsx (aggregate),Yes
