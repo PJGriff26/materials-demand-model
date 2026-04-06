@@ -61,41 +61,7 @@ Interpretation: A 1% increase in [Technology] intensity for [Material]
                 results in [Elasticity]% increase in total demand for that material.
 
 
-3. SPEARMAN CORRELATION SENSITIVITY ANALYSIS
---------------------------------------------------------------------------------
-Total parameters analyzed: 167
-Significant correlations (p < 0.05): 59 (35.3%)
-Strong correlations (|ρ| ≥ 0.7): 30
-Moderate correlations (0.4 ≤ |ρ| < 0.7): 3
-
-Top 15 parameters by Spearman correlation:
-Material        Technology                  ρ      p-value Interpretation      
-------------------------------------------------------------------------------
-Selenium        CIGS                   1.000*    0.00e+00 strong positive     
-Yttrium         onshore wind           1.000*    0.00e+00 strong positive     
-Gadium          CIGS                   1.000*    0.00e+00 strong positive     
-Gallium         CIGS                   1.000*    0.00e+00 strong positive     
-Tellurium       CdTe                   1.000*    0.00e+00 strong positive     
-Cadmium         CdTe                   1.000*    0.00e+00 strong positive     
-Zinc            onshore wind           1.000*    0.00e+00 strong positive     
-Indium          CIGS                   1.000*    0.00e+00 strong positive     
-Vanadium        offshore wind          1.000*    0.00e+00 strong positive     
-Chromium        onshore wind           1.000*    0.00e+00 strong positive     
-Terbium         onshore wind           1.000*    0.00e+00 strong positive     
-Praseodymium    onshore wind           1.000*    0.00e+00 strong positive     
-Nickel          onshore wind           1.000*    0.00e+00 strong positive     
-Neodymium       onshore wind           0.999*    0.00e+00 strong positive     
-Niobium         onshore wind           0.997*    0.00e+00 strong positive     
-
-Interpretation guide:
-  - ρ > 0: Higher intensity → higher demand (expected relationship)
-  - |ρ| ≥ 0.7: Strong influence - prioritize data quality improvement
-  - |ρ| 0.4-0.7: Moderate influence - important but not critical
-  - |ρ| < 0.4: Weak influence - refinement has limited impact
-  - * indicates p < 0.05 (statistically significant)
-
-
-4. KEY FINDINGS
+3. KEY FINDINGS
 --------------------------------------------------------------------------------
 * Scenario uncertainty (68.9%) dominates intensity uncertainty (31.1%)
   → Scenario assumptions are the primary driver of demand variation
@@ -105,13 +71,6 @@ Interpretation guide:
   - Selenium/CIGS: 100.0% elasticity
   - Gadium/CIGS: 100.0% elasticity
   - Yttrium/onshore wind: 100.0% elasticity
-
-* Most influential parameters (by Spearman ρ):
-  - Selenium/CIGS: ρ = 1.000
-  - Yttrium/onshore wind: ρ = 1.000
-  - Gadium/CIGS: ρ = 1.000
-
-* Methods agreement: 5/10 top parameters appear in both elasticity and Spearman rankings
 
 ================================================================================
 END OF REPORT

@@ -1,0 +1,9 @@
+technology,material,n_total,is_bimodal,split_threshold,gap_ratio,gap_low,gap_high,n_low,n_high,low_median,high_median
+CIGS,Cadmium,3,True,18.560711193270585,203.84615384615384,1.3,265.0,2,1,1.3,265.0
+CdTe,Molybdenum,3,True,7.088723439378913,201.0,0.5,100.5,1,2,0.5,104.75
+CIGS,Copper,13,True,1774.823934929885,15.555555555555555,450.0,7000.0,10,3,128.5,7000.0
+a-Si,Copper,5,True,317.80890484692213,10.0,100.5,1005.0,1,4,100.5,7000.0
+Geothermal,Copper,3,True,6895.826998990041,7.5,2518.0,18885.0,2,1,1557.5,18885.0
+Solar Distributed,Lead,6,True,15.699681525432291,6.170886075949367,6.32,39.0,3,3,6.0,72.0
+utility-scale solar pv,Lead,6,True,15.699681525432291,6.170886075949367,6.32,39.0,3,3,6.0,72.0
+onshore wind,Boron,3,True,2.449489742783178,6.0,1.0,6.0,2,1,1.0,6.0

@@ -1,0 +1,9 @@
+technology,material,n_total,gap_ratio,n_low,n_high,low_median,high_median,interpretation,split_threshold,gap_low,gap_high
+CIGS,Cadmium,3,203.84615384615384,2,1,1.3,265.0,"SUSPECT - Cd not primary CIGS component, verify 265 g/MW source",18.560711193270585,1.3,265.0
+CdTe,Molybdenum,3,201.0,1,2,0.5,104.75,"SUSPECT - Extreme 201x gap, n=3 only, verify sources",7.088723439378913,0.5,100.5
+CIGS,Copper,13,15.555555555555555,10,3,128.5,7000.0,TRUE TRIMODAL - Cell (17-24) / Module (233-450) / BOS (7000-7530),1774.823934929885,450.0,7000.0
+a-Si,Copper,5,10.0,1,4,100.5,7000.0,TRUE BIMODAL - Cell (100) vs BOS (1005-7530),317.80890484692213,100.5,1005.0
+Geothermal,Copper,3,7.5,2,1,1557.5,18885.0,VERIFY - Equipment vs infrastructure?,6895.826998990041,2518.0,18885.0
+Solar Distributed,Lead,6,6.170886075949367,3,3,6.0,72.0,VERIFY - System boundary differences?,15.699681525432291,6.32,39.0
+utility-scale solar pv,Lead,6,6.170886075949367,3,3,6.0,72.0,VERIFY - System boundary differences?,15.699681525432291,6.32,39.0
+onshore wind,Boron,3,6.0,2,1,1.0,6.0,VERIFY - System boundary differences?,2.449489742783178,1.0,6.0

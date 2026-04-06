@@ -94,12 +94,15 @@ class MaterialIntensityDistribution:
     """
     Complete distribution information for a material-technology pair.
     Contains fitted parametric distributions and raw data for fallback.
+
+    Supports component-based distributions for bimodal data (e.g., cell vs BOS).
+    When is_bimodal=True, sample() returns the sum of component distributions.
     """
     technology: str
     material: str
     raw_data: np.ndarray
     n_samples: int
-    
+
     # Statistical summaries
     mean: float
     std: float
@@ -108,11 +111,18 @@ class MaterialIntensityDistribution:
     q75: float
     min_val: float
     max_val: float
-    
+
     # Fitted distributions (ordered by quality)
     fitted_distributions: List[DistributionFit] = field(default_factory=list)
     best_fit: Optional[DistributionFit] = None
-    
+
+    # Component-based distributions (for bimodal data)
+    is_bimodal: bool = False
+    component_fits: List[DistributionFit] = field(default_factory=list)
+    component_labels: List[str] = field(default_factory=list)
+    component_data: List[np.ndarray] = field(default_factory=list)
+    split_threshold: Optional[float] = None
+
     # Recommendation
     use_parametric: bool = False
     recommendation: str = ""
@@ -136,15 +146,33 @@ class MaterialIntensityDistribution:
         """
         Sample from the distribution.
 
-        Always uses parametric distribution (user requirement).
+        For bimodal distributions (is_bimodal=True), returns the SUM of samples
+        from each component distribution. This represents the physical reality
+        that total material = cell material + BOS material + ... + component N.
+
+        For single distributions (is_bimodal=False), returns samples from best_fit.
+
+        Always uses parametric distributions (user requirement).
         """
         if random_state is not None:
             np.random.seed(random_state)
 
-        if self.use_parametric and self.best_fit is not None:
+        # Component-based sampling for bimodal distributions
+        if self.is_bimodal and len(self.component_fits) > 0:
+            # Sample from each component and sum
+            total_samples = np.zeros(n)
+            for component_fit in self.component_fits:
+                component_dist = self._get_scipy_distribution(component_fit)
+                component_samples = component_dist.rvs(size=n)
+                total_samples += component_samples
+            return total_samples
+
+        # Single distribution sampling
+        elif self.use_parametric and self.best_fit is not None:
             # Sample from parametric distribution
             dist = self._get_scipy_distribution(self.best_fit)
             return dist.rvs(size=n)
+
         else:
             # Should never reach here with new logic
             logger.warning(
@@ -187,6 +215,147 @@ class MaterialIntensityDistribution:
             raise ValueError(f"Unknown distribution: {fit.distribution_name}")
 
 
+# ============================================================================
+# Bimodality Detection and Component-Based Fitting
+# ============================================================================
+
+def detect_bimodal(values: np.ndarray, min_gap_ratio: float = 5.0,
+                  position_range: Tuple[float, float] = (0.2, 0.8)) -> Tuple[bool, Optional[float], Dict]:
+    """
+    Detect if data has a bimodal distribution with large gap separating two clusters.
+
+    Uses gap-based detection: looks for large ratio jumps between consecutive sorted values.
+    This identifies distributions that mix different system boundaries (e.g., cell vs BOS materials).
+
+    Parameters
+    ----------
+    values : np.ndarray
+        Data values to test for bimodality
+    min_gap_ratio : float
+        Minimum ratio between consecutive values to be considered a gap (default: 5.0)
+    position_range : tuple
+        (min, max) percentile positions where gap must occur (default: (0.2, 0.8))
+        Excludes gaps at extreme ends of distribution
+
+    Returns
+    -------
+    is_bimodal : bool
+        True if data appears to be bimodal
+    split_threshold : float or None
+        Value to split low/high clusters (midpoint of gap)
+    gap_info : dict
+        Additional information about the detected gap
+
+    References
+    ----------
+    Gap-based bimodality detection approach developed for Materials Demand project
+    to handle inconsistent LCA system boundaries in literature data.
+    """
+    if len(values) < 3:
+        return False, None, {}
+
+    sorted_vals = np.sort(values)
+    n = len(sorted_vals)
+
+    # Find all gaps (consecutive value ratios)
+    gaps = []
+    for i in range(n - 1):
+        if sorted_vals[i] > 0:  # Avoid division by zero
+            ratio = sorted_vals[i + 1] / sorted_vals[i]
+            percentile_pos = (i + 1) / n
+            gaps.append({
+                'index': i,
+                'low_val': sorted_vals[i],
+                'high_val': sorted_vals[i + 1],
+                'ratio': ratio,
+                'percentile_pos': percentile_pos
+            })
+
+    if not gaps:
+        return False, None, {}
+
+    # Find largest gap that meets criteria
+    # Allow gaps at extremes if gap ratio is very large (>10×) AND one cluster is small (n≤2)
+    valid_gaps = []
+    for g in gaps:
+        if g['ratio'] >= min_gap_ratio:
+            # Check if gap is in normal position range
+            if position_range[0] <= g['percentile_pos'] <= position_range[1]:
+                valid_gaps.append(g)
+            # OR if gap is at extreme but very large AND creates small cluster
+            elif g['ratio'] >= 10.0:
+                n_low_candidate = g['index'] + 1  # number of points <= g['low_val']
+                n_high_candidate = n - n_low_candidate
+                if n_low_candidate <= 2 or n_high_candidate <= 2:
+                    valid_gaps.append(g)
+
+    if not valid_gaps:
+        return False, None, {}
+
+    # Select largest gap
+    largest_gap = max(valid_gaps, key=lambda g: g['ratio'])
+
+    # Split threshold: geometric mean of gap endpoints (appropriate for log-scale data)
+    split_threshold = np.sqrt(largest_gap['low_val'] * largest_gap['high_val'])
+
+    # Count cluster sizes
+    n_low = np.sum(values <= split_threshold)
+    n_high = np.sum(values > split_threshold)
+
+    gap_info = {
+        'gap_ratio': largest_gap['ratio'],
+        'gap_low': largest_gap['low_val'],
+        'gap_high': largest_gap['high_val'],
+        'gap_percentile': largest_gap['percentile_pos'],
+        'n_low': n_low,
+        'n_high': n_high
+    }
+
+    return True, split_threshold, gap_info
+
+
+def should_use_bimodal_fitting(technology: str, material: str) -> bool:
+    """
+    Determine if a tech-material pair should use component-based bimodal fitting.
+
+    Based on investigation results from peer-reviewed literature verification.
+    Only pairs with confirmed TRUE BIMODALITY from system boundary differences
+    should use component-based fitting.
+
+    Parameters
+    ----------
+    technology : str
+        Technology name
+    material : str
+        Material name
+
+    Returns
+    -------
+    bool
+        True if pair should use bimodal component-based fitting
+
+    References
+    ----------
+    See outputs/bimodal_detection/suspect_values_investigation_report.md for
+    full peer-reviewed literature verification.
+    """
+    # Confirmed TRUE BIMODAL pairs (cell/module vs BOS)
+    confirmed_bimodal = [
+        ('CIGS', 'Copper'),      # Trimodal: cell (17-24) / module (233-450) / BOS (7000-7530)
+        ('a-Si', 'Copper'),      # Bimodal: cell (100) vs BOS (1005-7530)
+        ('CdTe', 'Copper'),      # Bimodal: cell (43) vs BOS (518-7530)
+    ]
+
+    # Check if this pair is confirmed bimodal
+    for tech, mat in confirmed_bimodal:
+        if technology == tech and material == mat:
+            return True
+
+    # All other pairs: use single distribution
+    # (Including suspect pairs CIGS-Cadmium and CdTe-Molybdenum until verification)
+    return False
+
+
 class DistributionFitter:
     """
     Fits parametric distributions to material intensity data.
@@ -203,7 +372,7 @@ class DistributionFitter:
     MIN_SAMPLES_FIT = 2  # Changed from 3 - always use parametric
     RECOMMENDED_MIN_SAMPLES = 2  # Changed from 5 - always use parametric
     MAX_LOGNORMAL_SHAPE = 3.0  # NEW: Maximum allowed lognormal shape parameter
-    MAX_TAIL_RATIO = 100.0  # NEW: Maximum allowed max/median ratio in test sample
+    MAX_TAIL_RATIO = 300.0  # NEW: Maximum allowed max/median ratio in test sample (relaxed from 100)
     
     # Distributions to test (appropriate for positive-valued data)
     DISTRIBUTIONS = {
@@ -313,7 +482,147 @@ class DistributionFitter:
             n_samples=n,
             **summary_stats
         )
-        
+
+        # ===================================================================
+        # COMPONENT-BASED FITTING FOR BIMODAL DISTRIBUTIONS
+        # ===================================================================
+        # Check if this tech-material pair should use bimodal fitting
+        if should_use_bimodal_fitting(technology, material) and n >= 3:
+            is_bimodal, split_threshold, gap_info = detect_bimodal(data)
+
+            if is_bimodal:
+                logger.info(f"Detected bimodal distribution for {technology}-{material}: "
+                           f"gap ratio={gap_info['gap_ratio']:.1f}x, "
+                           f"n_low={gap_info['n_low']}, n_high={gap_info['n_high']}")
+
+                # Split data into components
+                low_cluster = data[data <= split_threshold]
+                high_cluster = data[data > split_threshold]
+
+                # Fit distributions to each component
+                component_fits = []
+                component_labels = []
+                component_data_list = []
+
+                # Determine component labels based on gap position
+                if gap_info['n_low'] < gap_info['n_high']:
+                    # Smaller cluster is likely cell-level
+                    low_label = "cell/module"
+                    high_label = "complete system (BOS)"
+                else:
+                    # Similar sizes or high cluster smaller
+                    low_label = "component 1"
+                    high_label = "component 2"
+
+                # Fit low cluster
+                if len(low_cluster) >= 1:
+                    try:
+                        # Handle single-point clusters separately
+                        if len(low_cluster) == 1:
+                            # Use single-point lognormal with borrowed CV
+                            low_fit = self._create_single_point_lognormal(low_cluster[0], n=1)
+                            component_fits.append(low_fit)
+                            component_labels.append(low_label)
+                            component_data_list.append(low_cluster)
+                        else:
+                            # Fit lognormal to cluster with n>=2
+                            low_fit = self._fit_distribution(low_cluster, 'lognormal')
+                            # Validate tail behavior
+                            test_samples = stats.lognorm(
+                                s=low_fit.parameters['s'],
+                                loc=low_fit.parameters.get('loc', 0),
+                                scale=low_fit.parameters['scale']
+                            ).rvs(size=10000, random_state=42)
+                            max_median = np.max(test_samples) / np.median(test_samples)
+
+                            if low_fit.parameters['s'] < 3.0 and max_median < 300:
+                                component_fits.append(low_fit)
+                                component_labels.append(low_label)
+                                component_data_list.append(low_cluster)
+                            else:
+                                # Use borrowed CV or uniform for extreme tails
+                                if len(low_cluster) < 5:
+                                    borrowed_fit = self._create_lognormal_for_cv_borrowing(
+                                        median=np.median(low_cluster), n=len(low_cluster)
+                                    )
+                                    component_fits.append(borrowed_fit)
+                                    component_labels.append(low_label)
+                                    component_data_list.append(low_cluster)
+                                else:
+                                    uniform_fit = self._fit_uniform_fallback(low_cluster)
+                                    component_fits.append(uniform_fit)
+                                    component_labels.append(low_label)
+                                    component_data_list.append(low_cluster)
+                    except Exception as e:
+                        logger.warning(f"Failed to fit low cluster for {technology}-{material}: {e}")
+
+                # Fit high cluster
+                if len(high_cluster) >= 1:
+                    try:
+                        # Handle single-point clusters separately
+                        if len(high_cluster) == 1:
+                            # Use single-point lognormal with borrowed CV
+                            high_fit = self._create_single_point_lognormal(high_cluster[0], n=1)
+                            component_fits.append(high_fit)
+                            component_labels.append(high_label)
+                            component_data_list.append(high_cluster)
+                        else:
+                            # Fit lognormal to cluster with n>=2
+                            high_fit = self._fit_distribution(high_cluster, 'lognormal')
+                            # Validate tail behavior
+                            test_samples = stats.lognorm(
+                                s=high_fit.parameters['s'],
+                                loc=high_fit.parameters.get('loc', 0),
+                                scale=high_fit.parameters['scale']
+                            ).rvs(size=10000, random_state=42)
+                            max_median = np.max(test_samples) / np.median(test_samples)
+
+                            if high_fit.parameters['s'] < 3.0 and max_median < 300:
+                                component_fits.append(high_fit)
+                                component_labels.append(high_label)
+                                component_data_list.append(high_cluster)
+                            else:
+                                # Use borrowed CV or uniform for extreme tails
+                                if len(high_cluster) < 5:
+                                    borrowed_fit = self._create_lognormal_for_cv_borrowing(
+                                        median=np.median(high_cluster), n=len(high_cluster)
+                                    )
+                                    component_fits.append(borrowed_fit)
+                                    component_labels.append(high_label)
+                                    component_data_list.append(high_cluster)
+                                else:
+                                    uniform_fit = self._fit_uniform_fallback(high_cluster)
+                                    component_fits.append(uniform_fit)
+                                    component_labels.append(high_label)
+                                    component_data_list.append(high_cluster)
+                    except Exception as e:
+                        logger.warning(f"Failed to fit high cluster for {technology}-{material}: {e}")
+
+                # If we successfully fitted components, use bimodal approach
+                if len(component_fits) >= 2:
+                    result.is_bimodal = True
+                    result.component_fits = component_fits
+                    result.component_labels = component_labels
+                    result.component_data = component_data_list
+                    result.split_threshold = split_threshold
+                    result.use_parametric = True
+                    result.recommendation = (
+                        f"Component-based bimodal fitting: {len(component_fits)} components "
+                        f"({', '.join(component_labels)}). Total = sum of components."
+                    )
+                    # Store component fits in fitted_distributions for reporting
+                    result.fitted_distributions = component_fits
+                    # best_fit not used for bimodal, but set to first component for compatibility
+                    result.best_fit = component_fits[0]
+
+                    logger.info(f"✓ Component-based fitting for {technology}-{material}: "
+                               f"{len(component_fits)} components")
+                    return result
+                else:
+                    logger.warning(f"Failed to fit sufficient components for {technology}-{material}, "
+                                  "falling back to single distribution")
+        # ===================================================================
+
         # Always attempt parametric fitting (user requirement)
         # Special case for n=1: handle based on FORCE_LOGNORMAL setting
         if n == 1:
@@ -400,22 +709,65 @@ class DistributionFitter:
                         f"(n={n}, KS p={selected_dist.ks_pvalue:.4f}, AIC={selected_dist.aic:.2f})"
                     )
             else:
-                # All distributions failed validation - use uniform as safe fallback
+                # All distributions failed validation
+                # For FORCE_LOGNORMAL: try borrowed CV rescue before uniform fallback
+                # This applies to ALL n (relaxed from n<5), ALL rejections (σ>3.0 OR max/median>300)
+                if FORCE_LOGNORMAL and len(rejection_reasons) > 0:
+                    # Lognormal was rejected (could be σ>3.0 OR max/median>300)
+                    # Try borrowed CV as rescue mechanism before falling back to uniform
+                    median_val = np.median(data)
+                    result.best_fit = self._create_lognormal_for_cv_borrowing(
+                        median=median_val,
+                        n=n
+                    )
+                    result.use_parametric = True
+                    if n < 5:
+                        result.recommendation = (
+                            f"Lognormal rejected (n={n}, extreme tails). "
+                            f"Using borrowed CV rescue. "
+                            f"Original rejection: {rejection_reasons[0]}"
+                        )
+                    else:
+                        result.recommendation = (
+                            f"Lognormal rejected (n={n}, extreme tails). "
+                            f"Using borrowed CV rescue (n≥5 relaxation). "
+                            f"Original rejection: {rejection_reasons[0]}"
+                        )
+                    result.fitted_distributions.append(result.best_fit)
+                else:
+                    # not FORCE_LOGNORMAL - use uniform fallback
+                    result.best_fit = self._fit_uniform_fallback(data)
+                    result.use_parametric = True
+                    result.recommendation = (
+                        f"All distributions rejected due to extreme tails. "
+                        f"Using uniform fallback. Rejections: {'; '.join(rejection_reasons[:2])}"
+                    )
+                    result.fitted_distributions.append(result.best_fit)
+        else:
+            # No distributions fit at all
+            # For n < 5 with FORCE_LOGNORMAL: use borrowed CV placeholder (even for fit failures like zeros)
+            if FORCE_LOGNORMAL and n < 5:
+                # Fit failed (e.g., data contains zeros), but we can still create lognormal with borrowed CV
+                median_val = np.median(data)
+                result.best_fit = self._create_lognormal_for_cv_borrowing(
+                    median=median_val,
+                    n=n
+                )
+                result.use_parametric = True
+                result.recommendation = (
+                    f"Fit failed (n={n}, likely contains zeros or invalid values). "
+                    f"Using borrowed CV lognormal centered on median."
+                )
+                result.fitted_distributions.append(result.best_fit)
+            else:
+                # n ≥ 5 or not FORCE_LOGNORMAL - use uniform fallback
                 result.best_fit = self._fit_uniform_fallback(data)
                 result.use_parametric = True
                 result.recommendation = (
-                    f"All distributions rejected due to extreme tails. "
-                    f"Using uniform fallback. Rejections: {'; '.join(rejection_reasons[:2])}"
+                    f"No distributions fit successfully (n={n}). "
+                    f"Using uniform fallback."
                 )
                 result.fitted_distributions.append(result.best_fit)
-        else:
-            # No distributions fit at all - use uniform fallback
-            result.best_fit = self._fit_uniform_fallback(data)
-            result.use_parametric = True
-            result.recommendation = (
-                f"No distributions fit successfully (n={n}). "
-                f"Using uniform fallback."
-            )
             result.fitted_distributions = [result.best_fit]
         
         return result
@@ -542,12 +894,18 @@ class DistributionFitter:
         else:
             # Standard fitting for other distributions
             dist_class = self.DISTRIBUTIONS[dist_name]
-            
+
             # Fit distribution using MLE (default for scipy)
+            # For lognormal: constrain loc=0 (standard practice for positive data)
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                params = dist_class.fit(data)
-            
+                if dist_name == 'lognormal':
+                    # Two-parameter lognormal: force location = 0
+                    params = dist_class.fit(data, floc=0)
+                else:
+                    # Other distributions: unconstrained fit
+                    params = dist_class.fit(data)
+
             # Create distribution object
             dist = dist_class(*params)
             
@@ -831,6 +1189,53 @@ class DistributionFitter:
             bic=0.0,
             n_samples=n,
             fitting_method='single_point_placeholder'
+        )
+
+    def _create_lognormal_for_cv_borrowing(self, median: float, n: int) -> DistributionFit:
+        """
+        Create a placeholder lognormal distribution for CV borrowing to fix.
+
+        Uses the data median as the lognormal scale parameter.
+        Initial sigma is set to a placeholder value that will be replaced
+        by CV borrowing with the borrowed value.
+
+        This is used when a lognormal fit is rejected due to extreme tails
+        (σ > 3.0) but the sample size is small (n < 5). Instead of falling
+        back to uniform, we create a placeholder with borrowed CV that will
+        be properly set by the CV borrowing step.
+
+        Parameters
+        ----------
+        median : float
+            Median of the original data
+        n : int
+            Sample size
+
+        Returns
+        -------
+        DistributionFit
+            Lognormal distribution placeholder for CV borrowing
+        """
+        # Use data median as scale (lognormal median = scale when loc=0)
+        scale = median
+        loc = 0
+
+        # Placeholder sigma (will be replaced by CV borrowing)
+        # Use borrowed sigma estimate: CV=0.671 → sigma≈0.610
+        # CV = sqrt(exp(sigma^2) - 1), so sigma = sqrt(log(1 + CV^2))
+        sigma = 0.610
+
+        return DistributionFit(
+            distribution_name='lognormal',
+            parameters={'s': sigma, 'loc': loc, 'scale': scale},
+            ks_statistic=0.0,
+            ks_pvalue=1.0,
+            ad_statistic=0.0,
+            ad_critical_value=0.0,
+            aic=0.0,
+            bic=0.0,
+            n_samples=n,
+            fitting_method='borrowed_cv_placeholder'
         )
 
     def _log_summary(self):

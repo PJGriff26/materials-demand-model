@@ -13,12 +13,16 @@ OUTPUTS_DIR = BASE_DIR / "outputs"
 DEMAND_FILE = OUTPUTS_DIR / "data" / "material_demand_by_scenario.csv"
 NREL_SCENARIOS_FILE = DATA_DIR / "StdScen24_annual_national.csv"
 MATERIAL_INTENSITY_FILE = DATA_DIR / "intensity_data.csv"
-USGS_SUPPLY_CHAIN_FILE = DATA_DIR / "input_usgs.csv"
+# USGS_SUPPLY_CHAIN_FILE removed — superseded by MCS 2025 salient CSVs
 
-# Supply-chain / risk data (local copies in data/supply_chain/)
+# Supply-chain / risk data
+# Primary: USGS MCS 2025 raw CSVs (DOI: 10.5066/P13XCP3R) + OECD CRC 2026
+MCS2025_DIR = DATA_DIR / "usgs_mcs_2025"
+OECD_CRC_DIR = DATA_DIR / "oecd_crc"
+# Legacy fallback (for import shares only — percentages not in MCS CSVs)
 SUPPLY_CHAIN_DIR = DATA_DIR / "supply_chain"
 RISK_INPUTS_FILE = SUPPLY_CHAIN_DIR / "risk_charts_inputs.xlsx"
-USGS_2023_DIR = SUPPLY_CHAIN_DIR  # thin-film CSVs live here too
+USGS_2023_DIR = SUPPLY_CHAIN_DIR  # old thin-film CSVs (superseded by MCS 2025)
 
 # Output directories
 FIGURES_DIR = OUTPUTS_DIR / "figures" / "clustering"
@@ -45,16 +49,7 @@ FIGURE_FORMAT = ["png"]
 FIGSIZE_STANDARD = (10, 8)
 FIGSIZE_WIDE = (14, 8)
 
-# ── USGS commodity name mapping (USGS name → demand data name) ────────────────
-USGS_TO_DEMAND = {
-    "Aluminum": "Aluminum",
-    "Steel": "Steel",
-    "Cement": "Cement",
-    "Cu": "Copper",
-    "Mn": "Manganese",
-    "Ni": "Nickel",
-    "Ag": "Silver",
-}
+# USGS_TO_DEMAND mapping removed — superseded by MCS 2025 loader
 
 # ── Demand material → risk_charts_inputs.xlsx material mapping ────────────────
 # 18 direct matches + rare earths mapped to aggregate "Rare Earths" entry

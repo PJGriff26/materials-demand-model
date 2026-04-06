@@ -25,8 +25,8 @@ Steps:
 
 Total runtime: ~15–25 minutes (dominated by Step 1).
 
-Author: Materials Demand Research Team
-Date: February 2026
+Author: PJ Griffiths
+Date: March 2026
 """
 
 import subprocess

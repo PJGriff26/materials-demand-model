@@ -1,0 +1,14 @@
+technology,material,n,fitted_sigma,max_median_ratio,test_max_median,why_failed,has_gaps,has_outliers,potential_bimodal
+a-Si,Tin,2,2.650592200566582,1.9900780967732972,33314.00428013458,max/median=33314.0 > 100 in test,True,False,True
+CdTe,Molybdenum,3,2.519356661051667,1.0845771144278606,19893.148843081326,max/median=19893.1 > 100 in test,True,False,False
+CIGS,Molybdenum,2,2.3456739411145717,1.9818181818181817,10054.346838291292,max/median=10054.3 > 100 in test,True,False,True
+CIGS,Copper,13,2.252196884428058,30.12,6963.967497792592,max/median=6964.0 > 100 in test,True,True,False
+a-Si,Copper,5,1.69173945716668,1.0757142857142858,770.1314517651296,max/median=770.1 > 100 in test,True,False,False
+CdTe,Copper,9,1.6320878791998037,1.453387376954256,609.2326115884282,max/median=609.2 > 100 in test,True,False,False
+onshore wind,Praseodymium,15,1.432345222709597,18.75,277.95095735638,max/median=278.0 > 100 in test,True,False,False
+Geothermal,Copper,3,1.4166850010935323,7.500000000000001,261.36510408838996,max/median=261.4 > 100 in test,True,False,False
+Geothermal,Aluminum,7,1.3523049947501362,4.645903998355433,202.9541367775235,max/median=203.0 > 100 in test,True,False,False
+onshore wind,Terbium,16,1.2813647028438548,4.545454545454545,153.58704771663417,max/median=153.6 > 100 in test,True,False,False
+Solar Distributed,Copper,11,1.2034668366390653,8.518099547511312,113.09405451063684,max/median=113.1 > 100 in test,True,False,False
+utility-scale solar pv,Copper,11,1.2034668366390653,8.518099547511312,113.09405451063684,max/median=113.1 > 100 in test,True,False,False
+CSP,Aluminum,2,,2.0,,Fit failed,True,False,True

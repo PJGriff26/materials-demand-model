@@ -1,168 +1,168 @@
 technology,material,n,distribution,cv,cv_source,median_intensity,borrowed_cv,recommendation
-Bio CCS,Aluminum,1,lognormal,0.6707,borrowed,1.3000,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 1.30)"
-Bio CCS,Cement,2,uniform,,fitted,32.0050,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.95 > 3.0
-Bio CCS,Copper,3,uniform,,fitted,0.6000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.09 > 3.0
-Bio CCS,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Bio CCS,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Bio CCS,Steel,1,lognormal,0.6707,borrowed,79.5600,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 79.56)"
-Biomass,Aluminum,1,lognormal,0.6707,borrowed,1.3000,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 1.30)"
-Biomass,Cement,2,uniform,,fitted,20.9185,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.74 > 3.0
-Biomass,Copper,4,uniform,,fitted,0.4855,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.83 > 3.0
-Biomass,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Biomass,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Biomass,Steel,1,lognormal,0.6707,borrowed,52.0000,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 52.00)"
-CIGS,Aluminum,3,uniform,,fitted,15.3900,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.32 > 3.0
-CIGS,Cadmium,2,lognormal,0.6707,borrowed,0.0013,0.6707,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.671, median preserved: 0.00)"
-CIGS,Cement,4,uniform,,fitted,7.1475,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.50 > 3.0
-CIGS,Copper,13,uniform,,fitted,0.2500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=10.60 > 3.0
-CIGS,Gadium,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.66 > 3.0
-CIGS,Gallium,41,lognormal,1.2399,fitted,0.0067,,"Forced lognormal distribution (n=41, KS p=0.0926, AIC=-292.26)"
-CIGS,Glass,3,uniform,,fitted,66.7000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-CIGS,Indium,76,lognormal,0.7232,fitted,0.0230,,"Forced lognormal distribution (n=76, KS p=0.3061, AIC=-419.13)"
-CIGS,Molybdenum,2,uniform,,fitted,0.0550,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=20.37 > 3.0
-CIGS,Selenium,36,lognormal,1.0224,fitted,0.0450,,"Forced lognormal distribution (n=36, KS p=0.7059, AIC=-131.57)"
-CIGS,Steel,2,uniform,,fitted,55.9500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.14 > 3.0
-CIGS,Zinc,1,lognormal,0.6707,borrowed,0.1210,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.12)"
-CSP,Aluminum,2,uniform,,fitted,5.5000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=373.42 > 3.0
-CSP,Cement,2,uniform,,fitted,161.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.53 > 3.0
-CSP,Copper,2,uniform,,fitted,2.3000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.32 > 3.0
-CSP,Glass,2,uniform,,fitted,120.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.44 > 3.0
-CSP,Manganese,2,uniform,,fitted,3.8500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.33 > 3.0
-CSP,Nickel,2,uniform,,fitted,1.4200,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.35 > 3.0
-CSP,Silver,2,uniform,,fitted,0.0145,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.54 > 3.0
-CSP,Steel,2,uniform,,fitted,320.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.13 > 3.0
-CdTe,Aluminum,3,uniform,,fitted,15.3900,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.32 > 3.0
-CdTe,Cadmium,40,lognormal,0.4206,fitted,0.0780,,"Forced lognormal distribution (n=40, KS p=0.3990, AIC=-129.34)"
-CdTe,Cement,4,uniform,,fitted,7.1475,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.50 > 3.0
-CdTe,Chromium,1,lognormal,0.6707,borrowed,0.0610,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.06)"
-CdTe,Copper,9,uniform,,fitted,5.1810,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=12.82 > 3.0
-CdTe,Glass,3,uniform,,fitted,66.7000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-CdTe,Indium,3,uniform,,fitted,0.0155,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.59 > 3.0
-CdTe,Lead,2,uniform,,fitted,0.0079,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.54 > 3.0
-CdTe,Molybdenum,3,uniform,,fitted,0.1005,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=19.52 > 3.0
-CdTe,Nickel,1,lognormal,0.6707,borrowed,0.0160,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.02)"
-CdTe,Steel,2,uniform,,fitted,55.9500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.14 > 3.0
-CdTe,Tellurium,54,lognormal,0.4856,fitted,0.0895,,"Forced lognormal distribution (n=54, KS p=0.6970, AIC=-169.08)"
-CdTe,Tin,1,lognormal,0.6707,borrowed,0.0066,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.01)"
-Coal,Aluminum,4,uniform,,fitted,0.3500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.31 > 3.0
-Coal,Cement,12,uniform,,fitted,14.1210,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=10.20 > 3.0
-Coal,Copper,4,uniform,,fitted,0.4855,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.83 > 3.0
-Coal,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Coal,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Coal,Steel,3,uniform,,fitted,51.3400,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.50 > 3.0
-Coal CCS,Aluminum,4,uniform,,fitted,0.3500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.31 > 3.0
-Coal CCS,Cement,12,uniform,,fitted,17.7455,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=10.27 > 3.0
-Coal CCS,Copper,4,uniform,,fitted,0.5825,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.60 > 3.0
-Coal CCS,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Coal CCS,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Coal CCS,Steel,4,uniform,,fitted,73.1225,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.29 > 3.0
-Gas,Aluminum,2,uniform,,fitted,0.2170,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.24 > 3.0
-Gas,Cement,4,uniform,,fitted,10.7415,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.66 > 3.0
-Gas,Copper,4,uniform,,fitted,0.4855,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.83 > 3.0
-Gas,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Gas,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Gas,Steel,2,uniform,,fitted,41.0800,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.14 > 3.0
-Gas CCS,Aluminum,2,uniform,,fitted,0.2170,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.24 > 3.0
-Gas CCS,Cement,4,uniform,,fitted,16.4350,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.72 > 3.0
-Gas CCS,Copper,4,uniform,,fitted,0.5825,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.60 > 3.0
-Gas CCS,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-Gas CCS,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-Gas CCS,Steel,2,uniform,,fitted,62.8525,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.00 > 3.0
-Geothermal,Aluminum,7,uniform,,fitted,9.7290,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=13.32 > 3.0
-Geothermal,Cement,8,uniform,,fitted,251.8330,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=12.34 > 3.0
-Geothermal,Copper,3,uniform,,fitted,2.5180,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.18 > 3.0
-Geothermal,Steel,8,uniform,,fitted,325.5000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=12.39 > 3.0
-Hydro,Aluminum,1,lognormal,0.6707,borrowed,0.0520,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.05)"
-Hydro,Cement,8,uniform,,fitted,995.6800,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=11.83 > 3.0
-Hydro,Copper,3,uniform,,fitted,1.5020,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.97 > 3.0
-Hydro,Steel,4,uniform,,fitted,66.2500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.21 > 3.0
-NGCC,Aluminum,2,uniform,,fitted,0.2170,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.24 > 3.0
-NGCC,Cement,4,uniform,,fitted,10.7415,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.66 > 3.0
-NGCC,Copper,4,uniform,,fitted,0.4855,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.83 > 3.0
-NGCC,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-NGCC,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-NGCC,Steel,2,uniform,,fitted,41.0800,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.14 > 3.0
-NGGT,Aluminum,2,uniform,,fitted,0.2170,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.24 > 3.0
-NGGT,Cement,4,uniform,,fitted,10.7415,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.66 > 3.0
-NGGT,Copper,4,uniform,,fitted,0.4855,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.83 > 3.0
-NGGT,Manganese,3,uniform,,fitted,0.1240,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.70 > 3.0
-NGGT,Nickel,3,uniform,,fitted,0.0100,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.45 > 3.0
-NGGT,Steel,2,uniform,,fitted,41.0800,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.14 > 3.0
-Nuclear New,Aluminum,4,uniform,,fitted,0.0390,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.80 > 3.0
-Nuclear New,Cement,9,uniform,,fitted,30.4000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=11.29 > 3.0
-Nuclear New,Copper,5,uniform,,fitted,1.3450,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.49 > 3.0
-Nuclear New,Manganese,4,uniform,,fitted,0.3480,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.73 > 3.0
-Nuclear New,Nickel,5,uniform,,fitted,0.1000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.95 > 3.0
-Nuclear New,Silver,3,lognormal,0.6707,borrowed,0.0010,0.6707,"CV borrowed from median of n>5 pairs (n=3, CV: 0.000 → 0.671, median preserved: 0.00)"
-Nuclear New,Steel,6,uniform,,fitted,39.6370,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.09 > 3.0
-Solar Distributed,Aluminum,4,uniform,,fitted,19.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.80 > 3.0
-Solar Distributed,Cement,6,uniform,,fitted,7.1475,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=13.34 > 3.0
-Solar Distributed,Copper,11,uniform,,fitted,0.8840,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=10.87 > 3.0
-Solar Distributed,Glass,3,uniform,,fitted,66.7000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-Solar Distributed,Lead,5,uniform,,fitted,0.0063,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.68 > 3.0
-Solar Distributed,Magnesium,1,lognormal,0.6707,borrowed,0.0535,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.05)"
-Solar Distributed,Nickel,5,uniform,,fitted,0.0011,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.90 > 3.0
-Solar Distributed,Silicon,15,lognormal,0.0000,fitted,4.0000,,"Forced lognormal distribution (n=15, KS p=0.3667, AIC=71.69)"
-Solar Distributed,Silver,30,lognormal,0.6707,fitted,0.0297,,"Forced lognormal distribution (n=30, KS p=0.9156, AIC=-144.19)"
-Solar Distributed,Steel,2,uniform,,fitted,55.9500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.14 > 3.0
-Solar Distributed,Tin,1,lognormal,0.6707,borrowed,0.5770,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.58)"
-a-Si,Aluminum,3,uniform,,fitted,15.3900,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.32 > 3.0
-a-Si,Cadmium,1,lognormal,0.6707,borrowed,0.0066,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.01)"
-a-Si,Cement,4,uniform,,fitted,7.1475,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.50 > 3.0
-a-Si,Chromium,1,lognormal,0.6707,borrowed,0.6340,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.63)"
-a-Si,Copper,5,uniform,,fitted,7.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.12 > 3.0
-a-Si,Germanium,16,lognormal,0.0000,fitted,0.0420,,"Forced lognormal distribution (n=16, KS p=0.4921, AIC=-67.34)"
-a-Si,Glass,3,uniform,,fitted,66.7000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-a-Si,Indium,4,uniform,,fitted,0.0053,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.44 > 3.0
-a-Si,Molybdenum,1,lognormal,0.6707,borrowed,0.0106,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.01)"
-a-Si,Nickel,1,lognormal,0.6707,borrowed,0.3340,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.33)"
-a-Si,Silicon,1,lognormal,0.6707,borrowed,0.1500,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.15)"
-a-Si,Steel,2,uniform,,fitted,55.9500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.14 > 3.0
-a-Si,Tellurium,1,lognormal,0.6707,borrowed,0.0078,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.01)"
-a-Si,Tin,2,uniform,,fitted,0.0720,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=20.86 > 3.0
-offshore wind,Aluminum,20,uniform,,fitted,1.0300,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=8.23 > 3.0
-offshore wind,Boron,1,lognormal,0.6707,borrowed,0.0070,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.01)"
-offshore wind,Cement,4,uniform,,fitted,0.1810,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.79 > 3.0
-offshore wind,Chromium,4,uniform,,fitted,0.3330,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.63 > 3.0
-offshore wind,Copper,49,lognormal,1.6238,fitted,4.0000,,"Forced lognormal distribution (n=49, KS p=0.5736, AIC=257.45)"
-offshore wind,Dysprosium,18,lognormal,0.0000,fitted,0.0170,,"Forced lognormal distribution (n=18, KS p=0.7947, AIC=-118.47)"
-offshore wind,Fiberglass,5,uniform,,fitted,10.5510,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.09 > 3.0
-offshore wind,Lead,3,uniform,,fitted,6.7200,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.17 > 3.0
-offshore wind,Molybdenum,1,lognormal,0.6707,borrowed,0.0753,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.08)"
-offshore wind,Neodymium,41,lognormal,0.0000,fitted,0.1657,,"Forced lognormal distribution (n=41, KS p=0.1389, AIC=-123.01)"
-offshore wind,Nickel,3,lognormal,0.6707,borrowed,0.1110,0.6707,"CV borrowed from median of n>5 pairs (n=3, CV: 0.000 → 0.671, median preserved: 0.11)"
-offshore wind,Niobium,1,lognormal,0.6707,borrowed,0.0377,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.04)"
-offshore wind,Praseodymium,4,uniform,,fitted,0.0320,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.55 > 3.0
-offshore wind,Steel,20,lognormal,2.2761,fitted,221.3350,,"Forced lognormal distribution (n=20, KS p=0.9745, AIC=253.79)"
-offshore wind,Terbium,3,uniform,,fitted,0.0062,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.93 > 3.0
-offshore wind,Vanadium,2,lognormal,0.6707,borrowed,7.0000,0.6707,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.671, median preserved: 7.00)"
-onshore wind,Aluminum,37,lognormal,0.8106,fitted,1.6400,,"Forced lognormal distribution (n=37, KS p=0.4105, AIC=118.67)"
-onshore wind,Boron,3,uniform,,fitted,0.0010,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.76 > 3.0
-onshore wind,Cement,6,uniform,,fitted,53.5845,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=13.13 > 3.0
-onshore wind,Chromium,10,uniform,,fitted,0.4975,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=11.05 > 3.0
-onshore wind,Copper,102,lognormal,0.9519,fitted,2.5200,,"Forced lognormal distribution (n=102, KS p=0.5606, AIC=401.30)"
-onshore wind,Dysprosium,47,lognormal,0.8988,fitted,0.0133,,"Forced lognormal distribution (n=47, KS p=0.0503, AIC=-301.94)"
-onshore wind,Fiberglass,3,uniform,,fitted,8.9800,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-onshore wind,Lead,2,lognormal,0.6707,borrowed,6.7200,0.6707,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.671, median preserved: 6.72)"
-onshore wind,Manganese,3,uniform,,fitted,0.7900,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.31 > 3.0
-onshore wind,Molybdenum,4,uniform,,fitted,0.1040,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.33 > 3.0
-onshore wind,Neodymium,50,lognormal,0.0000,fitted,0.1500,,"Forced lognormal distribution (n=50, KS p=0.0652, AIC=-104.90)"
-onshore wind,Nickel,13,uniform,,fitted,0.2400,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=17.93 > 3.0
-onshore wind,Niobium,1,lognormal,0.6707,borrowed,0.0377,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.04)"
-onshore wind,Praseodymium,15,uniform,,fitted,0.0040,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=9.59 > 3.0
-onshore wind,Steel,48,lognormal,0.0887,fitted,119.9925,,"Forced lognormal distribution (n=48, KS p=0.7482, AIC=453.46)"
-onshore wind,Terbium,16,uniform,,fitted,0.0066,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=9.46 > 3.0
-onshore wind,Vanadium,2,uniform,,fitted,0.0902,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.50 > 3.0
-onshore wind,Yttrium,2,uniform,,fitted,0.0012,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=18.95 > 3.0
-onshore wind,Zinc,2,lognormal,0.6707,borrowed,5.5000,0.6707,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.671, median preserved: 5.50)"
-utility-scale solar pv,Aluminum,4,uniform,,fitted,19.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.80 > 3.0
-utility-scale solar pv,Cement,6,uniform,,fitted,7.1475,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=13.34 > 3.0
-utility-scale solar pv,Copper,11,uniform,,fitted,0.8840,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=10.87 > 3.0
-utility-scale solar pv,Glass,3,uniform,,fitted,66.7000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.63 > 3.0
-utility-scale solar pv,Lead,5,uniform,,fitted,0.0063,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=14.68 > 3.0
-utility-scale solar pv,Magnesium,1,lognormal,0.6707,borrowed,0.0535,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.05)"
-utility-scale solar pv,Nickel,5,uniform,,fitted,0.0011,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=16.90 > 3.0
-utility-scale solar pv,Silicon,15,lognormal,0.0000,fitted,4.0000,,"Forced lognormal distribution (n=15, KS p=0.3667, AIC=71.69)"
-utility-scale solar pv,Silver,30,lognormal,0.6707,fitted,0.0297,,"Forced lognormal distribution (n=30, KS p=0.9156, AIC=-144.19)"
-utility-scale solar pv,Steel,2,uniform,,fitted,55.9500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Lognormal shape s=15.14 > 3.0
-utility-scale solar pv,Tin,1,lognormal,0.6707,borrowed,0.5770,0.6707,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.671, median preserved: 0.58)"
+Bio CCS,Aluminum,1,lognormal,0.6996,borrowed,1.3000,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 1.30)"
+Bio CCS,Cement,2,lognormal,0.6996,borrowed,32.0050,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.222 → 0.700, median preserved: 32.01)"
+Bio CCS,Copper,3,lognormal,0.6996,borrowed,0.6000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.069 → 0.700, median preserved: 0.60)"
+Bio CCS,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Bio CCS,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Bio CCS,Steel,1,lognormal,0.6996,borrowed,79.5600,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 79.56)"
+Biomass,Aluminum,1,lognormal,0.6996,borrowed,1.3000,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 1.30)"
+Biomass,Cement,2,lognormal,0.6996,borrowed,20.9185,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.222 → 0.700, median preserved: 20.92)"
+Biomass,Copper,4,lognormal,0.6996,borrowed,0.4855,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.49)"
+Biomass,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Biomass,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Biomass,Steel,1,lognormal,0.6996,borrowed,52.0000,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 52.00)"
+CIGS,Aluminum,3,lognormal,0.6996,borrowed,15.3900,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.344 → 0.700, median preserved: 15.39)"
+CIGS,Cadmium,2,lognormal,0.6996,borrowed,0.0013,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.700, median preserved: 0.00)"
+CIGS,Cement,4,lognormal,0.6996,borrowed,7.1475,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.282 → 0.700, median preserved: 7.15)"
+CIGS,Copper,13,uniform,,fitted,0.2500,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=6964.0x > 100.0x
+CIGS,Gadium,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.807 → 0.700, median preserved: 0.01)"
+CIGS,Gallium,41,lognormal,1.5176,fitted,0.0067,,"Forced lognormal distribution (n=41, KS p=0.1061, AIC=-289.77)"
+CIGS,Glass,3,lognormal,0.6996,borrowed,66.7000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.118 → 0.700, median preserved: 66.70)"
+CIGS,Indium,76,lognormal,0.7187,fitted,0.0230,,"Forced lognormal distribution (n=76, KS p=0.3122, AIC=-419.13)"
+CIGS,Molybdenum,2,uniform,,fitted,0.0550,,All distributions rejected. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=10054.3x > 100.0x
+CIGS,Selenium,36,lognormal,0.8808,fitted,0.0450,,"Forced lognormal distribution (n=36, KS p=0.7237, AIC=-131.27)"
+CIGS,Steel,2,lognormal,0.6996,borrowed,55.9500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.001 → 0.700, median preserved: 55.95)"
+CIGS,Zinc,1,lognormal,0.6996,borrowed,0.1210,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.12)"
+CSP,Aluminum,2,uniform,,fitted,5.5000,,No distributions fit successfully (n=2). Using uniform fallback.
+CSP,Cement,2,lognormal,0.6996,borrowed,161.0000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.688 → 0.700, median preserved: 161.00)"
+CSP,Copper,2,lognormal,0.6996,borrowed,2.3000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.432 → 0.700, median preserved: 2.30)"
+CSP,Glass,2,lognormal,0.6996,borrowed,120.0000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.084 → 0.700, median preserved: 120.00)"
+CSP,Manganese,2,lognormal,0.6996,borrowed,3.8500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.562 → 0.700, median preserved: 3.85)"
+CSP,Nickel,2,lognormal,0.6996,borrowed,1.4200,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.363 → 0.700, median preserved: 1.42)"
+CSP,Silver,2,lognormal,0.6996,borrowed,0.0145,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.104 → 0.700, median preserved: 0.01)"
+CSP,Steel,2,lognormal,0.6996,borrowed,320.0000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.260 → 0.700, median preserved: 320.00)"
+CdTe,Aluminum,3,lognormal,0.6996,borrowed,15.3900,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.344 → 0.700, median preserved: 15.39)"
+CdTe,Cadmium,40,lognormal,0.8389,fitted,0.0780,,"Forced lognormal distribution (n=40, KS p=0.0871, AIC=-123.50)"
+CdTe,Cement,4,lognormal,0.6996,borrowed,7.1475,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.282 → 0.700, median preserved: 7.15)"
+CdTe,Chromium,1,lognormal,0.6996,borrowed,0.0610,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.06)"
+CdTe,Copper,9,uniform,,fitted,5.1810,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=609.2x > 100.0x
+CdTe,Glass,3,lognormal,0.6996,borrowed,66.7000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.118 → 0.700, median preserved: 66.70)"
+CdTe,Indium,3,lognormal,0.6996,borrowed,0.0155,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.012 → 0.700, median preserved: 0.02)"
+CdTe,Lead,2,lognormal,0.6996,borrowed,0.0079,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.013 → 0.700, median preserved: 0.01)"
+CdTe,Molybdenum,3,uniform,,fitted,0.1005,,All distributions rejected. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=19893.1x > 100.0x
+CdTe,Nickel,1,lognormal,0.6996,borrowed,0.0160,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.02)"
+CdTe,Steel,2,lognormal,0.6996,borrowed,55.9500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.001 → 0.700, median preserved: 55.95)"
+CdTe,Tellurium,54,lognormal,0.7115,fitted,0.0895,,"Forced lognormal distribution (n=54, KS p=0.3836, AIC=-167.22)"
+CdTe,Tin,1,lognormal,0.6996,borrowed,0.0066,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.01)"
+Coal,Aluminum,4,lognormal,0.6996,borrowed,0.3500,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.366 → 0.700, median preserved: 0.35)"
+Coal,Cement,12,lognormal,0.5503,fitted,14.1210,,"Forced lognormal distribution (n=12, KS p=0.7626, AIC=85.36)"
+Coal,Copper,4,lognormal,0.6996,borrowed,0.4855,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.49)"
+Coal,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Coal,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Coal,Steel,3,lognormal,0.6996,borrowed,51.3400,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.139 → 0.700, median preserved: 51.34)"
+Coal CCS,Aluminum,4,lognormal,0.6996,borrowed,0.3500,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.366 → 0.700, median preserved: 0.35)"
+Coal CCS,Cement,12,lognormal,0.5757,fitted,17.7455,,"Forced lognormal distribution (n=12, KS p=0.9208, AIC=94.40)"
+Coal CCS,Copper,4,lognormal,0.6996,borrowed,0.5825,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.58)"
+Coal CCS,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Coal CCS,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Coal CCS,Steel,4,lognormal,0.6996,borrowed,73.1225,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.165 → 0.700, median preserved: 73.12)"
+Gas,Aluminum,2,lognormal,0.6996,borrowed,0.2170,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.060 → 0.700, median preserved: 0.22)"
+Gas,Cement,4,lognormal,0.6996,borrowed,10.7415,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.276 → 0.700, median preserved: 10.74)"
+Gas,Copper,4,lognormal,0.6996,borrowed,0.4855,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.49)"
+Gas,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Gas,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Gas,Steel,2,lognormal,0.6996,borrowed,41.0800,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.254 → 0.700, median preserved: 41.08)"
+Gas CCS,Aluminum,2,lognormal,0.6996,borrowed,0.2170,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.060 → 0.700, median preserved: 0.22)"
+Gas CCS,Cement,4,lognormal,0.6996,borrowed,16.4350,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.412 → 0.700, median preserved: 16.43)"
+Gas CCS,Copper,4,lognormal,0.6996,borrowed,0.5825,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.58)"
+Gas CCS,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+Gas CCS,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+Gas CCS,Steel,2,lognormal,0.6996,borrowed,62.8525,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.254 → 0.700, median preserved: 62.85)"
+Geothermal,Aluminum,7,uniform,,fitted,9.7290,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=203.0x > 100.0x
+Geothermal,Cement,8,lognormal,1.1050,fitted,251.8330,,"Forced lognormal distribution (n=8, KS p=0.9221, AIC=116.23)"
+Geothermal,Copper,3,uniform,,fitted,2.5180,,All distributions rejected. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=261.4x > 100.0x
+Geothermal,Steel,8,lognormal,1.1278,fitted,325.5000,,"Forced lognormal distribution (n=8, KS p=0.7586, AIC=121.74)"
+Hydro,Aluminum,1,lognormal,0.6996,borrowed,0.0520,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.05)"
+Hydro,Cement,8,lognormal,0.3205,fitted,995.6800,,"Forced lognormal distribution (n=8, KS p=0.9930, AIC=119.95)"
+Hydro,Copper,3,lognormal,0.6996,borrowed,1.5020,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.452 → 0.700, median preserved: 1.50)"
+Hydro,Steel,4,lognormal,0.6996,borrowed,66.2500,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.804 → 0.700, median preserved: 66.25)"
+NGCC,Aluminum,2,lognormal,0.6996,borrowed,0.2170,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.060 → 0.700, median preserved: 0.22)"
+NGCC,Cement,4,lognormal,0.6996,borrowed,10.7415,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.276 → 0.700, median preserved: 10.74)"
+NGCC,Copper,4,lognormal,0.6996,borrowed,0.4855,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.49)"
+NGCC,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+NGCC,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+NGCC,Steel,2,lognormal,0.6996,borrowed,41.0800,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.254 → 0.700, median preserved: 41.08)"
+NGGT,Aluminum,2,lognormal,0.6996,borrowed,0.2170,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.060 → 0.700, median preserved: 0.22)"
+NGGT,Cement,4,lognormal,0.6996,borrowed,10.7415,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.276 → 0.700, median preserved: 10.74)"
+NGGT,Copper,4,lognormal,0.6996,borrowed,0.4855,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.064 → 0.700, median preserved: 0.49)"
+NGGT,Manganese,3,lognormal,0.6996,borrowed,0.1240,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.254 → 0.700, median preserved: 0.12)"
+NGGT,Nickel,3,lognormal,0.6996,borrowed,0.0100,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.134 → 0.700, median preserved: 0.01)"
+NGGT,Steel,2,lognormal,0.6996,borrowed,41.0800,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.254 → 0.700, median preserved: 41.08)"
+Nuclear New,Aluminum,4,lognormal,0.6996,borrowed,0.0390,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.436 → 0.700, median preserved: 0.04)"
+Nuclear New,Cement,9,lognormal,0.4250,fitted,30.4000,,"Forced lognormal distribution (n=9, KS p=0.8998, AIC=78.82)"
+Nuclear New,Copper,5,lognormal,0.3722,fitted,1.3450,,"Forced lognormal distribution (n=5, KS p=0.9387, AIC=11.91)"
+Nuclear New,Manganese,4,lognormal,0.6996,borrowed,0.3480,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.315 → 0.700, median preserved: 0.35)"
+Nuclear New,Nickel,5,lognormal,1.0551,fitted,0.1000,,"Forced lognormal distribution (n=5, KS p=0.8461, AIC=-0.96)"
+Nuclear New,Silver,3,lognormal,0.6996,borrowed,0.0010,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.000 → 0.700, median preserved: 0.00)"
+Nuclear New,Steel,6,lognormal,0.9041,fitted,39.6370,,"Forced lognormal distribution (n=6, KS p=0.3870, AIC=58.69)"
+Solar Distributed,Aluminum,4,lognormal,0.6996,borrowed,19.0000,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.469 → 0.700, median preserved: 19.00)"
+Solar Distributed,Cement,6,lognormal,0.2701,fitted,7.1475,,"Forced lognormal distribution (n=6, KS p=0.9159, AIC=31.20)"
+Solar Distributed,Copper,11,uniform,,fitted,0.8840,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=113.1x > 100.0x
+Solar Distributed,Glass,3,lognormal,0.6996,borrowed,66.7000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.118 → 0.700, median preserved: 66.70)"
+Solar Distributed,Lead,5,lognormal,1.5108,fitted,0.0063,,"Forced lognormal distribution (n=5, KS p=0.3918, AIC=-21.45)"
+Solar Distributed,Magnesium,1,lognormal,0.6996,borrowed,0.0535,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.05)"
+Solar Distributed,Nickel,5,lognormal,0.1186,fitted,0.0011,,"Forced lognormal distribution (n=5, KS p=0.7445, AIC=-69.00)"
+Solar Distributed,Silicon,15,lognormal,0.6877,fitted,4.0000,,"Forced lognormal distribution (n=15, KS p=0.4347, AIC=77.69)"
+Solar Distributed,Silver,30,lognormal,0.9036,fitted,0.0297,,"Forced lognormal distribution (n=30, KS p=0.9053, AIC=-143.45)"
+Solar Distributed,Steel,2,lognormal,0.6996,borrowed,55.9500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.001 → 0.700, median preserved: 55.95)"
+Solar Distributed,Tin,1,lognormal,0.6996,borrowed,0.5770,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.58)"
+a-Si,Aluminum,3,lognormal,0.6996,borrowed,15.3900,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.344 → 0.700, median preserved: 15.39)"
+a-Si,Cadmium,1,lognormal,0.6996,borrowed,0.0066,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.01)"
+a-Si,Cement,4,lognormal,0.6996,borrowed,7.1475,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.282 → 0.700, median preserved: 7.15)"
+a-Si,Chromium,1,lognormal,0.6996,borrowed,0.6340,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.63)"
+a-Si,Copper,5,uniform,,fitted,7.0000,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=770.1x > 100.0x
+a-Si,Germanium,16,lognormal,1.2053,fitted,0.0420,,"Forced lognormal distribution (n=16, KS p=0.0925, AIC=-60.41)"
+a-Si,Glass,3,lognormal,0.6996,borrowed,66.7000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.118 → 0.700, median preserved: 66.70)"
+a-Si,Indium,4,lognormal,0.6996,borrowed,0.0053,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.481 → 0.700, median preserved: 0.01)"
+a-Si,Molybdenum,1,lognormal,0.6996,borrowed,0.0106,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.01)"
+a-Si,Nickel,1,lognormal,0.6996,borrowed,0.3340,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.33)"
+a-Si,Silicon,1,lognormal,0.6996,borrowed,0.1500,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.15)"
+a-Si,Steel,2,lognormal,0.6996,borrowed,55.9500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.001 → 0.700, median preserved: 55.95)"
+a-Si,Tellurium,1,lognormal,0.6996,borrowed,0.0078,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.01)"
+a-Si,Tin,2,uniform,,fitted,0.0720,,All distributions rejected. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=33314.0x > 100.0x
+offshore wind,Aluminum,20,lognormal,1.3363,fitted,1.0300,,"Forced lognormal distribution (n=20, KS p=0.8506, AIC=70.07)"
+offshore wind,Boron,1,lognormal,0.6996,borrowed,0.0070,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.01)"
+offshore wind,Cement,4,lognormal,0.6996,borrowed,0.1810,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.222 → 0.700, median preserved: 0.18)"
+offshore wind,Chromium,4,lognormal,0.6996,borrowed,0.3330,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.180 → 0.700, median preserved: 0.33)"
+offshore wind,Copper,49,lognormal,1.0295,fitted,4.0000,,"Forced lognormal distribution (n=49, KS p=0.4464, AIC=260.40)"
+offshore wind,Dysprosium,18,lognormal,0.6421,fitted,0.0170,,"Forced lognormal distribution (n=18, KS p=0.6065, AIC=-112.44)"
+offshore wind,Fiberglass,5,lognormal,0.3093,fitted,10.5510,,"Forced lognormal distribution (n=5, KS p=0.3982, AIC=29.55)"
+offshore wind,Lead,3,lognormal,0.6996,borrowed,6.7200,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.275 → 0.700, median preserved: 6.72)"
+offshore wind,Molybdenum,1,lognormal,0.6996,borrowed,0.0753,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.08)"
+offshore wind,Neodymium,41,lognormal,0.5275,fitted,0.1657,,"Forced lognormal distribution (n=41, KS p=0.0083, AIC=-99.11)"
+offshore wind,Nickel,3,lognormal,0.6996,borrowed,0.1110,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.000 → 0.700, median preserved: 0.11)"
+offshore wind,Niobium,1,lognormal,0.6996,borrowed,0.0377,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.04)"
+offshore wind,Praseodymium,4,lognormal,0.6996,borrowed,0.0320,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.052 → 0.700, median preserved: 0.03)"
+offshore wind,Steel,20,lognormal,0.6170,fitted,221.3350,,"Forced lognormal distribution (n=20, KS p=0.8478, AIC=261.29)"
+offshore wind,Terbium,3,lognormal,0.6996,borrowed,0.0062,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.067 → 0.700, median preserved: 0.01)"
+offshore wind,Vanadium,2,lognormal,0.6996,borrowed,7.0000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.700, median preserved: 7.00)"
+onshore wind,Aluminum,37,lognormal,1.2989,fitted,1.6400,,"Forced lognormal distribution (n=37, KS p=0.2288, AIC=121.70)"
+onshore wind,Boron,3,lognormal,0.6996,borrowed,0.0010,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 1.020 → 0.700, median preserved: 0.00)"
+onshore wind,Cement,6,lognormal,0.2374,fitted,53.5845,,"Forced lognormal distribution (n=6, KS p=0.8975, AIC=53.17)"
+onshore wind,Chromium,10,lognormal,0.4095,fitted,0.4975,,"Forced lognormal distribution (n=10, KS p=0.8357, AIC=1.40)"
+onshore wind,Copper,102,lognormal,0.6647,fitted,2.5200,,"Forced lognormal distribution (n=102, KS p=0.1373, AIC=406.93)"
+onshore wind,Dysprosium,47,lognormal,1.4154,fitted,0.0133,,"Forced lognormal distribution (n=47, KS p=0.0151, AIC=-300.97)"
+onshore wind,Fiberglass,3,lognormal,0.6996,borrowed,8.9800,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.110 → 0.700, median preserved: 8.98)"
+onshore wind,Lead,2,lognormal,0.6996,borrowed,6.7200,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.700, median preserved: 6.72)"
+onshore wind,Manganese,3,lognormal,0.6996,borrowed,0.7900,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.010 → 0.700, median preserved: 0.79)"
+onshore wind,Molybdenum,4,lognormal,0.6996,borrowed,0.1040,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.173 → 0.700, median preserved: 0.10)"
+onshore wind,Neodymium,50,lognormal,1.3488,fitted,0.1500,,"Forced lognormal distribution (n=50, KS p=0.0027, AIC=-97.02)"
+onshore wind,Nickel,13,lognormal,0.6653,fitted,0.2400,,"Forced lognormal distribution (n=13, KS p=0.1265, AIC=-10.71)"
+onshore wind,Niobium,1,lognormal,0.6996,borrowed,0.0377,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.04)"
+onshore wind,Praseodymium,15,uniform,,fitted,0.0040,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=278.0x > 100.0x
+onshore wind,Steel,48,lognormal,0.2224,fitted,119.9925,,"Forced lognormal distribution (n=48, KS p=0.6609, AIC=455.97)"
+onshore wind,Terbium,16,uniform,,fitted,0.0066,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=153.6x > 100.0x
+onshore wind,Vanadium,2,lognormal,0.6996,borrowed,0.0902,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.002 → 0.700, median preserved: 0.09)"
+onshore wind,Yttrium,2,lognormal,0.6996,borrowed,0.0012,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.863 → 0.700, median preserved: 0.00)"
+onshore wind,Zinc,2,lognormal,0.6996,borrowed,5.5000,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.000 → 0.700, median preserved: 5.50)"
+utility-scale solar pv,Aluminum,4,lognormal,0.6996,borrowed,19.0000,0.6996,"CV borrowed from median of n>5 pairs (n=4, CV: 0.469 → 0.700, median preserved: 19.00)"
+utility-scale solar pv,Cement,6,lognormal,0.2701,fitted,7.1475,,"Forced lognormal distribution (n=6, KS p=0.9159, AIC=31.20)"
+utility-scale solar pv,Copper,11,uniform,,fitted,0.8840,,All distributions rejected due to extreme tails. Using uniform fallback. Rejections: lognormal: Extreme tail: max/median=113.1x > 100.0x
+utility-scale solar pv,Glass,3,lognormal,0.6996,borrowed,66.7000,0.6996,"CV borrowed from median of n>5 pairs (n=3, CV: 0.118 → 0.700, median preserved: 66.70)"
+utility-scale solar pv,Lead,5,lognormal,1.5108,fitted,0.0063,,"Forced lognormal distribution (n=5, KS p=0.3918, AIC=-21.45)"
+utility-scale solar pv,Magnesium,1,lognormal,0.6996,borrowed,0.0535,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.05)"
+utility-scale solar pv,Nickel,5,lognormal,0.1186,fitted,0.0011,,"Forced lognormal distribution (n=5, KS p=0.7445, AIC=-69.00)"
+utility-scale solar pv,Silicon,15,lognormal,0.6877,fitted,4.0000,,"Forced lognormal distribution (n=15, KS p=0.4347, AIC=77.69)"
+utility-scale solar pv,Silver,30,lognormal,0.9036,fitted,0.0297,,"Forced lognormal distribution (n=30, KS p=0.9053, AIC=-143.45)"
+utility-scale solar pv,Steel,2,lognormal,0.6996,borrowed,55.9500,0.6996,"CV borrowed from median of n>5 pairs (n=2, CV: 0.001 → 0.700, median preserved: 55.95)"
+utility-scale solar pv,Tin,1,lognormal,0.6996,borrowed,0.5770,0.6996,"CV borrowed from median of n>5 pairs (n=1, CV: 0.996 → 0.700, median preserved: 0.58)"
