@@ -80,13 +80,8 @@ dist/
 *.bak
 .cache/
 
-# Manuscript figure scripts (kept locally, not in repo)
-visualizations/manuscript_*.py
-
-# Paper-related docs
-docs/SI_methodology.md
-docs/manuscript_figure_map.csv
-docs/visualization_inventory.csv
+# NOTE: manuscript_*.py and paper-related docs are now tracked for reproducibility
+# (Previously excluded; restored for GitHub publication)
 
 # Paper_Draft output directory
 ../../../Paper_Draft/

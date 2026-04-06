@@ -8,10 +8,11 @@ import matplotlib.image as mpimg
 from pathlib import Path
 import os
 
-# Paths
-OLD_FIGS = Path("/Users/pjgriffiths/Desktop/Materials Demand/Github/MaterialDemand-main/Figures")
-NEW_FIGS = Path("/Users/pjgriffiths/Desktop/Materials Demand/Python/materials_demand_model/outputs/figures")
-OUTPUT_DIR = Path("/Users/pjgriffiths/Desktop/Materials Demand/Python/materials_demand_model/outputs/figures/comparison")
+# Paths (relative to this file's location)
+_BASE = Path(__file__).resolve().parent.parent
+OLD_FIGS = _BASE.parent.parent.parent / "Github" / "MaterialDemand-main" / "Figures"
+NEW_FIGS = _BASE / "outputs" / "figures"
+OUTPUT_DIR = _BASE / "outputs" / "figures" / "comparison"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

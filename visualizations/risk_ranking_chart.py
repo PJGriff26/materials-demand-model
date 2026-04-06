@@ -52,40 +52,42 @@ def calculate_import_dependency(risk_data):
     return pd.Series(results, name="import_dependency")
 
 
-def calculate_crc_weighted_risk(risk_data):
+def calculate_hhi_wgi(risk_data):
     """
-    Calculate CRC-weighted import risk per material (0-1 scale).
-    Higher = riskier supply chain.
+    Governance-weighted HHI (HHI_WGI) per material (0-1 scale).
+    Higher = more concentrated AND riskier supply sources.
+
+    Formula: HHI_WGI = SUM(s_i^2 * risk_i)
+    Uses OECD CRC rescaled to 0-1 as governance proxy.
+    Ref: Blengini et al. (2017) JRC, Schrijvers et al. (2020).
     """
-    # CRC weights: OECD=0, 1-7 scaled, China=7, Undefined=4
-    crc_weights = {
-        "OECD": 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7,
-        "China": 7, "Undefined": 4,
+    # CRC → 0-1 governance risk score (higher = riskier)
+    crc_risk_scores = {
+        "United States": 0.0, "OECD": 0.0,
+        1: 1/7, 2: 2/7, 3: 3/7, 4: 4/7, 5: 5/7, 6: 6/7, 7: 1.0,
+        "China": 1.0, "Undefined": 5/7,
     }
 
     imp_shares = risk_data["import_shares"].copy()
     crc_map = risk_data["crc"].iloc[:, :2].copy()
     crc_map.columns = ["country", "crc"]
 
-    # Merge CRC ratings with import shares
     merged = imp_shares.merge(crc_map, on="country", how="left")
     merged.loc[merged["country"] == "China", "crc"] = "China"
     merged["crc"] = merged["crc"].fillna("Undefined")
 
     results = {}
     for mat, grp in merged.groupby("material"):
-        weighted = 0.0
-        total_share = 0.0
-        for _, row in grp.iterrows():
-            w = crc_weights.get(row["crc"], 4)
-            s = row["share"] if pd.notna(row["share"]) else 0
-            weighted += w * s
-            total_share += s
-        if total_share > 0:
-            # Normalize to 0-1 (max CRC weight is 7)
-            results[mat] = (weighted / total_share) / 7.0
+        total_share = grp["share"].sum()
+        if total_share == 0:
+            continue
+        shares = grp["share"] / total_share
+        risk_scores = grp["crc"].map(
+            lambda c: crc_risk_scores.get(c, 5/7)
+        )
+        results[mat] = (shares ** 2 * risk_scores).sum()
 
-    return pd.Series(results, name="crc_risk")
+    return pd.Series(results, name="hhi_wgi")
 
 
 def calculate_china_exposure(risk_data):
@@ -127,16 +129,16 @@ def calculate_source_concentration(risk_data):
 def build_risk_dataframe(risk_data):
     """Build a DataFrame with all risk components."""
     import_dep = calculate_import_dependency(risk_data)
-    crc_risk = calculate_crc_weighted_risk(risk_data)
+    hhi_wgi = calculate_hhi_wgi(risk_data)
     china_exp = calculate_china_exposure(risk_data)
     concentration = calculate_source_concentration(risk_data)
 
     # Combine into DataFrame
     df = pd.DataFrame({
         "Import Dependency": import_dep,
-        "Geopolitical Risk": crc_risk,
+        "Geopolitical Risk (HHI_WGI)": hhi_wgi,
         "China Exposure": china_exp,
-        "Source Concentration": concentration,
+        "Source Concentration (HHI)": concentration,
     })
 
     # Fill missing values with median

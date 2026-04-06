@@ -159,7 +159,7 @@ def shorten_column_names(df, max_len=15):
         "total_import_exposed_demand": "import_demand",
         "domestic_production": "dom_prod",
         "import_dependency": "import_dep",
-        "crc_weighted_risk": "crc_risk",
+        "hhi_wgi": "hhi_wgi",
         "mean_capacity_ratio": "mean_cap_ratio",
         "max_capacity_ratio": "max_cap_ratio",
         "exceedance_frequency": "exceed_freq",
