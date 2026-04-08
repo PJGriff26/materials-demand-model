@@ -9,8 +9,8 @@ spearman_iteration_data.csv,Sensitivity Analysis,CSV,Raw iteration data with sam
 sobol_indices.csv,Sensitivity Analysis,CSV,Per-material individual Sobol sensitivity indices,"material, technology, S1, S1_conf, ST, ST_conf, coefficient, n_params, n_evaluations, analytical",analysis/sobol_analysis.py
 sobol_grouped_indices.csv,Sensitivity Analysis,CSV,Per-material grouped Sobol indices by technology sector,"material, sector, S1, S1_conf, ST, ST_conf",analysis/sobol_analysis.py
 sobol_global_indices.csv,Sensitivity Analysis,CSV,Global Sobol indices for aggregate critical material demand by sector,"sector, S1, S1_conf, ST, ST_conf",analysis/sobol_analysis.py
-scenario_features_raw.csv,Clustering Input,CSV,Raw engineered features for scenario clustering,17 scenario features (demand scale/temporal/uncertainty/tech mix/supply chain),feature_engineering.py
-material_features_raw.csv,Clustering Input,CSV,Raw engineered features for material clustering,23 material features (demand/supply chain/reserves/import sourcing),feature_engineering.py
+scenario_features_raw.csv,Clustering Input,CSV,Raw engineered features for scenario clustering,8 scenario features as of 2026-04-08 (demand growth/uncertainty/tech mix; previously 15),feature_engineering.py
+material_features_raw.csv,Clustering Input,CSV,Raw engineered features for material clustering,13 material features as of 2026-04-08 (demand growth/uncertainty/supply chain/reserves/import sourcing; previously 23),feature_engineering.py
 spca_scores_scenarios.csv,Clustering,CSV,Sparse PCA scores for scenarios (4 components),"scenario, SPC1, SPC2, SPC3, SPC4",clustering/sparse_pca.py
 spca_scores_materials.csv,Clustering,CSV,Sparse PCA scores for materials (5 components),"material, SPC1, SPC2, SPC3, SPC4, SPC5",clustering/sparse_pca.py
 fa_scores_scenarios.csv,Clustering,CSV,Factor Analysis scores for scenarios (4 factors),"scenario, FA1, FA2, FA3, FA4",clustering/factor_analysis.py

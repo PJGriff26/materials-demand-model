@@ -180,17 +180,15 @@ def plot_pca_biplot(X, labels, feature_names, name, entity_names=None,
 
         # Short display names for readability
         col_short = {
-            "total_cumulative_demand": "Cumul.\ndemand",
-            "peak_demand": "Peak\ndemand",
-            "mean_demand_early": "Early\ndemand",
-            "year_of_peak": "Peak\nyear",
-            "demand_slope": "Demand\nslope",
-            "temporal_concentration": "Temporal\nconc.",
+            # Reduced scenario feature labels (2026-04-08)
+            "growth_rate_short_pct": "CAGR\nshort",
+            "growth_rate_long_pct": "CAGR\nlong",
+            "peak_annual_growth_short_pct": "Peak\nYoY",
             "mean_cv": "Mean\nCV",
-            "mean_ci_width": "CI\nwidth",
-            "solar_fraction_2035": "Solar\nfrac.",
-            "wind_fraction_2035": "Wind\nfrac.",
-            "storage_fraction_2035": "Storage\nfrac.",
+            "solar_fraction_2035": "Solar\n2035",
+            "wind_fraction_2035": "Wind\n2035",
+            "solar_fraction_2050": "Solar\n2050",
+            "wind_fraction_2050": "Wind\n2050",
         }
         col_headers = [col_short.get(c, c) for c in medians.columns]
 
@@ -378,17 +376,20 @@ def plot_pca_biplot_centroid_labels(X, labels, feature_names, name, entity_names
 
         # Short display names for readability
         col_short = {
-            "mean_demand": "Mean\ndemand",
-            "peak_demand": "Peak\ndemand",
-            "demand_growth": "Demand\ngrowth",
-            "domestic_production": "Dom.\nprod.",
-            "import_reliance": "Import\nreliance",
-            "mean_capacity_ratio": "Mean\ncap.ratio",
-            "max_capacity_ratio": "Max\ncap.ratio",
-            "domestic_reserves_years": "Dom.\nreserves",
-            "global_reserves_years": "Global\nreserves",
-            "recycling_rate": "Recycling\nrate",
-            "n_scenarios_active": "Active\nscenarios",
+            # Reduced material feature labels (2026-04-08)
+            "growth_rate_long_pct": "CAGR\nlong",
+            "scenario_cv": "Scenario\nCV",
+            "import_dependency": "NIR",
+            "hhi_wgi": "HHI_WGI",
+            "us_capacity_ratio": "US cap.\nratio",
+            "global_capacity_ratio": "Global\ncap.ratio",
+            "global_reserve_coverage": "Global\nres. cov.",
+            "domestic_reserve_share": "US share\nof reserves",
+            "reserves_china_frac": "Reserves\nChina",
+            "reserves_high_risk_frac": "Reserves\nhigh-risk",
+            "import_china_frac": "Imports\nChina",
+            "import_hhi": "Import\nHHI",
+            "production_hhi": "Prod.\nHHI",
         }
         col_headers = [col_short.get(c, c) for c in medians.columns]
 

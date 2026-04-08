@@ -62,8 +62,11 @@ DEMAND_TO_RISK = {
     "Tin": "Tin", "Vanadium": "Vanadium", "Yttrium": "Yttrium",
     "Zinc": "Zinc",
     # Rare earth elements → aggregate
+    # ("Gadium" is a typo in the source intensity_data.csv for Gadolinium;
+    #  preserved here so the existing demand series matches.)
     "Dysprosium": "Rare Earths", "Neodymium": "Rare Earths",
     "Praseodymium": "Rare Earths", "Terbium": "Rare Earths",
+    "Gadium": "Rare Earths",
 }
 
 # ── USGS 2023 individual CSV file mapping for thin-film materials ─────────────
@@ -98,14 +101,32 @@ SPCA_N_COMPONENTS = {"scenarios": 4, "materials": 5}
 SPCA_ALPHA = {"scenarios": 1.0, "materials": 2.0}
 FA_N_COMPONENTS = {"scenarios": 4, "materials": 5}
 
+# Log-transform candidates for the reduced feature set (2026-04-08).
+# Selected by abs(skewness) > 1.5 on the current 8 scenario / 13 material features.
+# Stale entries from the pre-reduction era have been removed.
 SCENARIO_LOG_FEATURES = [
-    "total_cumulative_demand", "peak_demand", "mean_demand_early",
-    "total_import_exposed_demand",
+    "mean_cv",                       # skew 2.04
 ]
 MATERIAL_LOG_FEATURES = [
-    "mean_demand", "peak_demand", "demand_volatility",
-    "domestic_production", "cumulative_demand",
-    "mean_capacity_ratio", "max_capacity_ratio",
+    "global_capacity_ratio",         # skew 5.57 — heavy-tailed ratio
+    "global_reserve_coverage",       # skew 5.56 — heavy-tailed ratio
+    "domestic_reserve_share",        # skew 4.37 — heavy-tailed share
+    "us_capacity_ratio",             # skew 3.84 — heavy-tailed ratio
+    # growth_rate_long_pct EXCLUDED from log-transform 2026-04-08:
+    # All 31 materials have negative CAGR (NREL scenarios frontload buildout).
+    # log_transform_features clips to ≥0 first, which would zero-out the entire
+    # column and trip the zero-variance filter. The negative-CAGR pattern is
+    # itself a finding worth keeping on the raw scale.
+    "import_china_frac",             # skew 2.86 — many-zeros distribution
+    # scenario_cv excluded from log-transform (2026-04-08): log-transforming
+    # it pushed it into VIF >10 collinearity with growth_rate_long_pct in
+    # the iterative VIF drop, which would have removed scenario_cv from the
+    # final feature set — but it carries the only cross-scenario uncertainty
+    # signal we have at the material level. Raw form (skew 2.28) is acceptable.
+    # production_hhi excluded for the same reason: log-transform pushed it
+    # into VIF collinearity with hhi_wgi/reserves features and it would have
+    # been auto-dropped. production_hhi is the y-axis of the locked material
+    # clustering pre-registration scatter, so it must survive preprocessing.
 ]
 
 # ── Create output directories ─────────────────────────────────────────────────

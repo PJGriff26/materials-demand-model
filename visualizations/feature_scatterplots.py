@@ -175,6 +175,17 @@ def shorten_column_names(df, max_len=15):
         "import_hhi": "imp_hhi",
         "scenario_cv": "scenario_cv",
         "demand_volatility": "volatility",
+        # Reduced feature set additions (2026-04-08)
+        "growth_rate_short_pct": "cagr_short",
+        "growth_rate_long_pct": "cagr_long",
+        "peak_annual_growth_short_pct": "peak_yoy",
+        "solar_fraction_2050": "solar_2050",
+        "wind_fraction_2050": "wind_2050",
+        "us_capacity_ratio": "us_cap_ratio",
+        "global_capacity_ratio": "glob_cap_ratio",
+        "global_reserve_coverage": "glob_res_cov",
+        "domestic_reserve_share": "us_res_share",
+        "production_hhi": "prod_hhi",
     }
 
     renamed = {}

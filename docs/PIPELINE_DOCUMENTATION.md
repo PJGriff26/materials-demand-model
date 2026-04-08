@@ -458,69 +458,64 @@ For a given scenario and year, `Demand(m) = Σ_i [a_i × I_i]` — the model is 
 
 **Code:** `clustering/feature_engineering.py`
 
-### 11.1 Scenario Features (16 features, 61 scenarios)
+### 11.1 Scenario Features (8 features, 61 scenarios) — locked 2026-04-08
 
-Source: demand output + NREL capacity data at 2035.
+Source: demand output + NREL capacity data at 2035 and 2050. All features
+are dimensionless. Per-material values are computed first, then "flattened"
+across materials (mean of dimensionless quantities — never sum tonnes).
 
-| # | Feature | Formula / Description | Code location |
-|---|---------|----------------------|---------------|
-| 1 | `total_cumulative_demand` | Sum of total demand across all years | line 398 |
-| 2 | `peak_demand` | Max total demand across years | line 401 |
-| 3 | `mean_demand_early` | Mean total demand for years 2029–2035 | lines 404–405 |
-| 4 | `year_of_peak` | Year with highest total demand | line 408 |
-| 5 | `demand_slope` | Linear regression slope (total demand vs. year) via `np.polyfit(years, values, 1)[0]` | lines 411–417 |
-| 6 | `temporal_concentration` | early_half_sum / (late_half_sum + 1), split at median year | lines 420–425 |
-| 7 | `mean_cv` | Mean coefficient of variation (std/mean) across all material-year rows for that scenario | lines 428–430 |
-| 8 | `mean_ci_width` | Mean relative CI width: (p97 − p2) / mean across all material-year rows | lines 433–435 |
-| 9 | `solar_fraction_2035` | (upv + distpv + csp capacity) / total capacity at 2035 | lines 438–446 |
-| 10 | `wind_fraction_2035` | (wind_onshore + wind_offshore capacity) / total capacity at 2035 | line 447 |
-| 11 | `storage_fraction_2035` | (battery + pumped-hydro capacity) / total capacity at 2035 | line 448 |
-| 12 | `supply_chain_stress` | Demand-weighted mean of (import_dependency × CRC_risk/8) across materials and years | line 577 |
-| 13 | `peak_supply_chain_stress` | Maximum annual supply chain stress index | line 579 |
-| 14 | `mean_n_exceeding_production` | Mean number of materials exceeding US production per year | line 581 |
-| 15 | `peak_n_exceeding_production` | Peak number of materials exceeding US production in any year | line 583 |
-| 16 | `total_import_exposed_demand` | Cumulative demand weighted by import dependency | line 585 |
+See `docs/clustering_features.md` for the full provenance table including
+citations and defended omissions.
 
-**Note:** "Total demand" for a scenario-year means `sum of mean demand across all 31 materials` for that (scenario, year) pair.
+| # | Feature | Formula / Description |
+|---|---------|----------------------|
+| 1 | `growth_rate_short_pct` | Annualized CAGR of demand from base year to 2035, per material then mean across materials |
+| 2 | `growth_rate_long_pct` | Annualized CAGR of demand from base year to 2050, per material then mean across materials |
+| 3 | `peak_annual_growth_short_pct` | Maximum YoY % change pre-2035, per material then mean (captures spike vs gradual buildout) |
+| 4 | `mean_cv` | Mean MC coefficient of variation (std/mean) across all material-year rows for that scenario |
+| 5 | `solar_fraction_2035` | (upv + distpv + csp) / total capacity at 2035 |
+| 6 | `wind_fraction_2035` | (wind_onshore + wind_offshore) / total capacity at 2035 |
+| 7 | `solar_fraction_2050` | Same as #5 but at 2050 (PI request 2026-04-03) |
+| 8 | `wind_fraction_2050` | Same as #6 but at 2050 (PI request 2026-04-03) |
 
-### 11.2 Material Features (23 features, 31 materials)
+**Storage shares dropped 2026-04-08:** compositional with solar+wind, smallest driver, no independent signal.
+**Scenario-level supply-chain features dropped 2026-04-08:** cannot be grounded without arbitrary cross-material weighting (PI guidance). Supply chain analysis lives entirely at the material level.
 
-#### Demand-derived features (6)
+### 11.2 Material Features (13 features, 31 materials) — locked 2026-04-08
 
-| # | Feature | Formula | Code location |
-|---|---------|---------|---------------|
-| 1 | `mean_demand` | Grand mean of `mean` across all scenarios and years | line 636 |
-| 2 | `peak_demand` | Max `mean` across all scenarios and years | line 639 |
-| 3 | `scenario_cv` | For each scenario: sum `mean` across years → compute CV across scenarios | line 650 |
-| 4 | `mean_ci_width` | Mean of (p97 − p2) / mean across all scenario-year rows | line 655 |
-| 5 | `demand_volatility` | Std of `mean` across years (within each scenario), then averaged across scenarios | line 662 |
-| 6 | `demand_slope` | Average slope of mean demand vs. year (averaged across scenarios) | line 672 |
+| # | Feature | Source | Formula / Description |
+|---|---------|--------|----------------------|
+| 1 | `growth_rate_long_pct` | demand output | Annualized CAGR of demand from base year to 2050, per material |
+| 2 | `scenario_cv` | demand output | std/mean of total scenario demand across the 61 scenarios |
+| 3 | `import_dependency` | USGS-published NIR (import_dependency sheet) → trade-balance fallback (aggregate sheet) → MCS 2025 thin-film | Net Import Reliance per USGS MCS methodology (priority order corrected 2026-04-08; see Bug 1 note below) |
+| 4 | `hhi_wgi` | import_shares + OECD CRC 2026 | Governance-weighted HHI per EU CRM methodology: SUM(share² × CRC_scaled) |
+| 5 | `production_hhi` | risk_data["production"] → MCS 2025 World CSV (`data/usgs_mcs_2025/world_data/MCS2025_World_Data.csv`) → hardcoded fallback (Ge, Fiberglass, Glass) | Global production HHI per Graedel et al. 2012 (data sources updated 2026-04-08; see Bug 2 note below) |
+| 6 | `import_hhi` | import_shares (Census Bureau) | HHI of US import source country concentration |
+| 7 | `us_capacity_ratio` | demand + US production | mean US demand / US production (clean US scope) |
+| 8 | `global_capacity_ratio` | demand + global production (MCS 2025 World CSV) | mean US demand / global production (single-country squeeze metric) |
+| 9 | `global_reserve_coverage` | global reserves + demand | global_reserves / cumulative US demand 2026–2050. Values >1 indicate adequate reserves. **Mixed scope (US demand vs global supply); flagged in methods.** |
+| 10 | `domestic_reserve_share` | reserves only | US_reserves / global_reserves (geographic self-sufficiency; demand-independent). Replaces `domestic_reserve_coverage` (which had r=1.000 with global_reserve_coverage; see Bug 0 note) |
+| 11 | `reserves_china_frac` | reserves + crc | Fraction of global reserves in China |
+| 12 | `reserves_high_risk_frac` | reserves + crc | Fraction of global reserves in CRC ≥5 + China |
+| 13 | `import_china_frac` | import_shares | Fraction of US imports from China |
 
-#### Supply-chain features (17)
+**Bug history (2026-04-08):**
 
-| # | Feature | Source | Formula | Code location |
-|---|---------|--------|---------|---------------|
-| 7 | `domestic_production` | aggregate sheet + USGS 2023 CSVs | Average annual US production (tonnes). Default 0 if missing | line 677 |
-| 8 | `import_dependency` | import_dependency sheet + USGS NIR | 0–1 fraction (1 = fully imported). Default 1.0 if missing | line 680 |
-| 9 | `crc_weighted_risk` | import_shares + crc sheets | Σ(import_share × crc_weight) / Σ(import_share). Weights: US=0, OECD=1, CRC1→2, CRC2→3, ..., CRC7→8, China=7, Undefined=5. Scale 0–8. Default 5.0 if missing | line 683 |
-| 10 | `mean_capacity_ratio` | demand + production | mean_scenario_total_demand / US_production | line 687 |
-| 11 | `max_capacity_ratio` | demand + production | max_scenario_total_demand / US_production | line 692 |
-| 12 | `exceedance_frequency` | demand + production | Fraction of scenarios where total demand > US production | line 704 |
-| 13 | `cumulative_demand` | demand output | Median cumulative demand across scenarios (sum over years, then median across scenarios) | line 716 |
-| 14 | `reserve_consumption_pct` | demand + reserves | (cumulative_demand / global_reserves) × 100. Percentage of global reserves consumed | line 722 |
-| 15 | `domestic_reserve_coverage` | reserves + demand | US_reserves / cumulative_demand. Fraction of demand coverable by domestic reserves | line 731 |
-| 16 | `global_reserve_coverage` | reserves + demand | global_reserves / cumulative_demand. Values >1 indicate adequate reserves | line 739 |
-| 17 | `reserves_high_risk_frac` | reserves + crc | Fraction of global reserves in CRC 5–7 + China | line 747 |
-| 18 | `reserves_oecd_frac` | reserves + crc | Fraction in OECD + United States | line 752 |
-| 19 | `reserves_china_frac` | reserves + crc | Fraction in China | line 757 |
-| 20 | `import_china_frac` | import_shares + crc | Fraction of imports from China | line 764 |
-| 21 | `import_high_risk_frac` | import_shares + crc | Fraction from CRC 5–7 + China | line 769 |
-| 22 | `import_oecd_frac` | import_shares + crc | Fraction from OECD | line 774 |
-| 23 | `import_hhi` | import_shares | Herfindahl-Hirschman Index of import country concentration. HHI = Σ(share²), 0–1 scale (higher = more concentrated) | line 779 |
+- **Bug 0 (collinearity):** `domestic_reserve_coverage` had r=1.000 with `global_reserve_coverage` because both shared the cumulative_demand denominator. Replaced with `domestic_reserve_share` (US/global reserves), which is independent of demand.
+- **Bug 1 (REE NIR):** Priority order in `_build_import_dependency_series` was reversed — trade-balance NIR was preferred over the USGS-published value. For Rare Earths, trade-balance produced a (wrong) value of 0 because the US exports raw concentrate but imports refined product. Fix: prefer published value, with a stage-asymmetry guard that warns when published ≥ 0.5 but trade-balance ≤ 0.05. REE NIR now correctly reads ~0.94.
+- **Bug 2 (production_hhi defaults):** ~10 materials missing from the production sheet (Cd, Ga, In, Se, Te, Y, Gd, Ge, Fiberglass, Glass) had `production_hhi` silently defaulted to 0 (perfectly diversified — the *least* risky value). Fix: added MCS 2025 World CSV fallback for 6 materials, REE aggregate proxy for Y/Gd, hardcoded values with citations for Germanium/Fiberglass/Glass (see `HARDCODED_PRODUCTION_HHI` in `feature_engineering.py`).
 
-**Material name mapping:** `DEMAND_TO_RISK` in `clustering/config.py:62–73` maps 22 demand material names to 19 risk material names (4 rare earth elements → aggregate "Rare Earths" entry). Materials not in this mapping get default/zero values for supply-chain features.
+**Material name mapping:** `DEMAND_TO_RISK` in `clustering/config.py` maps demand material names to risk material names. The Y/Gd/REE elements all map to the aggregate "Rare Earths" entry. `MCS2025_COMMODITY_MAP` in `feature_engineering.py` provides additional mappings for materials sourced from the MCS 2025 World CSV (note USGS typo: "Gemanium" not "Germanium").
 
-**Missing value handling:** All inf/NaN replaced with 0 at the end (`feature_engineering.py:639`).
+**Defended omissions (full list with rationale in `docs/clustering_features.md`):**
+- Demand peaks (`peak_annual_growth_short_pct`, `peak_annual_growth_long_pct`): CAGR captures the trend; YoY peak is single-year noise.
+- `mean_ci_width`: same construct as `scenario_cv`.
+- `demand_volatility_cv`: r=0.86 with growth features (re-encodes growth signal).
+- Material `growth_rate_short_pct`: r=0.90 with `scenario_cv`; the 2035 horizon is a *policy* construct only meaningful at scenario level.
+- `mean_capacity_ratio`, `max_capacity_ratio`, `exceedance_frequency`: three overlapping forms; replaced with us/global capacity ratio pair.
+- `reserve_consumption_pct`: mathematical inverse of `global_reserve_coverage`.
+- `reserves_oecd_frac`: compositional with `reserves_china_frac` + `reserves_high_risk_frac`.
+- `import_high_risk_frac`, `import_oecd_frac`: compositional with `import_china_frac` + `import_hhi`.
 
 ---
 
@@ -530,25 +525,27 @@ Source: demand output + NREL capacity data at 2035.
 
 ### Pipeline Steps
 
-1. **Log transformation:** `log10(clip(x, 0) + 1)` applied in-place to specified columns.
+1. **Log transformation:** `log10(clip(x, 0) + 1)` applied in-place to specified columns. Selected by abs(skewness) > 1.5 on the locked feature set (2026-04-08).
 
-   Scenario log features: `total_cumulative_demand`, `peak_demand`, `mean_demand_early`, `total_import_exposed_demand`
+   Scenario log features: `mean_cv`
 
-   Material log features: `mean_demand`, `peak_demand`, `demand_volatility`, `domestic_production`, `cumulative_demand`, `mean_capacity_ratio`, `max_capacity_ratio`
+   Material log features: `global_capacity_ratio`, `global_reserve_coverage`, `domestic_reserve_share`, `us_capacity_ratio`, `import_china_frac` (and previously `growth_rate_long_pct` — excluded because all 31 materials have negative CAGR from NREL frontloaded buildout, so the clip-to-zero would have destroyed the column)
 
 2. **Drop zero-variance columns:** Any column with `std == 0` removed.
 
-3. **VIF check (before pruning):** Compute Variance Inflation Factor for all remaining features. VIF_j = 1 / (1 − R²_j) where R²_j is from regressing feature j on all other features. Uses `statsmodels.stats.outliers_influence.variance_inflation_factor`.
+3. **VIF check (before pruning):** Compute Variance Inflation Factor for all remaining features. VIF_j = 1 / (1 − R²_j) where R²_j is from regressing feature j on all other features. **Uses `statsmodels.stats.outliers_influence.variance_inflation_factor` with a constant column prepended (fixed 2026-04-08; previously omitted, which inflated VIFs by 2-3x).**
 
-4. **Iterative VIF pruning:** While any feature has VIF > 10: drop the feature with the highest VIF. Repeat. This removes multicollinear features.
+4. **Iterative VIF pruning:** While any feature has VIF > 10: drop the feature with the highest VIF. Repeat.
 
 5. **Z-score standardization:** `(x − mean) / std` via `sklearn.preprocessing.StandardScaler`. Applied after log transform and VIF pruning.
 
-### Typical Pruning Results
+### Pruning Results (locked feature set, 2026-04-08)
 
-**Scenarios:** Starting from 16 features, VIF pruning typically retains ~2 features (e.g., `demand_slope`, `storage_fraction_2035`). Most demand-magnitude features are highly correlated and dropped.
+**Scenarios:** Starting from 8 features, VIF pruning drops `wind_fraction_2035` (VIF 12.3, r=0.84 with `wind_fraction_2050`). Final: 7 features. Max VIF after pruning: 6.1. Max |r|: 0.84.
 
-**Materials:** Starting from 23 features, VIF pruning typically retains ~13 features (e.g., `mean_ci_width`, `demand_volatility`, `demand_slope`, `import_dependency`, `mean_capacity_ratio`, `reserve_consumption_pct`, `domestic_reserve_coverage`, `global_reserve_coverage`, `reserves_oecd_frac`, `reserves_china_frac`, `import_china_frac`, `import_high_risk_frac`, `import_oecd_frac`).
+**Materials:** Starting from 13 features, VIF pruning drops 0 features. Final: 13 features. Max VIF: 5.0. Max |r|: 0.69.
+
+Both feature sets are within VIF < 10 / |r| < 0.85, the conventional thresholds for clustering analyses (Graedel et al. 2012; EU CRM methodology).
 
 ---
 
@@ -741,7 +738,7 @@ All saved in `outputs/figures/clustering/` as PNG at 300 DPI:
 
 7. **3-year interval capacity data** means demand is computed at discrete time steps, not annually. No interpolation between steps.
 
-8. **VIF pruning aggressiveness:** For scenarios, VIF pruning reduces 16 features to ~2, meaning much of the feature engineering does not contribute to the final clustering. This is a consequence of high inter-correlation among demand-magnitude features.
+8. **VIF pruning behavior (post 2026-04-08 reduction):** With the locked feature set, VIF pruning drops only `wind_fraction_2035` (r=0.84 with `wind_fraction_2050`) on the scenario side and 0 features on the material side. Pre-reduction, the iterative drop was destructive because the upstream feature engineering produced highly collinear demand-magnitude metrics; the new lit-grounded set has no such pathology.
 
 9. **Material k=4 is manually set** rather than auto-selected. The silhouette-optimal k=2 produced unstable clustering (ARI ≈ 0.135).
 

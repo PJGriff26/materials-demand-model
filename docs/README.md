@@ -18,7 +18,7 @@ These CSV files provide structured, machine-readable documentation of the pipeli
 - Configuration parameters (technology mapping, lifetimes, weights)
 - Stock-flow model variables (stock, additions, retirements)
 - Monte Carlo outputs (demand statistics, percentiles)
-- Engineered features (17 scenario features, 23 material features)
+- Engineered features (8 scenario features, 13 material features as of 2026-04-08; dropped features retained with `[DROPPED 2026-04-08]` annotation for traceability)
 - Risk components (supply chain risk measures)
 - Preprocessing variables (log transform, standardization, VIF)
 - Clustering variables (Sparse PCA/Factor Analysis scores, configs)
@@ -28,7 +28,18 @@ These CSV files provide structured, machine-readable documentation of the pipeli
 
 ---
 
-#### **`data_sources.csv`** (9 entries)
+#### **`clustering_features.csv`** (21 entries) ⭐ added 2026-04-08
+**Purpose:** Source of truth for the locked clustering feature set (8 scenario + 13 material features)
+
+**When to use:** Look up which features are in the clustering analysis, with citation/rationale for each. Reviewer-facing reference.
+
+**Companion document:** `clustering_features.md` (human-readable narrative version with comprehensive feature tables, scope discipline section, and the bug history that justified the cuts)
+
+**Columns:** level, category, feature, units, description, formula, scope, citation_or_rationale, locked_date
+
+---
+
+#### **`data_sources.csv`** (10 entries)
 **Purpose:** Documents all INPUT data files and their structure
 
 **When to use:** Understand where raw data comes from, what format it's in, and what sheets/columns are available.
@@ -37,9 +48,19 @@ These CSV files provide structured, machine-readable documentation of the pipeli
 - `intensity_data.csv` — Material intensity values
 - `StdScen24_annual_national.csv` — NREL capacity projections
 - `risk_charts_inputs.xlsx` — Supply chain risk data (with sheet descriptions)
-- `mcs2023-*_salient.csv` — USGS material-specific CSVs
+- `mcs2023-*_salient.csv` — USGS material-specific CSVs (legacy)
+- `MCS2025_World_Data.csv` — USGS MCS 2025 World Data Release (per-country production; wired into clustering 2026-04-08)
 
 **Columns:** File Name, Type, Format, Description, Sheets/Components, Source, Location
+
+---
+
+#### **`raw_data_sources.md`** ⭐ added 2026-04-08
+**Purpose:** Comprehensive narrative reference for every raw dataset with citations, licenses, retrieval dates, and field mappings.
+
+**When to use:** Methods section drafting, reviewer questions about data provenance, license/attribution checks. Companion to `data_sources.csv` (which is the machine-readable index).
+
+**Sections:** NREL StdScen24, intensity data, USGS MCS 2025 (3 sub-sources), USGS thin-film legacy, OECD CRC 2026, Census Bureau import shares, MC demand output, citation hierarchy, change log.
 
 ---
 

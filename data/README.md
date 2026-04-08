@@ -4,7 +4,7 @@ This directory contains input data for a Monte Carlo simulation model of critica
 
 All datasets used in this project are derived from publicly available sources. Every data file is traceable to a citable DOI or institutional URL.
 
-**Last updated:** April 2026
+**Last updated:** 2026-04-08 (added MCS 2025 World CSV usage in clustering pipeline; Bug 1/Bug 2 fixes)
 
 ---
 
@@ -111,10 +111,21 @@ This is the **primary source for all supply chain data** in the pipeline, replac
 | Attribute     | Detail |
 |---------------|--------|
 | **File**      | `usgs_mcs_2025/world_data/MCS2025_World_Data.csv` |
+| **Rows**      | 1,250 (78 commodities × per-country rows) |
 | **Key Columns** | `COMMODITY`, `COUNTRY`, `TYPE`, `UNIT_MEAS`, `PROD_2023`, `PROD_EST_ 2024`, `CAP_2023`, `CAP_EST_ 2024`, `RESERVES_2024`, `RESERVE_NOTES` |
-| **Coverage**  | 77 commodities, up to 20+ countries per commodity |
+| **Coverage**  | 78 commodities, up to 20+ countries per commodity |
+| **Loaded by** | `clustering/feature_engineering.load_mcs2025_world_data()` (added 2026-04-08) |
+| **Used in**   | `_build_production_hhi`, `_build_global_production_series` |
 
 **Reserve unit note:** The `UNIT_MEAS` column applies to production/capacity columns. For reserves, MOST commodities use the same unit, but some (Molybdenum, Vanadium) use a different unit flagged in `RESERVE_NOTES` (e.g., "Reserve data is thousand metric tons"). The loader checks `RESERVE_NOTES` to determine the correct conversion factor. All reserves are stored internally in kt (thousand metric tons).
+
+**Why this file matters for clustering (added 2026-04-08):** Before this date, `production_hhi` was computed only from the smaller `production` sheet of `risk_charts_inputs.xlsx`, which covers 19 of our 31 materials. The other 12 materials (byproduct metals like Ga/In/Te/Se/Cd/Ge, REEs, Fiberglass, Glass) were silently defaulted to HHI = 0 — the *least* risky value, the wrong direction. This dataset has per-country production for 6 of the 12 (Cd, Ga, In, Se, Te plus aggregated Rare Earths as a proxy for Y/Gd) and lets us compute correct HHI values directly. The remaining 4 (Germanium, Fiberglass, Glass — and Gd which uses the REE proxy) are handled via `HARDCODED_PRODUCTION_HHI` in `feature_engineering.py` with explicit citations. Documented as "Bug 2" in `docs/clustering_features.md` and `thesis/feature_provenance.md`.
+
+**Data quirks:**
+- Germanium is listed as "Gemanium" (USGS typo). Mapped via `MCS2025_COMMODITY_MAP` in `feature_engineering.py`.
+- Germanium values are all withheld (NaN) — qualitative HHI value used (see hardcoded section).
+- Yttrium and Gadolinium are not split out — Rare Earths aggregate is used as a proxy.
+- The column name has a stray space: `PROD_EST_ 2024` (preserved on load).
 
 ### 3c. Industry Trends and Statistics
 

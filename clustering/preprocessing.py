@@ -36,6 +36,15 @@ def calculate_vif(df):
     """
     Variance Inflation Factor for each feature.
     VIF > 10 → severe multicollinearity.
+
+    Implementation note (fixed 2026-04-08): statsmodels'
+    variance_inflation_factor requires the design matrix to include a
+    constant (intercept) column, otherwise VIFs for features whose mean
+    is far from zero are inflated by the missing intercept absorbing
+    correlation. We prepend a constant before computing each VIF, then
+    skip its index in the report. This brings in-pipeline VIFs into
+    agreement with the standalone standardized VIF (which side-steps
+    the issue by centering features to mean 0).
     """
     cols = list(df.columns)
     X = df.values.astype(float)
@@ -44,10 +53,13 @@ def calculate_vif(df):
     X_clean = X[:, keep]
     cols_clean = [cols[i] for i in keep]
 
+    # Prepend constant column for correct VIF computation
+    X_with_const = np.column_stack([np.ones(X_clean.shape[0]), X_clean])
+
     vif_data = pd.DataFrame({
         "Feature": cols_clean,
         "VIF": [
-            variance_inflation_factor(X_clean, i)
+            variance_inflation_factor(X_with_const, i + 1)
             for i in range(len(cols_clean))
         ],
     })

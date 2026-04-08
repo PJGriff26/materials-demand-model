@@ -105,3 +105,51 @@ This raw data replaces the manually-compiled `risk_charts_inputs.xlsx` which con
 
 The old Excel had data from 2018-2022. The new MCS 2025 data covers **2020-2024**,
 giving us 2 additional years of data and the most current estimates.
+
+---
+
+## 2026-04-08 update: clustering pipeline now consumes World Data CSV
+
+`world_data/MCS2025_World_Data.csv` (1,250 rows × 78 commodities) is now read
+directly by the clustering feature engineering pipeline via
+`clustering/feature_engineering.load_mcs2025_world_data()`. Before this date,
+the file was downloaded but unused — clustering relied entirely on the smaller
+production sheet derived from the salient CSVs, which covers only 19 of our
+31 materials. The remaining 12 materials had `production_hhi` silently
+defaulted to 0 (the *least* risky value), inverting their criticality
+positions.
+
+**Materials whose production_hhi is now sourced from the World Data CSV:**
+- **Cadmium** (HHI 0.21, 16 countries; China 39%)
+- **Gallium** (HHI 0.97, 4 countries; China 98%)
+- **Indium** (HHI 0.53, 8 countries; China 71%)
+- **Selenium** (HHI 0.30, 15 countries; China 49%)
+- **Tellurium** (HHI 0.60, 8 countries; China 76%)
+- **Yttrium and Gadolinium** (HHI 0.50 via Rare Earths aggregate proxy; China 69%)
+
+**Materials still using hardcoded HHI** (USGS does not publish per-country
+production data for them, even in the World Data CSV):
+- **Germanium** (HHI 0.65) — values withheld in CSV; qualitative description
+  in MCS 2025 Germanium chapter places it as "China-dominated" (>60%)
+- **Fiberglass, Glass** (HHI 0.10) — not tracked as critical commodities;
+  ~100% domestic production from globally diversified silica sand inputs
+
+These are stored in `clustering/feature_engineering.HARDCODED_PRODUCTION_HHI`
+with citations.
+
+## 2026-04-08 update: NIR priority order corrected
+
+The `_build_import_dependency_series` function previously preferred a
+trade-balance NIR computed from the aggregate sheet over the USGS-published
+NIR in the import_dependency sheet. For Rare Earths, the trade-balance formula
+was fooled by stage asymmetry (US exports raw concentrate from Mountain Pass,
+imports refined REE oxides/metals/magnets) and produced a negative value that
+got clipped to 0. The published USGS NIR for Rare Earths is ~94–100% across
+2020–2024.
+
+**The fix**: priority order is now reversed (published value preferred), with
+a stage-asymmetry guard that warns when published ≥ 0.5 but trade-balance
+≤ 0.05. This catches REEs and any future material with the same pattern.
+
+See `docs/raw_data_sources.md` §3 and `clustering/feature_engineering.py`
+docstrings for full details.
