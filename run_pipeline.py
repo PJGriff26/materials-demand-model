@@ -29,6 +29,7 @@ Author: PJ Griffiths
 Date: March 2026
 """
 
+import os
 import subprocess
 import sys
 import argparse
@@ -47,9 +48,11 @@ def run_script(script_path, description, step_num):
     print(f"{'─' * 70}")
 
     t0 = time.time()
+    env = {**os.environ, "MPLBACKEND": "Agg"}
     result = subprocess.run(
         [sys.executable, str(script_path)],
         cwd=str(ROOT),
+        env=env,
     )
     elapsed = time.time() - t0
 

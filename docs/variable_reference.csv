@@ -8,12 +8,12 @@ year,Input Data,year,Projection year (2024-2050),Direct from source file (column
 *_MW,Input Data,MW,Installed capacity by technology (e.g. upv_MW wind_onshore_MW),Direct from source file,StdScen24_annual_national.csv,No
 TECHNOLOGY_MAPPING,Configuration,dict,Maps capacity technologies to intensity technologies with weights,Manual configuration,N/A - configured,No
 TECHNOLOGY_LIFETIMES,Configuration,years,Expected operational lifetime by technology,Manual configuration,N/A - configured,No
-upv_weight,Configuration,dimensionless (0-1),Weight allocation for utility PV: 90% c-Si 7% CdTe 3% CIGS (based on Fraunhofer ISE / IEA-PVPS / EIA market share data),Manual configuration,N/A - configured,No
+upv_weight,Configuration,dimensionless (0-1),Weight allocation for utility PV: 79% c-Si 21% CdTe (2024 annual deployment shares; Seel et al. 2025 LBNL slide 26),Manual configuration,N/A - configured,No
 TECHNOLOGY_CONSOLIDATION,Configuration,dict,Maps split intensity technology names to canonical names during preprocessing (e.g. CDTE→CdTe ASIGE→a-Si for BOS material consolidation),Manual configuration,N/A - configured in technology_mapping.py,No
-lifetime_solar,Configuration,years,Solar PV lifetime = 30 years,Manual configuration,N/A - configured,No
-lifetime_wind,Configuration,years,Wind lifetime = 25 years,Manual configuration,N/A - configured,No
-lifetime_nuclear,Configuration,years,Nuclear lifetime = 60 years,Manual configuration,N/A - configured,No
-lifetime_hydro,Configuration,years,Hydro lifetime = 80 years,Manual configuration,N/A - configured,No
+lifetime_solar,Configuration,years,Solar PV lifetime = 30 years (StdScen24 Table A-5),Manual configuration,N/A - configured,No
+lifetime_wind,Configuration,years,Wind lifetime = 30 years (StdScen24 Table A-5),Manual configuration,N/A - configured,No
+lifetime_nuclear,Configuration,years,Nuclear lifetime = 80 years (StdScen24 Table A-6),Manual configuration,N/A - configured,No
+lifetime_hydro,Configuration,years,Hydro lifetime = 100 years (StdScen24 Table A-5),Manual configuration,N/A - configured,No
 stock,Stock-Flow Model,MW,Cumulative installed capacity by technology and year,Tracked from capacity data,StdScen24_annual_national.csv,No
 additions,Stock-Flow Model,MW,New capacity added each year,Stock(t) - Stock(t-1) + Retirements(t),StdScen24_annual_national.csv,No
 retirements,Stock-Flow Model,MW,Capacity retired each year based on lifetime,Additions from (year - lifetime),StdScen24_annual_national.csv + TECHNOLOGY_LIFETIMES,No

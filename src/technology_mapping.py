@@ -58,23 +58,18 @@ TECHNOLOGY_MAPPING = {
     'upv': {
         # Utility-scale PV: mix of crystalline Si and thin film
         #
-        # Market share sources (2024):
-        #   - Fraunhofer ISE Photovoltaics Report: c-Si ~95-98% of global production
-        #   - IEA-PVPS: CdTe ~2-5% global, ~22% of US utility-scale (First Solar)
-        #   - CIGS: <1% global (last major manufacturer ceased production 2021)
-        #   - a-Si: negligible (<0.1%)
+        # Source: Seel et al. (2025), "Utility-Scale Solar, 2025 Data Update",
+        #   Lawrence Berkeley National Laboratory. Plant-level EIA-860 data.
+        #   https://emp.lbl.gov/utility-scale-solar (slide 26)
         #
-        # US utility-scale context (DOE/EIA, through 2023):
-        #   - Thin film accounted for ~24% of US utility-scale deployments
-        #   - CdTe (First Solar) represents ~97% of US thin-film capacity
-        #
-        # Weights below reflect a blended estimate acknowledging:
-        #   1. Global market heavily favors c-Si (~95%)
-        #   2. US utility-scale has higher thin-film penetration (~24%)
-        #   3. CdTe dominates thin film; CIGS is marginal
-        'utility-scale solar pv': 0.90,  # Crystalline Si (mono/poly)
-        'CdTe': 0.07,                    # Thin film — First Solar
-        'CIGS': 0.03,                     # Thin film — marginal market share
+        # 2024 annual capacity additions (1,747 projects, 110 GW_AC sample):
+        #   - c-Si: 79% of newly installed utility-scale PV capacity
+        #   - Thin-film (CdTe): 21% — record 6 GW_AC but lower share than 2022
+        #   - CIGS: negligible — no significant US utility-scale deployment
+        # Using annual deployment shares (not cumulative) because the model
+        # projects material demand from new capacity additions.
+        'utility-scale solar pv': 0.79,  # Crystalline Si (mono/poly)
+        'CdTe': 0.21,                    # Thin film — First Solar
     },
     
     'distpv': {
@@ -192,45 +187,49 @@ TECHNOLOGY_MAPPING = {
 # ============================================================================
 # TECHNOLOGY LIFETIMES (years)
 # ============================================================================
-# Used for stock-flow model to calculate retirements
+# Used for stock-flow model to calculate retirements.
+# Source: NREL Standard Scenarios 2024 (Gagnon et al., 2024),
+#   Tables A-5 and A-6, pp. 48-49 (NREL/TP-6A40-92256).
+#   These are the maximum lifetimes generators are allowed to remain
+#   online in the ReEDS model.
 
 TECHNOLOGY_LIFETIMES = {
-    # Solar
+    # Solar — Table A-5: 30 yr (SunShot Vision, DOE 2012)
     'upv': 30,
     'distpv': 30,
     'csp': 30,
-    
-    # Wind
-    'wind_onshore': 25,
-    'wind_offshore': 25,
-    
-    # Fossil
-    'coal': 40,
-    'coal_ccs': 40,
-    'gas_cc': 30,
-    'gas_ct': 30,
-    'gas_cc_ccs': 30,
-    'h2-ct': 30,
-    
-    # Biomass
-    'bio': 30,
-    'bio-ccs': 30,
-    
-    # Nuclear
-    'nuclear': 60,
-    'nuclear_smr': 60,
-    
+
+    # Wind — Table A-5: 30 yr (Wind Vision, DOE 2015)
+    'wind_onshore': 30,
+    'wind_offshore': 30,
+
+    # Fossil — Table A-6 (>=100 MW column)
+    'coal': 75,       # Table A-6: 75 yr (>=100 MW)
+    'coal_ccs': 75,   # Table A-6: 75 yr (>=100 MW)
+    'gas_cc': 60,     # Table A-6: Natural gas CC: 60 yr
+    'gas_ct': 50,     # Table A-6: Natural gas CT: 50 yr
+    'gas_cc_ccs': 60, # Table A-6: Natural gas CC CCS: 60 yr
+    'h2-ct': 50,      # Table A-5: H2-CT: 50 yr
+
+    # Biomass — Table A-5: 50 yr (2021 NEMS plant database, EIA 2021)
+    'bio': 50,
+    'bio-ccs': 50,
+
+    # Nuclear — Table A-6: 80 yr
+    'nuclear': 80,
+    'nuclear_smr': 80,
+
     # Hydro and Geo
-    'hydro': 80,
-    'pumped-hydro': 80,
-    'geo': 30,
-    
+    'hydro': 100,        # Table A-5: 100 yr (Hydropower Vision, DOE 2016)
+    'pumped-hydro': 100, # Table A-5: 100 yr
+    'geo': 30,           # Table A-5: 30 yr (GeoVision, DOE 2019)
+
     # Storage and Other
-    'battery_4': 15,
-    'battery_8': 15,
-    'o-g-s': 30,
-    'dac': 30,
-    'electrolyzer': 20
+    'battery_4': 15,  # Table A-5: 15 yr (Cole, Frazier, Augustine 2021)
+    'battery_8': 15,  # Table A-5: 15 yr
+    'o-g-s': 75,      # Table A-6: Oil-gas-steam: 75 yr (>=100 MW)
+    'dac': 30,        # No StdScen value; assumed same as geothermal
+    'electrolyzer': 20 # No StdScen value; assumed based on industry estimates
 }
 
 

@@ -10,26 +10,26 @@ CLUSTERING COMPARISON SUMMARY REPORT
   Method Comparison:
   Method                 k   Silhouette    Stability   Features
   ─────────────────────────────────────────────────────────
-  VIF-Pruned             6        0.559        0.916          2
-  PCA                    6        0.459        0.755          4
-  Sparse PCA             3        0.458        0.716          4
+  VIF-Pruned             5        0.452        0.697          7
+  PCA                    4        0.551        0.782          3
+  Sparse PCA             5        0.531        0.718          4
   Factor Analysis        6        0.477        0.708          4
 
-  Best silhouette: VIF-Pruned (0.559)
-  Best stability:  VIF-Pruned (0.916)
+  Best silhouette: PCA (0.551)
+  Best stability:  PCA (0.782)
 
   Pairwise ARI between methods:
                  VIF-Pruned    PCA  Sparse PCA  Factor Analysis
-VIF-Pruned            1.000  0.459       0.389            0.538
-PCA                   0.459  1.000       0.532            0.558
-Sparse PCA            0.389  0.532       1.000            0.550
-Factor Analysis       0.538  0.558       0.550            1.000
+VIF-Pruned            1.000  0.946       0.955            0.446
+PCA                   0.946  1.000       0.991            0.417
+Sparse PCA            0.955  0.991       1.000            0.424
+Factor Analysis       0.446  0.417       0.424            1.000
 
   Mean pairwise ARI (agreement with other methods):
-    Factor Analysis      0.549
-    PCA                  0.516
-    Sparse PCA           0.490
-    VIF-Pruned           0.462
+    Sparse PCA           0.790
+    PCA                  0.785
+    VIF-Pruned           0.783
+    Factor Analysis      0.429
 
 ──────────────────────────────────────────────────
   MATERIALS
@@ -38,26 +38,26 @@ Factor Analysis       0.538  0.558       0.550            1.000
   Method Comparison:
   Method                 k   Silhouette    Stability   Features
   ─────────────────────────────────────────────────────────
-  VIF-Pruned             6        0.373        0.590         10
-  PCA                    7        0.426        0.757          6
-  Sparse PCA             6        0.519        0.698          5
+  VIF-Pruned             6        0.234        0.575         13
+  PCA                    7        0.316        0.567          6
+  Sparse PCA             7        0.384        0.786          5
   Factor Analysis        7        0.478        0.727          5
 
-  Best silhouette: Sparse PCA (0.519)
-  Best stability:  PCA (0.757)
+  Best silhouette: Factor Analysis (0.478)
+  Best stability:  Sparse PCA (0.786)
 
   Pairwise ARI between methods:
                  VIF-Pruned    PCA  Sparse PCA  Factor Analysis
-VIF-Pruned            1.000  0.813       0.713            0.466
-PCA                   0.813  1.000       0.883            0.583
-Sparse PCA            0.713  0.883       1.000            0.545
-Factor Analysis       0.466  0.583       0.545            1.000
+VIF-Pruned            1.000  0.733       0.738            0.238
+PCA                   0.733  1.000       0.502            0.280
+Sparse PCA            0.738  0.502       1.000            0.166
+Factor Analysis       0.238  0.280       0.166            1.000
 
   Mean pairwise ARI (agreement with other methods):
-    PCA                  0.760
-    Sparse PCA           0.714
-    VIF-Pruned           0.664
-    Factor Analysis      0.531
+    VIF-Pruned           0.570
+    PCA                  0.505
+    Sparse PCA           0.469
+    Factor Analysis      0.228
 
 
 ======================================================================

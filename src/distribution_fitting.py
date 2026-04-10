@@ -798,8 +798,27 @@ class DistributionFitter:
         # For zero-variance data, use narrow uniform distribution
         data_std = np.std(data, ddof=1) if n > 1 else 0
         if data_std == 0 or n == 1:
-            # All values identical - only uniform makes sense
-            if dist_name != 'uniform':
+            # All values identical - only uniform makes sense normally
+            if dist_name == 'lognormal' and FORCE_LOGNORMAL:
+                # When forcing lognormal, create a narrow lognormal centered on the value
+                # rather than a dummy with empty params (which crashes downstream)
+                value = float(np.median(data))
+                if value <= 0:
+                    value = 1e-10  # Safety floor for lognormal scale
+                sigma = 0.01  # Very small shape → near-degenerate
+                return DistributionFit(
+                    distribution_name='lognormal',
+                    parameters={'s': sigma, 'loc': 0, 'scale': value},
+                    ks_statistic=0.0,
+                    ks_pvalue=1.0,
+                    ad_statistic=0.0,
+                    ad_critical_value=0.0,
+                    aic=999999.0,  # Poor AIC since this is degenerate
+                    bic=999999.0,
+                    n_samples=n,
+                    fitting_method='zero_variance_lognormal'
+                )
+            elif dist_name != 'uniform':
                 # Return a dummy fit with very poor AIC so uniform will be selected
                 # This prevents degenerate distributions with scale=0
                 return DistributionFit(
@@ -1059,6 +1078,9 @@ class DistributionFitter:
 
         except Exception as e:
             logger.debug(f"Tail validation failed for {dist_fit.distribution_name}: {e}")
+            # Fail if parameters are empty (degenerate dummy fit)
+            if not dist_fit.parameters:
+                return False, f"Empty parameters for {dist_fit.distribution_name}"
             return True, ""  # Pass by default if validation fails
 
     def _fit_uniform_fallback(self, data: np.ndarray) -> DistributionFit:
